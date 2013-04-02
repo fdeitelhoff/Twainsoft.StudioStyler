@@ -1,0 +1,60 @@
+﻿<UserControl x:Class="Twainsoft.Twainsoft_StudioStyler_VSPackage.GUI.SchemesOverview"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="413" d:DesignWidth="331">
+    <DockPanel>
+        <ToolBarTray VerticalAlignment="Top" DockPanel.Dock="Top" IsLocked="True">
+            <ToolBar Band="1" BandIndex="1">
+                <TextBox Name="SearchString" Width="120"/>
+                <Button Name="Search" Content="Search" Click="Search_Click"/>
+                <Button Name="ResetSearch" Content="R" Click="ResetSearch_Click"/>
+                <Button Name="RefreshSchemes" Content="Ref" Click="RefreshSchemes_Click"/>
+                <Button Name="FirstPage" Content="FP" Click="FirstPage_Click"/>
+                <Button Name="PreviousPage" Content="PP" Click="PreviousPage_Click"/>
+                <Label>
+                    <Label.Content>
+                        <TextBlock>
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="Page {0} of {1}">
+                                    <Binding Path="CurrentPage"/>
+                                    <Binding Path="PageCount"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </Label.Content>
+                </Label>
+                <Button Name="NextPage" Content="NP" Click="NextPage_Click"/>
+                <Button Name="LastPage" Content="LP" Click="LastPage_Click"/>
+                <Button Name="DownloadScheme" Content="DL" Click="DownloadScheme_Click"/>
+            </ToolBar>
+        </ToolBarTray>
+        <WrapPanel DockPanel.Dock="Bottom">
+            <Label>
+                <Label.Content>
+                    <TextBlock>
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="Showing item {0} till {1}">
+                                <Binding Path="FirstItemNumber"/>
+                                <Binding Path="LastItemNumber"/>
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </Label.Content>
+            </Label>
+        </WrapPanel>
+        <DataGrid Name="Schemes" DockPanel.Dock="Bottom" ItemsSource="{Binding}" AutoGenerateColumns="False" 
+                  HeadersVisibility="Column" SelectionMode="Single" CanUserDeleteRows="False" CanUserAddRows="False"
+                  CanUserResizeRows="False" CanUserSortColumns="True" MouseDoubleClick="Schemes_MouseDoubleClick">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Title" Width="*" Binding="{Binding Title}"/>
+                <DataGridTextColumn Header="Autor" Width="*" Binding="{Binding Author}"/>
+                <DataGridTextColumn Header="Popularity" Width="*" Binding="{Binding Popularity}"/>
+                <DataGridTextColumn Header="Rating" Width="*" Binding="{Binding Rating}"/>
+                <DataGridTextColumn Header="Submitted" Width="*" Binding="{Binding Submitted}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</UserControl>
