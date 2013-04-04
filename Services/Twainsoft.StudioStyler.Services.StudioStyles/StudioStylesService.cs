@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 using Newtonsoft.Json;
 using RestSharp;
 using Twainsoft.StudioStyler.Services.StudioStyles.Model;
@@ -12,82 +12,58 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles
     {
         private string BaseUrl { get; set; }
 
-        private IEnumerable<Scheme> Schemes { get; set; }
-
-        public delegate void SchemeSucessfullyDownloadedEventHandler(object sender, string file);
-        public event SchemeSucessfullyDownloadedEventHandler SchemeSucessfullyDownloaded;
-
         public StudioStylesService()
         {
             BaseUrl = "http://studiostyl.es/";
         }
 
-        public IEnumerable<Scheme> All()
-        {
-            if (Schemes == null)
-            {
-                var client = new RestClient(BaseUrl);
-                var request = new RestRequest("api/schemes", Method.GET);
-
-                var response = client.Execute(request);
-
-                Schemes = JsonConvert.DeserializeObject<Schemes>(response.Content).AllSchemes;
-
-            }
-
-            return Schemes;
-        }
-
-        public IList<Scheme> Range(int from, int until)
-        {
-            if (Schemes == null)
-            {
-                Schemes = All();
-            }
-            
-            var schemes = new List<Scheme>();
-
-            var enumerable = Schemes as IList<Scheme> ?? Schemes.ToList();
-
-            for (var i = from - 1; i < until; i++)
-            {
-                schemes.Add(enumerable[i]);
-            }
-
-            return schemes;
-        }
-
-        public void Download(string path)
+        public async Task<List<Scheme>> AllAsync()
         {
             var client = new RestClient(BaseUrl);
-            var request = new RestRequest(path);
+            var request = new RestRequest("api/schemes", Method.GET);
 
-            var data = client.DownloadData(request);
+            var taskCompletionSource = new TaskCompletionSource<List<Scheme>>();
 
-            SaveData(data);
+            client.ExecuteAsync(request, response => taskCompletionSource.SetResult(JsonConvert.DeserializeObject<Schemes>(response.Content).AllSchemes));
+
+            return await taskCompletionSource.Task;
         }
 
-        private void SaveData(byte[] data)
+        public async Task<byte[]> Preview(string title)
+        {
+            var client = new RestClient(BaseUrl);
+            var request = new RestRequest(string.Format("schemes/{0}/snippet.png", title.Replace(' ', '-')), Method.GET);
+
+            var taskCompletionSource = new TaskCompletionSource<byte[]>();
+            client.ExecuteAsync(request, response => taskCompletionSource.SetResult(response.RawBytes));
+
+            return await taskCompletionSource.Task;
+        }
+
+        public async Task<string> DownloadAsync(string path)
+        {
+            var client = new RestClient(BaseUrl);
+            var request = new RestRequest(path, Method.GET);
+
+            var taskCompletionSource = new TaskCompletionSource<string>(); 
+            client.ExecuteAsync(request, response => taskCompletionSource.SetResult(response.Content));
+
+            return await SaveData(taskCompletionSource.Task.Result);
+        }
+
+        private async Task<string> SaveData(string content)
         {
             var file = Path.GetTempFileName();
 
-            using (var fileStream = new FileStream(file, FileMode.OpenOrCreate))
+            using (var streamWriter = new StreamWriter(file, false))
             {
-                fileStream.Write(data, 0, data.Length);
+                await streamWriter.WriteAsync(content);
             }
 
-            if (File.Exists(file))
-            {
-                OnSchemeDownloadedSucessfully(file);
-            }
-        }
+            var taskCompletionSource = new TaskCompletionSource<string>(); 
+            taskCompletionSource.SetResult(file);
 
-        private void OnSchemeDownloadedSucessfully(string file)
-        {
-            if (SchemeSucessfullyDownloaded != null)
-            {
-                SchemeSucessfullyDownloaded(this, file);
-            }
+            return await taskCompletionSource.Task;
         }
     }
 }

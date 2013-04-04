@@ -3,10 +3,40 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             Background="{DynamicResource VsBrush.Window}"
+             Foreground="{DynamicResource VsBrush.WindowText}"
              mc:Ignorable="d" 
              d:DesignHeight="413" d:DesignWidth="331">
+    <UserControl.Resources>
+        <Style x:Key="CollapsibleTextBlock" TargetType="TextBlock">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsCacheValid}" Value="true">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsCacheValid}" Value="false">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="CollapsibleProgressBar" TargetType="ProgressBar">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsCacheRefreshing}" Value="true">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsCacheRefreshing}" Value="false">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
+                <!--<DataTrigger Binding="{Binding IsSchemeDownloading}" Value="true">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsSchemeDownloading}" Value="false">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>-->
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
     <DockPanel>
-        <ToolBarTray VerticalAlignment="Top" DockPanel.Dock="Top" IsLocked="True">
+        <ToolBarTray VerticalAlignment="Top" DockPanel.Dock="Top" IsLocked="True" Name="MainMenu">
             <ToolBar Band="1" BandIndex="1">
                 <TextBox Name="SearchString" Width="120"/>
                 <Button Name="Search" Content="Search" Click="Search_Click"/>
@@ -31,30 +61,42 @@
                 <Button Name="DownloadScheme" Content="DL" Click="DownloadScheme_Click"/>
             </ToolBar>
         </ToolBarTray>
-        <WrapPanel DockPanel.Dock="Bottom">
-            <Label>
-                <Label.Content>
-                    <TextBlock>
-                        <TextBlock.Text>
-                            <MultiBinding StringFormat="Showing item {0} till {1}">
-                                <Binding Path="FirstItemNumber"/>
-                                <Binding Path="LastItemNumber"/>
-                            </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
-                </Label.Content>
-            </Label>
-        </WrapPanel>
+        <TextBlock Name="CacheStatus" Style="{StaticResource CollapsibleTextBlock}" x:FieldModifier="private" DockPanel.Dock="Top">
+            Your Studio Styles cache is out of date.
+            <Hyperlink NavigateUri="SchemesOverview.xaml.cs" RequestNavigate="UpdateCache">Update</Hyperlink>
+            it.
+        </TextBlock>
+        <ProgressBar IsIndeterminate="True" Style="{StaticResource CollapsibleProgressBar}" Height="5"
+                     HorizontalAlignment="Stretch" DockPanel.Dock="Top" Name="UpdateCacheProgress"
+                     x:FieldModifier="private" />
+        <TextBlock DockPanel.Dock="Bottom" Name="CurentItemRange" x:FieldModifier="private">
+            <TextBlock.Text>
+                <MultiBinding StringFormat="Showing items {0} - {1}">
+                    <Binding Path="FirstItemNumber"/>
+                    <Binding Path="LastItemNumber"/>
+                </MultiBinding>
+            </TextBlock.Text>
+        </TextBlock>
         <DataGrid Name="Schemes" DockPanel.Dock="Bottom" ItemsSource="{Binding}" AutoGenerateColumns="False" 
                   HeadersVisibility="Column" SelectionMode="Single" CanUserDeleteRows="False" CanUserAddRows="False"
-                  CanUserResizeRows="False" CanUserSortColumns="True" MouseDoubleClick="Schemes_MouseDoubleClick">
+                  CanUserResizeRows="False" CanUserSortColumns="True" MouseDoubleClick="Schemes_MouseDoubleClick"
+                  x:FieldModifier="private">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Title" Width="*" Binding="{Binding Title}"/>
                 <DataGridTextColumn Header="Autor" Width="*" Binding="{Binding Author}"/>
                 <DataGridTextColumn Header="Popularity" Width="*" Binding="{Binding Popularity}"/>
-                <DataGridTextColumn Header="Rating" Width="*" Binding="{Binding Rating}"/>
-                <DataGridTextColumn Header="Submitted" Width="*" Binding="{Binding Submitted}"/>
             </DataGrid.Columns>
+            <DataGrid.RowDetailsTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <Image Margin="0, 0, 2, 0" Source="{Binding Preview}"/>
+                        <TextBlock Margin="0, 0, 2, 0" Text="Rating:"/>
+                        <TextBlock Margin="0, 0, 2, 0" Text="{Binding Rating}"/>
+                        <TextBlock Margin="0, 0, 2, 0" Text="Submitted:"/>
+                        <TextBlock Margin="0, 0, 2, 0" Text="{Binding Submitted}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </DataGrid.RowDetailsTemplate>
         </DataGrid>
     </DockPanel>
 </UserControl>

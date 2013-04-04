@@ -1,6 +1,9 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Input;
+using System.Windows.Navigation;
 using Twainsoft.StudioStyler.Services.StudioStyles;
+using Twainsoft.StudioStyler.Services.StudioStyles.Cache;
 using Twainsoft.StudioStyler.Services.StudioStyles.Model;
 using Twainsoft.StudioStyler.Services.StudioStyles.Settings;
 
@@ -13,22 +16,62 @@ namespace Twainsoft.StudioStyler.VSPackage.GUI
         private StudioStylesService StudioStylesService { get; set; }
         private SettingsActivator SettingsActivator { get; set; }
 
+        private SchemeCache SchemeCache { get; set; }
+
         public SchemesOverview()
         {
             InitializeComponent();
 
+            SchemeCache = SchemeCache.Instance;
+            SchemeCache.SchemesLoaded += SchemesLoaded;
+            CacheStatus.DataContext = SchemeCache;
+            UpdateCacheProgress.DataContext = SchemeCache;
+
             StudioStylesService = new StudioStylesService();
-            StudioStylesService.SchemeSucessfullyDownloaded += StudioStylesServiceOnSchemeSucessfullyDownloaded;
 
             SettingsActivator = new SettingsActivator();
+
+            SchemeCache.Check();
+        }
+
+        private void SchemesLoaded()
+        {
+            SchemesCollectionView = new SchemesCollectionView(SchemeCache.Schemes, 15);
+            Schemes.ItemsSource = SchemesCollectionView;
+            MainMenu.DataContext = SchemesCollectionView;
+            CurentItemRange.DataContext = SchemesCollectionView;
+        }
+
+        private async void Download()
+        {
+            var scheme = SchemesCollectionView.CurrentItem as Scheme;
+
+            if (scheme != null)
+            {
+                var file = await StudioStylesService.DownloadAsync(scheme.DownloadPath);
+
+                LoadScheme(file);
+            }
+        }
+
+        private void LoadScheme(string file)
+        {
+            SettingsActivator.LoadScheme(file);
+        }
+
+        private async void RefreshCache()
+        {
+            var schemes = await SchemeCache.Refresh();
+
+            SchemesCollectionView = new SchemesCollectionView(schemes, 15);
+            Schemes.ItemsSource = SchemesCollectionView;
+            MainMenu.DataContext = SchemesCollectionView;
+            CurentItemRange.DataContext = SchemesCollectionView;
         }
 
         private void RefreshSchemes_Click(object sender, RoutedEventArgs e)
         {
-            var schemes = StudioStylesService.All();
-
-            SchemesCollectionView = new SchemesCollectionView(schemes, 15);
-            DataContext = SchemesCollectionView;
+            RefreshCache();
         }
 
         private void PreviousPage_Click(object sender, RoutedEventArgs e)
@@ -43,10 +86,10 @@ namespace Twainsoft.StudioStyler.VSPackage.GUI
 
         private void Search_Click(object sender, RoutedEventArgs e)
         {
-            //if (!String.IsNullOrWhiteSpace(SearchString.Text))
-            //{
-            //    SchemesCollectionView.Filter = Filter;
-            //}
+        //    if (!String.IsNullOrWhiteSpace(SearchString.Text))
+        //    {
+        //        SchemesCollectionView.Filter = Filter;
+        //    }
         }
 
         //private bool Filter(object obj)
@@ -81,19 +124,9 @@ namespace Twainsoft.StudioStyler.VSPackage.GUI
             Download();
         }
 
-        private void Download()
+        private void UpdateCache(object sender, RequestNavigateEventArgs e)
         {
-            var scheme = SchemesCollectionView.CurrentItem as Scheme;
-
-            if (scheme != null)
-            {
-                StudioStylesService.Download(scheme.DownloadPath);
-            }
-        }
-
-        private void StudioStylesServiceOnSchemeSucessfullyDownloaded(object sender, string file)
-        {
-            SettingsActivator.LoadScheme(file);
+            RefreshCache();
         }
     }
 }
