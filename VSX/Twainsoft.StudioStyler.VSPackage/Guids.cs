@@ -1,8 +1,9 @@
 ﻿// Guids.cs
 // MUST match guids.h
+
 using System;
 
-namespace Twainsoft.Twainsoft_StudioStyler_VSPackage
+namespace Twainsoft.StudioStyler.VSPackage
 {
     static class GuidList
     {

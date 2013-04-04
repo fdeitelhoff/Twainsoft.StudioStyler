@@ -1,8 +1,7 @@
 ﻿using System.Runtime.InteropServices;
-using Company.Twainsoft_StudioStyler.VSPackage.GUI;
 using Microsoft.VisualStudio.Shell;
 
-namespace Twainsoft.Twainsoft_StudioStyler_VSPackage.GUI
+namespace Twainsoft.StudioStyler.VSPackage.GUI
 {
     /// <summary>
     /// This class implements the tool window exposed by this package and hosts a user control.

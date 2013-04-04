@@ -1,11 +1,10 @@
 ﻿using System.Windows;
 using System.Windows.Input;
-using Company.Twainsoft_StudioStyler.VSPackage.GUI;
 using Twainsoft.StudioStyler.Services.StudioStyles;
 using Twainsoft.StudioStyler.Services.StudioStyles.Model;
 using Twainsoft.StudioStyler.Services.StudioStyles.Settings;
 
-namespace Twainsoft.Twainsoft_StudioStyler_VSPackage.GUI
+namespace Twainsoft.StudioStyler.VSPackage.GUI
 {
     public partial class SchemesOverview
     {

@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Windows.Data;
 using Twainsoft.StudioStyler.Services.StudioStyles.Model;
 
-namespace Company.Twainsoft_StudioStyler.VSPackage.GUI
+namespace Twainsoft.StudioStyler.VSPackage.GUI
 {
   public class SchemesCollectionView : CollectionView
     {

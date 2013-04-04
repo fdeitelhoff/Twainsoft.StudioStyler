@@ -1,8 +1,7 @@
 ﻿// PkgCmdID.cs
 // MUST match PkgCmdID.h
-using System;
 
-namespace Twainsoft.Twainsoft_StudioStyler_VSPackage
+namespace Twainsoft.StudioStyler.VSPackage
 {
     static class PkgCmdIDList
     {
