@@ -41,6 +41,8 @@ namespace Twainsoft.StudioStyler.VSPackage.GUI
             Schemes.ItemsSource = SchemesCollectionView;
             MainMenu.DataContext = SchemesCollectionView;
             CurentItemRange.DataContext = SchemesCollectionView;
+
+            SchemesCollectionView.Filter = null;
         }
 
         private async void Download()
@@ -62,8 +64,6 @@ namespace Twainsoft.StudioStyler.VSPackage.GUI
 
         private async void RefreshCache()
         {
-            SchemesCollectionView.Filter = null;
-
             await SchemeCache.Refresh();
 
             SchemesLoaded();

@@ -37,9 +37,9 @@
     </UserControl.Resources>
     <DockPanel>
         <ToolBarTray VerticalAlignment="Top" DockPanel.Dock="Top" IsLocked="True" Name="MainMenu"
-                     x:FieldModifier="private">
-            <ToolBar Band="1" BandIndex="1">
-                <TextBox Name="SearchString" Width="120" x:FieldModifier="private" />
+                     x:FieldModifier="private" Background="{DynamicResource VsBrush.Window}">
+            <ToolBar Band="1" BandIndex="1" Background="{DynamicResource VsBrush.Window}">
+                <TextBox Name="SearchString" Width="120" x:FieldModifier="private" Background="{DynamicResource VsBrush.Window}" Foreground="{DynamicResource VsBrush.WindowText}" />
                 <Button Name="Search" Content="Search" Click="Search_Click"/>
                 <Button Name="ResetSearch" Content="R" Click="ResetSearch_Click"/>
                 <Button Name="RefreshSchemes" Content="Ref" Click="RefreshSchemes_Click"/>
@@ -62,15 +62,15 @@
                 <Button Name="DownloadScheme" Content="DL" Click="DownloadScheme_Click"/>
             </ToolBar>
         </ToolBarTray>
-        <TextBlock Name="CacheStatus" Style="{StaticResource CollapsibleTextBlock}" x:FieldModifier="private" DockPanel.Dock="Top">
+        <TextBlock Background="{DynamicResource VsBrush.Window}" Name="CacheStatus" Style="{StaticResource CollapsibleTextBlock}" x:FieldModifier="private" DockPanel.Dock="Top">
             Your Studio Styles cache is out of date.
-            <Hyperlink NavigateUri="SchemesOverview.xaml.cs" RequestNavigate="UpdateCache">Update</Hyperlink>
+            <Hyperlink NavigateUri="SchemesOverview.xaml.cs" RequestNavigate="UpdateCache">Refresh</Hyperlink>
             it.
         </TextBlock>
         <ProgressBar IsIndeterminate="True" Style="{StaticResource CollapsibleProgressBar}" Height="5"
                      HorizontalAlignment="Stretch" DockPanel.Dock="Top" Name="UpdateCacheProgress"
                      x:FieldModifier="private" />
-        <TextBlock DockPanel.Dock="Bottom" Name="CurentItemRange" x:FieldModifier="private">
+        <TextBlock Background="{DynamicResource VsBrush.Window}" DockPanel.Dock="Bottom" Name="CurentItemRange" x:FieldModifier="private">
             <TextBlock.Text>
                 <MultiBinding StringFormat="Showing items {0} - {1}">
                     <Binding Path="FirstItemNumber"/>

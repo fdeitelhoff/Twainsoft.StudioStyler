@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Interop;
-using System.Windows.Media.Imaging;
 using System.Xml;
 using System.Xml.Serialization;
 using Twainsoft.StudioStyler.Services.StudioStyles.Annotations;
