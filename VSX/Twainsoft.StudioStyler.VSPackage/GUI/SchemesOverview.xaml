@@ -36,9 +36,10 @@
         </Style>
     </UserControl.Resources>
     <DockPanel>
-        <ToolBarTray VerticalAlignment="Top" DockPanel.Dock="Top" IsLocked="True" Name="MainMenu">
+        <ToolBarTray VerticalAlignment="Top" DockPanel.Dock="Top" IsLocked="True" Name="MainMenu"
+                     x:FieldModifier="private">
             <ToolBar Band="1" BandIndex="1">
-                <TextBox Name="SearchString" Width="120"/>
+                <TextBox Name="SearchString" Width="120" x:FieldModifier="private" />
                 <Button Name="Search" Content="Search" Click="Search_Click"/>
                 <Button Name="ResetSearch" Content="R" Click="ResetSearch_Click"/>
                 <Button Name="RefreshSchemes" Content="Ref" Click="RefreshSchemes_Click"/>
@@ -80,7 +81,7 @@
         <DataGrid Name="Schemes" DockPanel.Dock="Bottom" ItemsSource="{Binding}" AutoGenerateColumns="False" 
                   HeadersVisibility="Column" SelectionMode="Single" CanUserDeleteRows="False" CanUserAddRows="False"
                   CanUserResizeRows="False" CanUserSortColumns="True" MouseDoubleClick="Schemes_MouseDoubleClick"
-                  x:FieldModifier="private">
+                  x:FieldModifier="private" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Title" Width="*" Binding="{Binding Title}"/>
                 <DataGridTextColumn Header="Autor" Width="*" Binding="{Binding Author}"/>

@@ -121,12 +121,22 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GUI\SchemesCollectionView.cs" />
+    <Compile Include="GUI\CollectionViewGroupInternal.cs" />
+    <Compile Include="GUI\CollectionViewGroupRoot.cs" />
+    <Compile Include="GUI\IPagedCollectionView.cs" />
+    <Compile Include="GUI\PageChangingEventArgs.cs" />
+    <Compile Include="GUI\PagedCollectionView.cs" />
+    <Compile Include="GUI\PagedCollectionViewResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PagedCollectionViewResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="GUI\SchemesOverview.xaml.cs">
       <DependentUpon>SchemesOverview.xaml</DependentUpon>
     </Compile>
     <Compile Include="GUI\SchemesOverviewWindow.cs" />
     <Compile Include="Guids.cs" />
+    <Compile Include="GUI\TypeHelper.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -138,6 +148,11 @@
     <Compile Include="PkgCmdID.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="GUI\PagedCollectionViewResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>PagedCollectionViewResources.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>System.ComponentModel</CustomToolNamespace>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

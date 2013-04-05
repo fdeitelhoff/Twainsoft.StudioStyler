@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Navigation;
 using Twainsoft.StudioStyler.Services.StudioStyles;
@@ -11,7 +12,7 @@ namespace Twainsoft.StudioStyler.VSPackage.GUI
 {
     public partial class SchemesOverview
     {
-        private SchemesCollectionView SchemesCollectionView { get; set; }
+        private PagedCollectionView SchemesCollectionView { get; set; }
 
         private StudioStylesService StudioStylesService { get; set; }
         private SettingsActivator SettingsActivator { get; set; }
@@ -36,7 +37,7 @@ namespace Twainsoft.StudioStyler.VSPackage.GUI
 
         private void SchemesLoaded()
         {
-            SchemesCollectionView = new SchemesCollectionView(SchemeCache.Schemes, 15);
+            SchemesCollectionView = new PagedCollectionView(SchemeCache.Schemes) {PageSize = 15};
             Schemes.ItemsSource = SchemesCollectionView;
             MainMenu.DataContext = SchemesCollectionView;
             CurentItemRange.DataContext = SchemesCollectionView;
@@ -61,12 +62,11 @@ namespace Twainsoft.StudioStyler.VSPackage.GUI
 
         private async void RefreshCache()
         {
-            var schemes = await SchemeCache.Refresh();
+            SchemesCollectionView.Filter = null;
 
-            SchemesCollectionView = new SchemesCollectionView(schemes, 15);
-            Schemes.ItemsSource = SchemesCollectionView;
-            MainMenu.DataContext = SchemesCollectionView;
-            CurentItemRange.DataContext = SchemesCollectionView;
+            await SchemeCache.Refresh();
+
+            SchemesLoaded();
         }
 
         private void RefreshSchemes_Click(object sender, RoutedEventArgs e)
@@ -86,22 +86,32 @@ namespace Twainsoft.StudioStyler.VSPackage.GUI
 
         private void Search_Click(object sender, RoutedEventArgs e)
         {
-        //    if (!String.IsNullOrWhiteSpace(SearchString.Text))
-        //    {
-        //        SchemesCollectionView.Filter = Filter;
-        //    }
+            if (!String.IsNullOrWhiteSpace(SearchString.Text))
+            {
+                SchemesCollectionView.Filter += Filter;
+            }
+            else
+            {
+                SchemesCollectionView.Filter = null;
+            }
         }
 
-        //private bool Filter(object obj)
-        //{
-        //    var scheme = obj as Scheme;
+        private bool Filter(object obj)
+        {
+            var scheme = obj as Scheme;
 
-        //    return scheme.Title.Contains(SearchString.Text.Trim());
-        //}
+            if (scheme == null)
+            {
+                return false;
+            }
+
+            return scheme.Title.ToLower().Contains(SearchString.Text.ToLower().Trim());
+        }
 
         private void ResetSearch_Click(object sender, RoutedEventArgs e)
         {
-            //SchemesCollectionView.Filter = null;
+            SchemesCollectionView.Filter = null;
+            SearchString.Text = null;
         }
 
         private void FirstPage_Click(object sender, RoutedEventArgs e)
