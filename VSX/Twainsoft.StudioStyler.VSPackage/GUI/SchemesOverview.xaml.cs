@@ -12,7 +12,7 @@ namespace Twainsoft.StudioStyler.VSPackage.GUI
 {
     public partial class SchemesOverview
     {
-        private PagedCollectionView SchemesCollectionView { get; set; }
+        private PagedCollectionView PagedSchemesView { get; set; }
 
         private StudioStylesService StudioStylesService { get; set; }
         private SettingsActivator SettingsActivator { get; set; }
@@ -24,30 +24,18 @@ namespace Twainsoft.StudioStyler.VSPackage.GUI
             InitializeComponent();
 
             SchemeCache = SchemeCache.Instance;
-            SchemeCache.SchemesLoaded += SchemesLoaded;
+            Schemes.ItemsSource = PagedCollectionView.Instance;
             CacheStatus.DataContext = SchemeCache;
             UpdateCacheProgress.DataContext = SchemeCache;
 
             StudioStylesService = new StudioStylesService();
 
             SettingsActivator = new SettingsActivator();
-
-            SchemeCache.Check();
-        }
-
-        private void SchemesLoaded()
-        {
-            SchemesCollectionView = new PagedCollectionView(SchemeCache.Schemes) {PageSize = 15};
-            Schemes.ItemsSource = SchemesCollectionView;
-            MainMenu.DataContext = SchemesCollectionView;
-            CurentItemRange.DataContext = SchemesCollectionView;
-
-            SchemesCollectionView.Filter = null;
         }
 
         private async void Download()
         {
-            var scheme = SchemesCollectionView.CurrentItem as Scheme;
+            var scheme = PagedSchemesView.CurrentItem as Scheme;
 
             if (scheme != null)
             {
@@ -65,63 +53,26 @@ namespace Twainsoft.StudioStyler.VSPackage.GUI
         private async void RefreshCache()
         {
             await SchemeCache.Refresh();
-
-            SchemesLoaded();
-        }
-
-        private void RefreshSchemes_Click(object sender, RoutedEventArgs e)
-        {
-            RefreshCache();
         }
 
         private void PreviousPage_Click(object sender, RoutedEventArgs e)
         {
-            SchemesCollectionView.MoveToPreviousPage();
+            PagedSchemesView.MoveToPreviousPage();
         }
 
         private void NextPage_Click(object sender, RoutedEventArgs e)
         {
-            SchemesCollectionView.MoveToNextPage(); 
-        }
-
-        private void Search_Click(object sender, RoutedEventArgs e)
-        {
-            if (!String.IsNullOrWhiteSpace(SearchString.Text))
-            {
-                SchemesCollectionView.Filter += Filter;
-            }
-            else
-            {
-                SchemesCollectionView.Filter = null;
-            }
-        }
-
-        private bool Filter(object obj)
-        {
-            var scheme = obj as Scheme;
-
-            if (scheme == null)
-            {
-                return false;
-            }
-
-            return scheme.Title.ToLower().Contains(SearchString.Text.ToLower().Trim());
-        }
-
-        private void ResetSearch_Click(object sender, RoutedEventArgs e)
-        {
-            SchemesCollectionView.Filter = null;
-            SearchString.Text = null;
+            PagedSchemesView.MoveToNextPage(); 
         }
 
         private void FirstPage_Click(object sender, RoutedEventArgs e)
         {
-            SchemesCollectionView.MoveToFirstPage();
+            PagedSchemesView.MoveToFirstPage();
         }
 
         private void LastPage_Click(object sender, RoutedEventArgs e)
         {
-            SchemesCollectionView.MoveToLastPage();
+            PagedSchemesView.MoveToLastPage();
         }
 
         private void Schemes_MouseDoubleClick(object sender, MouseButtonEventArgs e)

@@ -137,6 +137,7 @@
     <Compile Include="GUI\SchemesOverviewWindow.cs" />
     <Compile Include="Guids.cs" />
     <Compile Include="GUI\TypeHelper.cs" />
+    <Compile Include="GUI\VSMessageBox.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -145,7 +146,7 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="StudioStylerPackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PkgCmdID.cs" />
+    <Compile Include="VSX\CommandIds.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="GUI\PagedCollectionViewResources.resx">

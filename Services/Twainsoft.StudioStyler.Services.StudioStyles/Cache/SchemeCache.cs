@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -21,11 +22,11 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
 
         private StudioStylesService StudioStylesService { get; set; }
 
-        public List<Scheme> Schemes { get; private set; }
+        public ObservableCollection<Scheme> Schemes { get; private set; }
         
         private string SchemesDataPath { get; set; }
 
-        public Action SchemesLoaded;
+        //public Action SchemesLoaded;
 
         public static SchemeCache Instance
         {
@@ -62,6 +63,8 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
             IsCacheValid = false;
             IsCacheRefreshing = false;
 
+            Schemes = new ObservableCollection<Scheme>();
+
             StudioStylesService = new StudioStylesService();
 
             SchemesDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
@@ -75,11 +78,11 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
             schemesCacheFile = "SchemesCache.xml";
         }
 
-        public async Task<IList<Scheme>> Refresh()
+        public async Task Refresh()
         {
             IsCacheRefreshing = true;
 
-            Schemes = await StudioStylesService.AllAsync();
+            var schemes = await StudioStylesService.AllAsync();
 
             //foreach (var scheme in Schemes)
             //{
@@ -93,10 +96,16 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
 
             SeserializeCachedSchemes();
 
+            Schemes.Clear();
+            foreach (var scheme in schemes)
+            {
+                Schemes.Add(scheme);
+            }
+
             IsCacheValid = true;
             IsCacheRefreshing = false;
-
-            return Schemes;
+            
+            //return Schemes;
         }
 
         public void Check()
@@ -114,10 +123,10 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
 
                     IsCacheRefreshing = false;
 
-                    if (SchemesLoaded != null)
-                    {
-                        SchemesLoaded();
-                    }
+                    //if (SchemesLoaded != null)
+                    //{
+                    //    SchemesLoaded();
+                    //}
                 }
                 else
                 {
@@ -158,7 +167,12 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
 
                 if (schemes != null)
                 {
-                    Schemes = schemes.AllSchemes;
+                    Schemes.Clear();
+                    foreach (var scheme in schemes.AllSchemes)
+                    {
+                        Schemes.Add(scheme);
+                    }
+                    //Schemes = schemes.AllSchemes;
                 }
             }
         }

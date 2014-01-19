@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
 
@@ -10,6 +11,6 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Model
         [JsonProperty(PropertyName = "schemes")]
         [XmlArray("Schemes")]
         [XmlArrayItem("Scheme", typeof(Scheme))]
-        public List<Scheme> AllSchemes { get; set; }
+        public ObservableCollection<Scheme> AllSchemes { get; set; }
     }
 }

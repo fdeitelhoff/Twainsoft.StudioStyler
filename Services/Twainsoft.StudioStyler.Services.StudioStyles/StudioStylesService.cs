@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
@@ -17,12 +18,12 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles
             BaseUrl = "http://studiostyl.es/";
         }
 
-        public async Task<List<Scheme>> AllAsync()
+        public async Task<ObservableCollection<Scheme>> AllAsync()
         {
             var client = new RestClient(BaseUrl);
             var request = new RestRequest("api/schemes", Method.GET);
 
-            var taskCompletionSource = new TaskCompletionSource<List<Scheme>>();
+            var taskCompletionSource = new TaskCompletionSource<ObservableCollection<Scheme>>();
 
             client.ExecuteAsync(request, response => taskCompletionSource.SetResult(JsonConvert.DeserializeObject<Schemes>(response.Content).AllSchemes));
 

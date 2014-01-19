@@ -36,7 +36,7 @@
         </Style>
     </UserControl.Resources>
     <DockPanel>
-        <ToolBarTray VerticalAlignment="Top" DockPanel.Dock="Top" IsLocked="True" Name="MainMenu"
+        <!--<ToolBarTray VerticalAlignment="Top" DockPanel.Dock="Top" IsLocked="True" Name="MainMenu"
                      x:FieldModifier="private" Background="{DynamicResource VsBrush.Window}">
             <ToolBar Band="1" BandIndex="1" Background="{DynamicResource VsBrush.Window}">
                 <TextBox Name="SearchString" Width="120" x:FieldModifier="private" Background="{DynamicResource VsBrush.Window}" Foreground="{DynamicResource VsBrush.WindowText}" />
@@ -61,7 +61,7 @@
                 <Button Name="LastPage" Content="LP" Click="LastPage_Click"/>
                 <Button Name="DownloadScheme" Content="DL" Click="DownloadScheme_Click"/>
             </ToolBar>
-        </ToolBarTray>
+        </ToolBarTray>-->
         <TextBlock Background="{DynamicResource VsBrush.Window}" Name="CacheStatus" Style="{StaticResource CollapsibleTextBlock}" x:FieldModifier="private" DockPanel.Dock="Top">
             Your Studio Styles cache is out of date.
             <Hyperlink NavigateUri="SchemesOverview.xaml.cs" RequestNavigate="UpdateCache">Refresh</Hyperlink>
