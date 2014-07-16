@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Twainsoft.StudioStyler.VSPackage
+namespace Twainsoft.StudioStyler.VSPackage.VSX
 {
     static class GuidList
     {

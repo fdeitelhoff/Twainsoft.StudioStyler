@@ -23,19 +23,35 @@ namespace Twainsoft.StudioStyler.VSPackage.GUI
         {
             InitializeComponent();
 
+            PagedSchemesView = PagedCollectionView.Instance;
+            PagedSchemesView.PageChanged += InstanceOnPageChanged;
+            PagedSchemesView.CurrentChanged += PagedSchemesViewOnCurrentChanged;
+
             SchemeCache = SchemeCache.Instance;
             Schemes.ItemsSource = PagedCollectionView.Instance;
             CacheStatus.DataContext = SchemeCache;
             UpdateCacheProgress.DataContext = SchemeCache;
 
+            //PagedSchemesView = new PagedCollectionView();
             StudioStylesService = new StudioStylesService();
-
             SettingsActivator = new SettingsActivator();
+        }
+
+        private void PagedSchemesViewOnCurrentChanged(object sender, EventArgs eventArgs)
+        {
+            Console.WriteLine(PagedCollectionView.Instance.CurrentPage);
+        }
+
+        private void InstanceOnPageChanged(object sender, EventArgs eventArgs)
+        {
+            status.Text = string.Format("Showing items {0} - {1} (Page {2}/{3}", PagedSchemesView.FirstItemNumber,
+                PagedSchemesView.LastItemNumber, PagedSchemesView.CurrentPage, PagedSchemesView.PageCount);
         }
 
         private async void Download()
         {
-            var scheme = PagedSchemesView.CurrentItem as Scheme;
+            //var scheme = PagedSchemesView.CurrentItem as Scheme;
+            var scheme = Schemes.CurrentItem as Scheme;
 
             if (scheme != null)
             {
@@ -75,11 +91,6 @@ namespace Twainsoft.StudioStyler.VSPackage.GUI
             PagedSchemesView.MoveToLastPage();
         }
 
-        private void Schemes_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            Download();
-        }
-
         private void DownloadScheme_Click(object sender, RoutedEventArgs e)
         {
             Download();
@@ -88,6 +99,11 @@ namespace Twainsoft.StudioStyler.VSPackage.GUI
         private void UpdateCache(object sender, RequestNavigateEventArgs e)
         {
             RefreshCache();
+        }
+
+        private void Schemes_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            Download();
         }
     }
 }

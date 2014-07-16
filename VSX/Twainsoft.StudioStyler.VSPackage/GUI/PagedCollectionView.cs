@@ -7,6 +7,8 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using Twainsoft.StudioStyler.VSPackage.GUI;
+
 namespace System.Windows.Data
 {
     using System.Collections;

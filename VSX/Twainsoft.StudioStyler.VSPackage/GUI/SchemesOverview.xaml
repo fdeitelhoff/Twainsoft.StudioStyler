@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:shell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.11.0"
              Background="{DynamicResource VsBrush.Window}"
              Foreground="{DynamicResource VsBrush.WindowText}"
              mc:Ignorable="d" 
@@ -40,9 +41,9 @@
                      x:FieldModifier="private" Background="{DynamicResource VsBrush.Window}">
             <ToolBar Band="1" BandIndex="1" Background="{DynamicResource VsBrush.Window}">
                 <TextBox Name="SearchString" Width="120" x:FieldModifier="private" Background="{DynamicResource VsBrush.Window}" Foreground="{DynamicResource VsBrush.WindowText}" />
-                <Button Name="Search" Content="Search" Click="Search_Click"/>
-                <Button Name="ResetSearch" Content="R" Click="ResetSearch_Click"/>
-                <Button Name="RefreshSchemes" Content="Ref" Click="RefreshSchemes_Click"/>
+                <Button Name="Search" Content="Search" /> --><!--Click="Search_Click"/>--><!--
+                <Button Name="ResetSearch" Content="R" /> --><!--Click="ResetSearch_Click"/>--><!--
+                <Button Name="RefreshSchemes" Content="Ref" /> --><!--Click="RefreshSchemes_Click"/>--><!--
                 <Button Name="FirstPage" Content="FP" Click="FirstPage_Click"/>
                 <Button Name="PreviousPage" Content="PP" Click="PreviousPage_Click"/>
                 <Label>
@@ -70,7 +71,9 @@
         <ProgressBar IsIndeterminate="True" Style="{StaticResource CollapsibleProgressBar}" Height="5"
                      HorizontalAlignment="Stretch" DockPanel.Dock="Top" Name="UpdateCacheProgress"
                      x:FieldModifier="private" />
-        <TextBlock Background="{DynamicResource VsBrush.Window}" DockPanel.Dock="Bottom" Name="CurentItemRange" x:FieldModifier="private">
+        <TextBlock Background="{DynamicResource {x:Static shell:VsBrushes.ToolWindowBackgroundKey}}" 
+                   Foreground="{DynamicResource {x:Static shell:VsBrushes.ButtonTextKey}}"
+                   DockPanel.Dock="Bottom" Name="status">
             <TextBlock.Text>
                 <MultiBinding StringFormat="Showing items {0} - {1}">
                     <Binding Path="FirstItemNumber"/>
@@ -80,14 +83,16 @@
         </TextBlock>
         <DataGrid Name="Schemes" DockPanel.Dock="Bottom" ItemsSource="{Binding}" AutoGenerateColumns="False" 
                   HeadersVisibility="Column" SelectionMode="Single" CanUserDeleteRows="False" CanUserAddRows="False"
-                  CanUserResizeRows="False" CanUserSortColumns="True" MouseDoubleClick="Schemes_MouseDoubleClick"
+                  CanUserResizeRows="False" CanUserSortColumns="True" MouseDoubleClick="Schemes_OnMouseDoubleClick"
+                  Background="{DynamicResource VsBrush.Window}" 
+                   Foreground="{DynamicResource VsBrushes.ToolWindowTextKey}"
                   x:FieldModifier="private" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Title" Width="*" Binding="{Binding Title}"/>
-                <DataGridTextColumn Header="Autor" Width="*" Binding="{Binding Author}"/>
+                <DataGridTextColumn Header="Author" Width="*" Binding="{Binding Author}"/>
                 <DataGridTextColumn Header="Popularity" Width="*" Binding="{Binding Popularity}"/>
             </DataGrid.Columns>
-            <DataGrid.RowDetailsTemplate>
+            <!--<DataGrid.RowDetailsTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal" Margin="5">
                         <Image Margin="0, 0, 2, 0" Source="{Binding Preview}"/>
@@ -97,7 +102,7 @@
                         <TextBlock Margin="0, 0, 2, 0" Text="{Binding Submitted}"/>
                     </StackPanel>
                 </DataTemplate>
-            </DataGrid.RowDetailsTemplate>
+            </DataGrid.RowDetailsTemplate>-->
         </DataGrid>
     </DockPanel>
 </UserControl>

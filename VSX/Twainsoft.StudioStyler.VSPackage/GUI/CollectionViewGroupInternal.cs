@@ -7,14 +7,15 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace System.Windows.Data
-{
-    using System;
-    using System.Collections;
-    using System.ComponentModel;
-    using System.Diagnostics;
-    using System.Windows;
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Windows;
+using System.Windows.Data;
 
+namespace Twainsoft.StudioStyler.VSPackage.GUI
+{
     /// <summary>
     /// A CollectionViewGroupInternal, as created by a PagedCollectionView 
     /// according to a GroupDescription.
