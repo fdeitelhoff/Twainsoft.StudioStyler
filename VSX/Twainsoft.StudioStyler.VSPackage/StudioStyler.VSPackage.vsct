@@ -26,7 +26,7 @@
     <!-- Interactive elements. -->
     <Buttons>
 
-      <!--  -->
+      <!-- Refresh Button -->
       <Button guid="guidSchemesToolbarCmdSet" id="RefreshSchemesCache" priority="0x0001" type="Button">
         <Parent guid="guidSchemesToolbarCmdSet" id="SchemesToolbarGroup"/>
         <!--<Icon guid="guidImages" id="bmpPic1"/>-->
@@ -34,14 +34,62 @@
           <ButtonText>Refresh</ButtonText>
         </Strings>
       </Button>
-      <Button guid="guidSchemesToolbarCmdSet" id="Command2Id" priority="0x0002" type="Button">
+      
+      <!-- Activate Button -->
+      <Button guid="guidSchemesToolbarCmdSet" id="ActivateScheme" priority="0x0002" type="Button">
         <Parent guid="guidSchemesToolbarCmdSet" id="SchemesToolbarGroup"/>
         <CommandFlag>DefaultDisabled</CommandFlag>
-        <!--<Icon guid="guidImages" id="bmpPic2"/>-->
         <Strings>
-          <ButtonText>Page X of Y</ButtonText>
+          <ButtonText>Activate</ButtonText>
         </Strings>
       </Button>
+      
+      <!-- History Button -->
+      <Button guid="guidSchemesToolbarCmdSet" id="SchemesHistory" priority="0x0003" type="Button">
+        <Parent guid="guidSchemesToolbarCmdSet" id="SchemesToolbarGroup"/>
+        <CommandFlag>DefaultDisabled</CommandFlag>
+        <Strings>
+          <ButtonText>History</ButtonText>
+        </Strings>
+      </Button>
+      
+      <!-- First Page Button -->
+      <Button guid="guidSchemesToolbarCmdSet" id="FirstPageNavigation" priority="0x0004" type="Button">
+        <Parent guid="guidSchemesToolbarCmdSet" id="SchemesToolbarGroup"/>
+        <CommandFlag>DefaultDisabled</CommandFlag>
+        <Strings>
+          <ButtonText>f</ButtonText>
+        </Strings>
+      </Button>
+      
+      <!-- Previous Page Button -->
+      <Button guid="guidSchemesToolbarCmdSet" id="PreviousPageNavigation" priority="0x0005" type="Button">
+        <Parent guid="guidSchemesToolbarCmdSet" id="SchemesToolbarGroup"/>
+        <CommandFlag>DefaultDisabled</CommandFlag>
+        <Strings>
+          <ButtonText>p</ButtonText>
+        </Strings>
+      </Button>   
+      
+      <!-- Next Page Button -->
+      <Button guid="guidSchemesToolbarCmdSet" id="NextPageNavigation" priority="0x0006" type="Button">
+        <Parent guid="guidSchemesToolbarCmdSet" id="SchemesToolbarGroup"/>
+        <CommandFlag>DefaultDisabled</CommandFlag>
+        <Strings>
+          <ButtonText>n</ButtonText>
+        </Strings>
+      </Button>    
+      
+      <!-- Last Page Button -->
+      <Button guid="guidSchemesToolbarCmdSet" id="LastPageNavigation" priority="0x0007" type="Button">
+        <Parent guid="guidSchemesToolbarCmdSet" id="SchemesToolbarGroup"/>
+        <CommandFlag>DefaultDisabled</CommandFlag>
+        <Strings>
+          <ButtonText>l</ButtonText>
+        </Strings>
+      </Button>         
+      
+      <!-- ToolWindow Button in the View -> Other Windows Menu -->
       <Button guid="guidTwainsoft_StudioStyler_VSPackageCmdSet" id="ShowStudioStyles" priority="0x0100" type="Button">
         <Parent guid="guidSHLMainMenu" id="IDG_VS_WNDO_OTRWNDWS1"/>
         <Icon guid="guidImages" id="bmpPic2" />
@@ -102,7 +150,12 @@
       <IDSymbol name="SearchStringCombo" value="0x1102"/>
       <IDSymbol name="SearchStringValues" value="0x1103"/>
       <IDSymbol name="RefreshSchemesCache" value="0x1104" />
-      <IDSymbol name="Command2Id" value="0x1105" />
+      <IDSymbol name="ActivateScheme" value="0x1105" />
+      <IDSymbol name="SchemesHistory" value="0x1106" />
+      <IDSymbol name="FirstPageNavigation" value="0x1107" />
+      <IDSymbol name="PreviousPageNavigation" value="0x1108" />
+      <IDSymbol name="NextPageNavigation" value="0x1109" />
+      <IDSymbol name="LastPageNavigation" value="0x1110" />
     </GuidSymbol>
 
     <GuidSymbol name="guidImages" value="{eaa006c0-e439-46df-bf71-bbf3e4100ccd}" >

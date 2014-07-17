@@ -70,7 +70,15 @@ namespace Twainsoft.StudioStyler.VSPackage
                 // The refresh schemes cache command.
                 var refreshSchemesCacheCommandId = new CommandID(GuidList.GuidSchemesToolbarCmdSet, CommandIds.RefreshSchemesCache);
                 var refreshSchemesCacheCommand = new OleMenuCommand(OnRefreshSchemesCache, refreshSchemesCacheCommandId);
+//                refreshSchemesCacheCommand.BeforeQueryStatus +=
+//new EventHandler(OnBeforeQueryStatus);
                 mcs.AddCommand(refreshSchemesCacheCommand);
+
+                // The activate scheme command.
+                var activateSchemeCommandId = new CommandID(GuidList.GuidSchemesToolbarCmdSet, CommandIds.ActivateScheme);
+                var activateSchemeCommand = new OleMenuCommand(OnActivateScheme, activateSchemeCommandId);
+                activateSchemeCommand.BeforeQueryStatus += new EventHandler(OnBeforeQueryStatusActivateScheme);
+                mcs.AddCommand(activateSchemeCommand);
             }
 
             SchemeCache.Check();
@@ -141,6 +149,21 @@ namespace Twainsoft.StudioStyler.VSPackage
         private async void OnRefreshSchemesCache(object sender, EventArgs e)
         {
             await SchemeCache.Refresh();
+        }
+
+        private void OnActivateScheme(object sender, EventArgs e)
+        {
+            VsMessageBox.ShowInfoMessageBox("Bla", "Jetzt aktivieren bitte!");
+        }
+
+        private void OnBeforeQueryStatusActivateScheme(object sender, EventArgs e)
+        {
+            var command = sender as OleMenuCommand;
+
+            if (null != command)
+            {
+                command.Enabled = true;
+            }
         }
     }
 }
