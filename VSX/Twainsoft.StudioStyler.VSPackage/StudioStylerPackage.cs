@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.ComponentModel.Design;
-using System.Windows.Data;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Shell;
-using Twainsoft.StudioStyler.Services.StudioStyles.Cache;
-using Twainsoft.StudioStyler.Services.StudioStyles.Model;
 using Twainsoft.StudioStyler.VSPackage.GUI;
+using Twainsoft.StudioStyler.VSPackage.Model;
 using Twainsoft.StudioStyler.VSPackage.VSX;
 
 namespace Twainsoft.StudioStyler.VSPackage
@@ -19,28 +16,29 @@ namespace Twainsoft.StudioStyler.VSPackage
     [Guid(GuidList.guidTwainsoft_StudioStyler_VSPackagePkgString)]
     public sealed class StudioStylerPackage : Package
     {
-        private SchemeCache SchemeCache { get; set; }
-        private PagedCollectionView PagedSchemesView { get; set; }
-        private string CurrentSearchString { get; set; }
-        private List<string> SearchValues { get; set; }
+        private SchemesOverviewModel SchemesOverviewModel { get; set; }
 
         public StudioStylerPackage()
         {
-            SchemeCache = SchemeCache.Instance;
-            PagedSchemesView = PagedCollectionView.NewInstance(SchemeCache.Schemes);
-            PagedSchemesView.PageSize = 15;
-
-            CurrentSearchString = "";
-            SearchValues = new List<string>();
+            SchemesOverviewModel = new SchemesOverviewModel();
         }
 
         private void ShowToolWindow(object sender, EventArgs e)
         {
             var window = FindToolWindow(typeof(SchemesOverviewWindow), 0, true);
+
             if ((null == window) || (null == window.Frame))
             {
                 throw new NotSupportedException(Resources.CanNotCreateWindow);
             }
+
+            var schemesOverViewWindows = window as SchemesOverviewWindow;
+
+            if (schemesOverViewWindows != null)
+            {
+                schemesOverViewWindows.SetModel(SchemesOverviewModel);
+            }
+
             var windowFrame = (IVsWindowFrame)window.Frame;
             Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(windowFrame.Show());
         }
@@ -70,18 +68,29 @@ namespace Twainsoft.StudioStyler.VSPackage
                 // The refresh schemes cache command.
                 var refreshSchemesCacheCommandId = new CommandID(GuidList.GuidSchemesToolbarCmdSet, CommandIds.RefreshSchemesCache);
                 var refreshSchemesCacheCommand = new OleMenuCommand(OnRefreshSchemesCache, refreshSchemesCacheCommandId);
-//                refreshSchemesCacheCommand.BeforeQueryStatus +=
-//new EventHandler(OnBeforeQueryStatus);
                 mcs.AddCommand(refreshSchemesCacheCommand);
 
                 // The activate scheme command.
                 var activateSchemeCommandId = new CommandID(GuidList.GuidSchemesToolbarCmdSet, CommandIds.ActivateScheme);
                 var activateSchemeCommand = new OleMenuCommand(OnActivateScheme, activateSchemeCommandId);
-                activateSchemeCommand.BeforeQueryStatus += new EventHandler(OnBeforeQueryStatusActivateScheme);
+                //activateSchemeCommand.BeforeQueryStatus += new EventHandler(OnBeforeQueryStatusActivateScheme);
                 mcs.AddCommand(activateSchemeCommand);
+
+                // The history scheme command.
+
+                // The first page command.
+
+                // The previous page command.
+
+                // The next page command.
+                var nextPageCommandId = new CommandID(GuidList.GuidSchemesToolbarCmdSet, CommandIds.NextPageNavigation);
+                var nextPageCommand = new OleMenuCommand(OnNextPage, nextPageCommandId);
+                mcs.AddCommand(nextPageCommand);
+
+                // The last page command.
             }
 
-            SchemeCache.Check();
+            SchemesOverviewModel.CheckCache();
         }
 
         private void OnSearchStringValues(object sender, EventArgs e)
@@ -90,12 +99,7 @@ namespace Twainsoft.StudioStyler.VSPackage
 
             if (eventArgs != null)
             {
-                var vOut = eventArgs.OutValue;
-
-                if (vOut != IntPtr.Zero)
-                {
-                    Marshal.GetNativeVariantForObject(SearchValues.ToArray(), vOut);
-                }
+                SchemesOverviewModel.SearchTerm(eventArgs);
             }
         }
 
@@ -105,65 +109,33 @@ namespace Twainsoft.StudioStyler.VSPackage
 
             if (eventArgs != null)
             {
-                var input = eventArgs.InValue;
-
-                var vOut = eventArgs.OutValue;
-
-                if (vOut != IntPtr.Zero)
-                {
-                    Marshal.GetNativeVariantForObject(CurrentSearchString, vOut);
-                }
-
-                else if (input != null)
-                {
-                    CurrentSearchString = input.ToString();
-
-                    if (!SearchValues.Contains(CurrentSearchString))
-                    {
-                        SearchValues.Add(CurrentSearchString);
-                    }
-
-                    //VsMessageBox.ShowInfoMessageBox("Combobox input", input.ToString());
-                    if (!String.IsNullOrWhiteSpace(input.ToString().Trim()))
-                    {
-                        PagedSchemesView.Filter += delegate(object obj)
-                        {
-                            var scheme = obj as Scheme;
-
-                            if (scheme == null)
-                            {
-                                return false;
-                            }
-
-                            return scheme.Title.ToLower().Contains(input.ToString().Trim());
-                        };
-                    }
-                    else
-                    {
-                        PagedSchemesView.Filter = null;
-                    }
-                }
+                SchemesOverviewModel.Search(eventArgs);
             }
         }
 
-        private async void OnRefreshSchemesCache(object sender, EventArgs e)
+        private void OnRefreshSchemesCache(object sender, EventArgs e)
         {
-            await SchemeCache.Refresh();
+            SchemesOverviewModel.RefreshCache();
         }
 
         private void OnActivateScheme(object sender, EventArgs e)
         {
-            VsMessageBox.ShowInfoMessageBox("Bla", "Jetzt aktivieren bitte!");
+            SchemesOverviewModel.ActivateScheme();
         }
 
-        private void OnBeforeQueryStatusActivateScheme(object sender, EventArgs e)
-        {
-            var command = sender as OleMenuCommand;
+        //private void OnBeforeQueryStatusActivateScheme(object sender, EventArgs e)
+        //{
+        //    var command = sender as OleMenuCommand;
 
-            if (null != command)
-            {
-                command.Enabled = true;
-            }
+        //    if (null != command)
+        //    {
+        //        command.Enabled = SchemesOverviewModel.IsSchemeSelected;
+        //    }
+        //}
+
+        private void OnNextPage(object sender, EventArgs e)
+        {
+            SchemesOverviewModel.NextPage();
         }
     }
 }

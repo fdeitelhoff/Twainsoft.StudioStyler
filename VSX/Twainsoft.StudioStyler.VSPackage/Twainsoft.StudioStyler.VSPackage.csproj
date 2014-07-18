@@ -140,6 +140,7 @@
       <DependentUpon>SchemesOverview.xaml</DependentUpon>
     </Compile>
     <Compile Include="GUI\SchemesOverviewWindow.cs" />
+    <Compile Include="Model\SchemesOverviewModel.cs" />
     <Compile Include="VSX\Guids.cs" />
     <Compile Include="GUI\TypeHelper.cs" />
     <Compile Include="GUI\VSMessageBox.cs" />
@@ -203,6 +204,7 @@
       <Name>Twainsoft.StudioStyler.Services.StudioStyles</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <UseCodebase>true</UseCodebase>
   </PropertyGroup>

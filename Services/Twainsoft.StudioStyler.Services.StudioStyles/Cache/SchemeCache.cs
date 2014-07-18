@@ -14,7 +14,7 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
 {
     public sealed class SchemeCache : INotifyPropertyChanged
     {
-        private static SchemeCache instance;
+        //private static SchemeCache instance;
         private bool isCacheValid;
         private bool isCacheRefreshing;
 
@@ -28,13 +28,13 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
 
         //public Action SchemesLoaded;
 
-        public static SchemeCache Instance
-        {
-            get
-            {
-                return instance ?? (instance = new SchemeCache());
-            }
-        }
+        //public static SchemeCache Instance
+        //{
+        //    get
+        //    {
+        //        return instance ?? (instance = new SchemeCache());
+        //    }
+        //}
 
         public bool IsCacheValid
         {
@@ -58,7 +58,7 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
             }
         }
 
-        private SchemeCache()
+        public SchemeCache()
         {
             IsCacheValid = false;
             IsCacheRefreshing = false;

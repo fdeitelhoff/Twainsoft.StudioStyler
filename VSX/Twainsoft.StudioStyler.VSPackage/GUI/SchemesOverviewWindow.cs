@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.Design;
 using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.Shell;
+using Twainsoft.StudioStyler.VSPackage.Model;
 using Twainsoft.StudioStyler.VSPackage.VSX;
 
 namespace Twainsoft.StudioStyler.VSPackage.GUI
@@ -39,6 +40,16 @@ namespace Twainsoft.StudioStyler.VSPackage.GUI
             // we are not calling Dispose on this object. This is because ToolWindowPane calls Dispose on 
             // the object returned by the Content property.
             base.Content = new SchemesOverview();
+        }
+
+        public void SetModel(SchemesOverviewModel schemesOverviewModel)
+        {
+            var schemesOverview = base.Content as SchemesOverview;
+
+            if (schemesOverview != null)
+            {
+                schemesOverview.SetModel(schemesOverviewModel);
+            }
         }
     }
 }

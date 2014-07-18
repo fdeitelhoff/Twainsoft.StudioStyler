@@ -198,22 +198,22 @@ namespace System.Windows.Data
 
         #region Constructors
 
-        private static PagedCollectionView instance;
+        //private static PagedCollectionView instance;
 
-        public static PagedCollectionView NewInstance(IEnumerable source)
-        {
-            if (instance == null)
-            {
-                instance = new PagedCollectionView(source);
-            }
+        //public static PagedCollectionView NewInstance(IEnumerable source)
+        //{
+        //    if (instance == null)
+        //    {
+        //        instance = new PagedCollectionView(source);
+        //    }
 
-            return instance;
-        }
+        //    return instance;
+        //}
 
-        public static PagedCollectionView Instance
-        {
-            get { return instance; }
-        }
+        //public static PagedCollectionView Instance
+        //{
+        //    get { return instance; }
+        //}
 
         /// <summary>
         /// Helper constructor that sets default values for isDataSorted and isDataInGroupOrder.

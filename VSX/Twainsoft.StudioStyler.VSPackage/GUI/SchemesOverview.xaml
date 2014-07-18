@@ -4,27 +4,28 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:shell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.11.0"
+             xmlns:model="clr-namespace:Twainsoft.StudioStyler.VSPackage.Model"
              Background="{DynamicResource VsBrush.Window}"
              Foreground="{DynamicResource VsBrush.WindowText}"
              mc:Ignorable="d" 
-             d:DesignHeight="413" d:DesignWidth="331">
+             d:DesignHeight="413" d:DesignWidth="331" d:DataContext="{d:DesignInstance model:SchemesOverviewModel}">
     <UserControl.Resources>
         <Style x:Key="CollapsibleTextBlock" TargetType="TextBlock">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding IsCacheValid}" Value="true">
+                <DataTrigger Binding="{Binding SchemeCache.IsCacheValid}" Value="true">
                     <Setter Property="Visibility" Value="Collapsed"/>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding IsCacheValid}" Value="false">
+                <DataTrigger Binding="{Binding SchemeCache.IsCacheValid}" Value="false">
                     <Setter Property="Visibility" Value="Visible"/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
         <Style x:Key="CollapsibleProgressBar" TargetType="ProgressBar">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding IsCacheRefreshing}" Value="true">
+                <DataTrigger Binding="{Binding SchemeCache.IsCacheRefreshing}" Value="true">
                     <Setter Property="Visibility" Value="Visible"/>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding IsCacheRefreshing}" Value="false">
+                <DataTrigger Binding="{Binding SchemeCache.IsCacheRefreshing}" Value="false">
                     <Setter Property="Visibility" Value="Collapsed"/>
                 </DataTrigger>
                 <!--<DataTrigger Binding="{Binding IsSchemeDownloading}" Value="true">
@@ -73,15 +74,17 @@
                      x:FieldModifier="private" />
         <TextBlock Background="{DynamicResource {x:Static shell:VsBrushes.ToolWindowBackgroundKey}}" 
                    Foreground="{DynamicResource {x:Static shell:VsBrushes.ButtonTextKey}}"
-                   DockPanel.Dock="Bottom" Name="status">
+                   DockPanel.Dock="Bottom">
             <TextBlock.Text>
-                <MultiBinding StringFormat="Showing items {0} - {1}">
-                    <Binding Path="FirstItemNumber"/>
-                    <Binding Path="LastItemNumber"/>
+                <MultiBinding StringFormat="Page {0} / {1}"> <!--{1} - Showing Item {2} - {3}">-->
+                    <Binding Path="CurrentPage"/>
+                    <Binding Path="OverallPages"/>
+                    <!--<Binding Path="FirstItemNumber"/>
+                    <Binding Path="LastItemNumber"/>-->
                 </MultiBinding>
             </TextBlock.Text>
         </TextBlock>
-        <DataGrid Name="Schemes" DockPanel.Dock="Bottom" ItemsSource="{Binding}" AutoGenerateColumns="False" 
+        <DataGrid Name="Schemes" DockPanel.Dock="Bottom" ItemsSource="{Binding PagedSchemesView}" AutoGenerateColumns="False" 
                   HeadersVisibility="Column" SelectionMode="Single" CanUserDeleteRows="False" CanUserAddRows="False"
                   CanUserResizeRows="False" CanUserSortColumns="True" MouseDoubleClick="Schemes_OnMouseDoubleClick"
                   Background="{DynamicResource VsBrush.Window}" 
