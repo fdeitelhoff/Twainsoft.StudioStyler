@@ -76,20 +76,20 @@
                    Foreground="{DynamicResource {x:Static shell:VsBrushes.ButtonTextKey}}"
                    DockPanel.Dock="Bottom">
             <TextBlock.Text>
-                <MultiBinding StringFormat="Page {0} / {1}"> <!--{1} - Showing Item {2} - {3}">-->
+                <MultiBinding StringFormat="Page {0} / {1} - Showing Items {2} - {3}">
                     <Binding Path="CurrentPage"/>
                     <Binding Path="OverallPages"/>
-                    <!--<Binding Path="FirstItemNumber"/>
-                    <Binding Path="LastItemNumber"/>-->
+                    <Binding Path="FirstItemNumber"/>
+                    <Binding Path="LastItemNumber"/>
                 </MultiBinding>
             </TextBlock.Text>
         </TextBlock>
-        <DataGrid Name="Schemes" DockPanel.Dock="Bottom" ItemsSource="{Binding PagedSchemesView}" AutoGenerateColumns="False" 
+        <DataGrid DockPanel.Dock="Bottom" ItemsSource="{Binding PagedSchemesView}" AutoGenerateColumns="False" 
                   HeadersVisibility="Column" SelectionMode="Single" CanUserDeleteRows="False" CanUserAddRows="False"
                   CanUserResizeRows="False" CanUserSortColumns="True" MouseDoubleClick="Schemes_OnMouseDoubleClick"
                   Background="{DynamicResource VsBrush.Window}" 
-                   Foreground="{DynamicResource VsBrushes.ToolWindowTextKey}"
-                  x:FieldModifier="private" IsReadOnly="True">
+                  Foreground="{DynamicResource VsBrushes.ToolWindowTextKey}"
+                  IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Title" Width="*" Binding="{Binding Title}"/>
                 <DataGridTextColumn Header="Author" Width="*" Binding="{Binding Author}"/>

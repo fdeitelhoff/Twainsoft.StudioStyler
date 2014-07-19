@@ -41,15 +41,5 @@ namespace Twainsoft.StudioStyler.VSPackage.GUI
             // the object returned by the Content property.
             base.Content = new SchemesOverview();
         }
-
-        public void SetModel(SchemesOverviewModel schemesOverviewModel)
-        {
-            var schemesOverview = base.Content as SchemesOverview;
-
-            if (schemesOverview != null)
-            {
-                schemesOverview.SetModel(schemesOverviewModel);
-            }
-        }
     }
 }

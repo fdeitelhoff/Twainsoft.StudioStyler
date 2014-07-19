@@ -6,27 +6,24 @@ namespace Twainsoft.StudioStyler.VSPackage.GUI
 {
     public partial class SchemesOverview
     {
-        private SchemesOverviewModel SchemesOverviewModel { get; set; }
+        private SchemesOverviewModel Model { get; set; }
 
         public SchemesOverview()
         {
             InitializeComponent();
-        }
 
-        public void SetModel(SchemesOverviewModel schemesOverviewModel)
-        {
-            SchemesOverviewModel = schemesOverviewModel;
-            DataContext = SchemesOverviewModel;
+            Model = SchemesOverviewModel.Instance;
+            DataContext = Model;
         }
 
         private void UpdateCache(object sender, RequestNavigateEventArgs e)
         {
-            SchemesOverviewModel.RefreshCache();
+            Model.RefreshCache();
         }
 
         private void Schemes_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            SchemesOverviewModel.ActivateScheme();
+            Model.ActivateScheme();
         }
     }
 }

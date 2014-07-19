@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Windows.Controls;
 using System.Windows.Data;
 using Microsoft.VisualStudio.Shell;
 using Twainsoft.StudioStyler.Services.StudioStyles;
@@ -25,6 +26,13 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
         private StudioStylesService StudioStylesService { get; set; }
         private SettingsActivator SettingsActivator { get; set; }
 
+        private static SchemesOverviewModel instance = null;
+
+        public static SchemesOverviewModel Instance
+        {
+            get { return instance ?? (instance = new SchemesOverviewModel()); }
+        }
+
         public int CurrentPage
         {
             get { return PagedSchemesView.CurrentPage; }
@@ -35,7 +43,20 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
             get { return PagedSchemesView.PageCount; }
         }
 
-        public SchemesOverviewModel()
+        public object FirstItemNumber
+        {
+            get { return PagedSchemesView.PageIndex * PagedSchemesView.PageSize + 1; }
+        }
+
+        public object LastItemNumber
+        {
+            get
+            {
+                return Math.Min(PagedSchemesView.PageIndex * PagedSchemesView.PageSize + PagedSchemesView.PageSize, PagedSchemesView.ItemCount);
+            }
+        }
+
+        private SchemesOverviewModel()
         {
             SchemeCache = new SchemeCache();
             PagedSchemesView = new PagedCollectionView(SchemeCache.Schemes) { PageSize = 25};
@@ -129,6 +150,39 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
             PagedSchemesView.MoveToNextPage();
 
             OnPropertyChanged("CurrentPage");
+            OnPropertyChanged("OverallPages");
+            OnPropertyChanged("FirstItemNumber");
+            OnPropertyChanged("LastItemNumber");
+        }
+
+        public void FirstPage()
+        {
+            PagedSchemesView.MoveToFirstPage();
+
+            OnPropertyChanged("CurrentPage");
+            OnPropertyChanged("OverallPages");
+            OnPropertyChanged("FirstItemNumber");
+            OnPropertyChanged("LastItemNumber");
+        }
+
+        public void PreviousPage()
+        {
+            PagedSchemesView.MoveToPreviousPage();
+
+            OnPropertyChanged("CurrentPage");
+            OnPropertyChanged("OverallPages");
+            OnPropertyChanged("FirstItemNumber");
+            OnPropertyChanged("LastItemNumber");
+        }
+
+        public void LastPage()
+        {
+            PagedSchemesView.MoveToLastPage();
+
+            OnPropertyChanged("CurrentPage");
+            OnPropertyChanged("OverallPages");
+            OnPropertyChanged("FirstItemNumber");
+            OnPropertyChanged("LastItemNumber");
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

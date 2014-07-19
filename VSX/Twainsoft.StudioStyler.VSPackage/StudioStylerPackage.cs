@@ -16,11 +16,11 @@ namespace Twainsoft.StudioStyler.VSPackage
     [Guid(GuidList.guidTwainsoft_StudioStyler_VSPackagePkgString)]
     public sealed class StudioStylerPackage : Package
     {
-        private SchemesOverviewModel SchemesOverviewModel { get; set; }
+        private SchemesOverviewModel Model { get; set; }
 
         public StudioStylerPackage()
         {
-            SchemesOverviewModel = new SchemesOverviewModel();
+            Model = SchemesOverviewModel.Instance;
         }
 
         private void ShowToolWindow(object sender, EventArgs e)
@@ -30,13 +30,6 @@ namespace Twainsoft.StudioStyler.VSPackage
             if ((null == window) || (null == window.Frame))
             {
                 throw new NotSupportedException(Resources.CanNotCreateWindow);
-            }
-
-            var schemesOverViewWindows = window as SchemesOverviewWindow;
-
-            if (schemesOverViewWindows != null)
-            {
-                schemesOverViewWindows.SetModel(SchemesOverviewModel);
             }
 
             var windowFrame = (IVsWindowFrame)window.Frame;
@@ -77,10 +70,19 @@ namespace Twainsoft.StudioStyler.VSPackage
                 mcs.AddCommand(activateSchemeCommand);
 
                 // The history scheme command.
+                var historyCommandId = new CommandID(GuidList.GuidSchemesToolbarCmdSet, CommandIds.SchemesHistory);
+                var historyPageCommand = new OleMenuCommand(OnSchemesHistory, historyCommandId);
+                mcs.AddCommand(historyPageCommand);
 
                 // The first page command.
+                var firstPageCommandId = new CommandID(GuidList.GuidSchemesToolbarCmdSet, CommandIds.FirstPageNavigation);
+                var firstPageCommand = new OleMenuCommand(OnFirstPage, firstPageCommandId);
+                mcs.AddCommand(firstPageCommand);
 
                 // The previous page command.
+                var previousPageCommandId = new CommandID(GuidList.GuidSchemesToolbarCmdSet, CommandIds.PreviousPageNavigation);
+                var previousPageCommand = new OleMenuCommand(OnPreviousPage, previousPageCommandId);
+                mcs.AddCommand(previousPageCommand);
 
                 // The next page command.
                 var nextPageCommandId = new CommandID(GuidList.GuidSchemesToolbarCmdSet, CommandIds.NextPageNavigation);
@@ -88,9 +90,12 @@ namespace Twainsoft.StudioStyler.VSPackage
                 mcs.AddCommand(nextPageCommand);
 
                 // The last page command.
+                var lastPageCommandId = new CommandID(GuidList.GuidSchemesToolbarCmdSet, CommandIds.LastPageNavigation);
+                var lastPageCommand = new OleMenuCommand(OnLastPage, lastPageCommandId);
+                mcs.AddCommand(lastPageCommand);
             }
 
-            SchemesOverviewModel.CheckCache();
+            Model.CheckCache();
         }
 
         private void OnSearchStringValues(object sender, EventArgs e)
@@ -99,7 +104,7 @@ namespace Twainsoft.StudioStyler.VSPackage
 
             if (eventArgs != null)
             {
-                SchemesOverviewModel.SearchTerm(eventArgs);
+                Model.SearchTerm(eventArgs);
             }
         }
 
@@ -109,18 +114,18 @@ namespace Twainsoft.StudioStyler.VSPackage
 
             if (eventArgs != null)
             {
-                SchemesOverviewModel.Search(eventArgs);
+                Model.Search(eventArgs);
             }
         }
 
         private void OnRefreshSchemesCache(object sender, EventArgs e)
         {
-            SchemesOverviewModel.RefreshCache();
+            Model.RefreshCache();
         }
 
         private void OnActivateScheme(object sender, EventArgs e)
         {
-            SchemesOverviewModel.ActivateScheme();
+            Model.ActivateScheme();
         }
 
         //private void OnBeforeQueryStatusActivateScheme(object sender, EventArgs e)
@@ -133,9 +138,29 @@ namespace Twainsoft.StudioStyler.VSPackage
         //    }
         //}
 
+        private void OnSchemesHistory(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void OnFirstPage(object sender, EventArgs e)
+        {
+            Model.FirstPage();
+        }
+
+        private void OnPreviousPage(object sender, EventArgs e)
+        {
+            Model.PreviousPage();
+        }
+
         private void OnNextPage(object sender, EventArgs e)
         {
-            SchemesOverviewModel.NextPage();
+            Model.NextPage();
+        }
+
+        private void OnLastPage(object sender, EventArgs e)
+        {
+            Model.LastPage();
         }
     }
 }
