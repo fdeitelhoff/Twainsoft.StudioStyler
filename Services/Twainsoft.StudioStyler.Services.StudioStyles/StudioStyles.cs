@@ -1,19 +1,17 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
 using Newtonsoft.Json;
 using RestSharp;
 using Twainsoft.StudioStyler.Services.StudioStyles.Model;
 
 namespace Twainsoft.StudioStyler.Services.StudioStyles
 {
-    public class StudioStylesService
+    public class StudioStyles
     {
         private string BaseUrl { get; set; }
 
-        public StudioStylesService()
+        public StudioStyles()
         {
             BaseUrl = "http://studiostyl.es/";
         }

@@ -15,7 +15,6 @@
  */
 
 using System;
-using System.ComponentModel;
 
 namespace Twainsoft.StudioStyler.Services.StudioStyles.Annotations
 {

@@ -8,6 +8,7 @@
              Background="{DynamicResource VsBrush.Window}"
              Foreground="{DynamicResource VsBrush.WindowText}"
              mc:Ignorable="d" 
+             BorderBrush="{DynamicResource {x:Static shell:VsBrushes.ToolWindowBorderKey}}"
              d:DesignHeight="413" d:DesignWidth="331" d:DataContext="{d:DesignInstance model:SchemesOverviewModel}">
     <UserControl.Resources>
         <Style x:Key="CollapsibleTextBlock" TargetType="TextBlock">
@@ -38,32 +39,6 @@
         </Style>
     </UserControl.Resources>
     <DockPanel>
-        <!--<ToolBarTray VerticalAlignment="Top" DockPanel.Dock="Top" IsLocked="True" Name="MainMenu"
-                     x:FieldModifier="private" Background="{DynamicResource VsBrush.Window}">
-            <ToolBar Band="1" BandIndex="1" Background="{DynamicResource VsBrush.Window}">
-                <TextBox Name="SearchString" Width="120" x:FieldModifier="private" Background="{DynamicResource VsBrush.Window}" Foreground="{DynamicResource VsBrush.WindowText}" />
-                <Button Name="Search" Content="Search" /> --><!--Click="Search_Click"/>--><!--
-                <Button Name="ResetSearch" Content="R" /> --><!--Click="ResetSearch_Click"/>--><!--
-                <Button Name="RefreshSchemes" Content="Ref" /> --><!--Click="RefreshSchemes_Click"/>--><!--
-                <Button Name="FirstPage" Content="FP" Click="FirstPage_Click"/>
-                <Button Name="PreviousPage" Content="PP" Click="PreviousPage_Click"/>
-                <Label>
-                    <Label.Content>
-                        <TextBlock>
-                            <TextBlock.Text>
-                                <MultiBinding StringFormat="Page {0} of {1}">
-                                    <Binding Path="CurrentPage"/>
-                                    <Binding Path="PageCount"/>
-                                </MultiBinding>
-                            </TextBlock.Text>
-                        </TextBlock>
-                    </Label.Content>
-                </Label>
-                <Button Name="NextPage" Content="NP" Click="NextPage_Click"/>
-                <Button Name="LastPage" Content="LP" Click="LastPage_Click"/>
-                <Button Name="DownloadScheme" Content="DL" Click="DownloadScheme_Click"/>
-            </ToolBar>
-        </ToolBarTray>-->
         <TextBlock Background="{DynamicResource VsBrush.Window}" Name="CacheStatus" Style="{StaticResource CollapsibleTextBlock}" x:FieldModifier="private" DockPanel.Dock="Top">
             Your Studio Styles cache is out of date.
             <Hyperlink NavigateUri="SchemesOverview.xaml.cs" RequestNavigate="UpdateCache">Refresh</Hyperlink>
@@ -87,25 +62,14 @@
         <DataGrid DockPanel.Dock="Bottom" ItemsSource="{Binding PagedSchemesView}" AutoGenerateColumns="False" 
                   HeadersVisibility="Column" SelectionMode="Single" CanUserDeleteRows="False" CanUserAddRows="False"
                   CanUserResizeRows="False" CanUserSortColumns="True" MouseDoubleClick="Schemes_OnMouseDoubleClick"
-                  Background="{DynamicResource VsBrush.Window}" 
-                  Foreground="{DynamicResource VsBrushes.ToolWindowTextKey}"
+                  Background="{DynamicResource {x:Static shell:VsBrushes.ToolWindowBackgroundKey}}" 
+                  Foreground="{DynamicResource {x:Static shell:VsBrushes.ButtonTextKey}}"
                   IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Title" Width="*" Binding="{Binding Title}"/>
                 <DataGridTextColumn Header="Author" Width="*" Binding="{Binding Author}"/>
                 <DataGridTextColumn Header="Popularity" Width="*" Binding="{Binding Popularity}"/>
             </DataGrid.Columns>
-            <!--<DataGrid.RowDetailsTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal" Margin="5">
-                        <Image Margin="0, 0, 2, 0" Source="{Binding Preview}"/>
-                        <TextBlock Margin="0, 0, 2, 0" Text="Rating:"/>
-                        <TextBlock Margin="0, 0, 2, 0" Text="{Binding Rating}"/>
-                        <TextBlock Margin="0, 0, 2, 0" Text="Submitted:"/>
-                        <TextBlock Margin="0, 0, 2, 0" Text="{Binding Submitted}"/>
-                    </StackPanel>
-                </DataTemplate>
-            </DataGrid.RowDetailsTemplate>-->
         </DataGrid>
     </DockPanel>
 </UserControl>

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
@@ -20,7 +19,7 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
 
         private readonly string schemesCacheFile;
 
-        private StudioStylesService StudioStylesService { get; set; }
+        private StudioStyles StudioStyles { get; set; }
 
         public ObservableCollection<Scheme> Schemes { get; private set; }
         
@@ -65,7 +64,7 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
 
             Schemes = new ObservableCollection<Scheme>();
 
-            StudioStylesService = new StudioStylesService();
+            StudioStyles = new StudioStyles();
 
             SchemesDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                 Path.Combine("Twainsoft", "StudioStyler"));
@@ -82,7 +81,7 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
         {
             IsCacheRefreshing = true;
 
-            var schemes = await StudioStylesService.AllAsync();
+            var schemes = await StudioStyles.AllAsync();
 
             //foreach (var scheme in Schemes)
             //{
@@ -172,7 +171,6 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
                     {
                         Schemes.Add(scheme);
                     }
-                    //Schemes = schemes.AllSchemes;
                 }
             }
         }

@@ -65,7 +65,7 @@
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\SettingsActivator.cs" />
-    <Compile Include="StudioStylesService.cs" />
+    <Compile Include="StudioStyles.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

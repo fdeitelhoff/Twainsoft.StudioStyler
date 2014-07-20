@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Windows.Controls;
 using System.Windows.Data;
 using Microsoft.VisualStudio.Shell;
 using Twainsoft.StudioStyler.Services.StudioStyles;
@@ -23,10 +22,10 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
         private string CurrentSearchString { get; set; }
         private List<string> SearchValues { get; set; }
 
-        private StudioStylesService StudioStylesService { get; set; }
+        private StudioStyles StudioStyles { get; set; }
         private SettingsActivator SettingsActivator { get; set; }
 
-        private static SchemesOverviewModel instance = null;
+        private static SchemesOverviewModel instance;
 
         public static SchemesOverviewModel Instance
         {
@@ -64,7 +63,7 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
             CurrentSearchString = "";
             SearchValues = new List<string>();
 
-            StudioStylesService = new StudioStylesService();
+            StudioStyles = new StudioStyles();
             SettingsActivator = new SettingsActivator();
         }
 
@@ -139,7 +138,7 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
 
             if (scheme != null)
             {
-                var file = await StudioStylesService.DownloadAsync(scheme.DownloadPath);
+                var file = await StudioStyles.DownloadAsync(scheme.DownloadPath);
 
                 SettingsActivator.LoadScheme(file);
             }

@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.Design;
 using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.Shell;
-using Twainsoft.StudioStyler.VSPackage.Model;
 using Twainsoft.StudioStyler.VSPackage.VSX;
 
 namespace Twainsoft.StudioStyler.VSPackage.GUI
