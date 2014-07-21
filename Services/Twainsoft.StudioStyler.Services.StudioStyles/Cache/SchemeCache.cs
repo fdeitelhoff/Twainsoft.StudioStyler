@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 using System.Xml;
 using System.Xml.Serialization;
 using Twainsoft.StudioStyler.Services.StudioStyles.Annotations;
@@ -13,7 +14,6 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
 {
     public sealed class SchemeCache : INotifyPropertyChanged
     {
-        //private static SchemeCache instance;
         private bool isCacheValid;
         private bool isCacheRefreshing;
 
@@ -26,14 +26,6 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
         private string SchemesDataPath { get; set; }
 
         //public Action SchemesLoaded;
-
-        //public static SchemeCache Instance
-        //{
-        //    get
-        //    {
-        //        return instance ?? (instance = new SchemeCache());
-        //    }
-        //}
 
         public bool IsCacheValid
         {
@@ -85,12 +77,19 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
 
             //foreach (var scheme in Schemes)
             //{
-            //    var png = await StudioStylesService.Preview(scheme.Title);
+            //    var png = await StudioStyles.Preview(scheme.Title);
 
-            //    var decoder = new PngBitmapDecoder(new MemoryStream(png), BitmapCreateOptions.PreservePixelFormat,
-            //                                       BitmapCacheOption.OnLoad);
-            //    scheme.Preview = decoder.Frames[0];
-            //        //CreateBitmapSourceFromBitmap(new Bitmap(Bitmap.FromStream(new MemoryStream(png))));
+            //    //var decoder = new PngBitmapDecoder(new MemoryStream(png), BitmapCreateOptions.PreservePixelFormat,
+            //    //                                   BitmapCacheOption.OnLoad);
+            //    //scheme.Preview = decoder.Frames[0];
+            //    //CreateBitmapSourceFromBitmap(new Bitmap(Bitmap.FromStream(new MemoryStream(png))));
+
+            //    var image = new BitmapImage();
+            //    image.BeginInit();
+            //    image.StreamSource = new MemoryStream(png);
+            //    image.EndInit();
+
+            //    scheme.Preview = image;
             //}
 
             SeserializeCachedSchemes();
