@@ -22,11 +22,6 @@ namespace Twainsoft.StudioStyler.VSPackage.GUI
             Model.RefreshCache();
         }
 
-        private void Schemes_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            Model.ActivateScheme();
-        }
-
         private void ViewScheme_OnRequestNavigate(object sender, RequestNavigateEventArgs e)
         {
             Process.Start("http://studiostyl.es" + e.Uri);

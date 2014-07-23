@@ -48,24 +48,57 @@
         <Style TargetType="{x:Type DataGrid}">
             <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.ToolWindowBackgroundKey}}" />
             <Setter Property="BorderBrush" Value="{DynamicResource {x:Static shell:VsBrushes.ToolWindowBorderKey}}"/>
+            <Setter Property="MinRowHeight" Value="20"/>
+            <Setter Property="BorderThickness" Value="0"/>
         </Style>
-        <Style TargetType="{x:Type DataGridCell}">
+        <Style TargetType="{x:Type DataGridRow}">
             <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.ToolWindowBackgroundKey}}" />
             <Setter Property="Foreground" Value="{DynamicResource {x:Static shell:VsBrushes.ButtonTextKey}}"/>
-            <Setter Property="BorderBrush" Value="Transparent" />
             <Setter Property="BorderThickness" Value="0" />
             <Style.Triggers>
                 <Trigger Property="IsSelected" Value="True">
                     <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.HighlightKey}}" />
+                    <Setter Property="BorderThickness" Value="0" />
                 </Trigger>
-                <Trigger Property="IsSelected" Value="False">
-                    <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.InactiveBorderKey}}" />
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsFocused" Value="False"/>
+                        <Condition Property="IsSelected" Value="True"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.InactiveBorderKey}}"/>
+                </MultiTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="{x:Type DataGridCell}">
+            <Setter Property="Padding" Value="10,5,5,5" />
+            <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.ToolWindowBackgroundKey}}" />
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static shell:VsBrushes.ButtonTextKey}}"/>
+            <Setter Property="BorderThickness" Value="0" />
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.HighlightKey}}" />
+                    <Setter Property="BorderThickness" Value="0" />
                 </Trigger>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsFocused" Value="False"/>
+                        <Condition Property="IsSelected" Value="True"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.InactiveBorderKey}}"/>
+                </MultiTrigger>
             </Style.Triggers>
         </Style>
         <Style TargetType="{x:Type DataGridColumnHeader}">
-            <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.SortBackgroundKey}}" />
+            <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.SortBackgroundKey}}"/>
             <Setter Property="Foreground" Value="{DynamicResource {x:Static shell:VsBrushes.WindowTextKey}}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static shell:VsBrushes.ToolWindowBorderKey}}"/>
+            <Setter Property="BorderThickness" Value="0,1,1,1"/>
+            <Setter Property="MinHeight" Value="25"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.ToolWindowBorderKey}}" />
+                </Trigger>
+            </Style.Triggers>
         </Style>
     </UserControl.Resources>
     <DockPanel>
@@ -88,8 +121,7 @@
         </TextBlock>
         <DataGrid DockPanel.Dock="Bottom" ItemsSource="{Binding PagedSchemesView}" AutoGenerateColumns="False" 
                   HeadersVisibility="Column" SelectionMode="Single" CanUserDeleteRows="False" CanUserAddRows="False"
-                  CanUserResizeRows="False" CanUserSortColumns="True" MouseDoubleClick="Schemes_OnMouseDoubleClick"
-                  IsReadOnly="True">
+                  CanUserResizeRows="False" CanUserSortColumns="True" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="View">
                     <DataGridTemplateColumn.CellTemplate>
