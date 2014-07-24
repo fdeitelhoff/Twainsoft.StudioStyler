@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using Twainsoft.StudioStyler.Services.StudioStyles;
 
 namespace Twainsoft.StudioStyler.Tests.StudioStyles
 {

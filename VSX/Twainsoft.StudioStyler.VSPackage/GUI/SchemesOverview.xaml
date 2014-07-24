@@ -28,6 +28,7 @@
         <Style x:Key="InfoTextBlock" TargetType="TextBlock">
             <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.ToolWindowBackgroundKey}}" />
             <Setter Property="Foreground" Value="{DynamicResource {x:Static shell:VsBrushes.ButtonTextKey}}"/>
+            <Setter Property="Padding" Value="3"/>
         </Style>
         <Style TargetType="{x:Type ProgressBar}">
             <Style.Triggers>
@@ -91,13 +92,59 @@
         <Style TargetType="{x:Type DataGridColumnHeader}">
             <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.SortBackgroundKey}}"/>
             <Setter Property="Foreground" Value="{DynamicResource {x:Static shell:VsBrushes.WindowTextKey}}"/>
-            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static shell:VsBrushes.ToolWindowBorderKey}}"/>
-            <Setter Property="BorderThickness" Value="0,1,1,1"/>
             <Setter Property="MinHeight" Value="25"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
+                        <Grid Name="HedearGrid">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Border x:Name="BackgroundBorder" BorderThickness="0,1,1,1" BorderBrush="{DynamicResource {x:Static shell:VsBrushes.ToolWindowBorderKey}}" Grid.ColumnSpan="2" />
+                            <ContentPresenter Margin="6,3,6,3" VerticalAlignment="Center" Grid.Column="0" />
+                            <Path x:Name="SortArrow" Visibility="Collapsed" Data="M0,0 L1,0 0.5,1 z" Stretch="Fill" 
+                            Grid.Column="1" Width="8" Height="6" Fill="{DynamicResource {x:Static shell:VsBrushes.ButtonTextKey}}" Margin="0,0,8,0" 
+                            VerticalAlignment="Center" RenderTransformOrigin="0.5,0.4" />
+                            <Thumb x:Name="PART_RightHeaderGripper" HorizontalAlignment="Right" Cursor="SizeWE" Grid.Column="1" >
+                                <Thumb.Style>
+                                    <Style TargetType="{x:Type Thumb}">
+                                        <Setter Property="Width" Value="2" />
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type Thumb}">
+                                                    <Border Background="Transparent"/>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Thumb.Style>
+                            </Thumb>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="SortDirection" Value="Ascending">
+                                <Setter TargetName="SortArrow" Property="Visibility" Value="Visible" />
+                                <Setter TargetName="SortArrow" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <RotateTransform Angle="180" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="SortDirection" Value="Descending">
+                                <Setter TargetName="SortArrow" Property="Visibility" Value="Visible" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.ToolWindowBorderKey}}" />
                 </Trigger>
+                <!--<Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.HighlightKey}}" />
+                </Trigger>-->
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
@@ -121,9 +168,9 @@
         </TextBlock>
         <DataGrid DockPanel.Dock="Bottom" ItemsSource="{Binding PagedSchemesView}" AutoGenerateColumns="False" 
                   HeadersVisibility="Column" SelectionMode="Single" CanUserDeleteRows="False" CanUserAddRows="False"
-                  CanUserResizeRows="False" CanUserSortColumns="True" IsReadOnly="True">
+                  CanUserResizeRows="False" CanUserSortColumns="True" IsReadOnly="True" CanUserReorderColumns="False">
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="View">
+                <DataGridTemplateColumn Header="View" SortMemberPath="View">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock>
@@ -132,13 +179,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Title" Width="*">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Title}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Title" Width="*" Binding="{Binding Title}"/>
                 <DataGridTextColumn Header="Author" Width="*" Binding="{Binding Author}"/>
                 <DataGridTextColumn Header="Rated" Binding="{Binding Rating}"/>
             </DataGrid.Columns>

@@ -1,5 +1,4 @@
-﻿using System.Windows.Input;
-using System.Windows.Navigation;
+﻿using System.Windows.Navigation;
 using Twainsoft.StudioStyler.VSPackage.Model;
 using Process = System.Diagnostics.Process;
 

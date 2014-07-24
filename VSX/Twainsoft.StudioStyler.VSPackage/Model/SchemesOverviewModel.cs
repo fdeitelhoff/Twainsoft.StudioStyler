@@ -59,9 +59,7 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
         {
             SchemeCache = new SchemeCache();
             PagedSchemesView = new PagedCollectionView(SchemeCache.Schemes) { PageSize = 40};
-            //PagedSchemesView.SortDescriptions.Add(new SortDescription("Rated", ListSortDirection.Ascending));
-            //PagedSchemesView.Refresh();
-
+            
             CurrentSearchString = "";
             SearchValues = new List<string>();
 

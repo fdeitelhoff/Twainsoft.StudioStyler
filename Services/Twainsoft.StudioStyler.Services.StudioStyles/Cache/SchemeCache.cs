@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
 using System.Xml;
 using System.Xml.Serialization;
 using Twainsoft.StudioStyler.Services.StudioStyles.Annotations;
