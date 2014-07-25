@@ -70,6 +70,8 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
         public async void RefreshCache()
         {
             await SchemeCache.Refresh();
+
+            UpdateInfoBar();
         }
 
         public void CheckCache()
@@ -115,6 +117,8 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
                     PagedSchemesView.Filter = null;
                 }
             }
+
+            UpdateInfoBar();
         }
 
         public void SearchTerm(OleMenuCmdEventArgs eventArgs)
@@ -148,36 +152,32 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
         {
             PagedSchemesView.MoveToNextPage();
 
-            OnPropertyChanged("CurrentPage");
-            OnPropertyChanged("OverallPages");
-            OnPropertyChanged("FirstItemNumber");
-            OnPropertyChanged("LastItemNumber");
+            UpdateInfoBar();
         }
 
         public void FirstPage()
         {
             PagedSchemesView.MoveToFirstPage();
 
-            OnPropertyChanged("CurrentPage");
-            OnPropertyChanged("OverallPages");
-            OnPropertyChanged("FirstItemNumber");
-            OnPropertyChanged("LastItemNumber");
+            UpdateInfoBar();
         }
 
         public void PreviousPage()
         {
             PagedSchemesView.MoveToPreviousPage();
 
-            OnPropertyChanged("CurrentPage");
-            OnPropertyChanged("OverallPages");
-            OnPropertyChanged("FirstItemNumber");
-            OnPropertyChanged("LastItemNumber");
+            UpdateInfoBar();
         }
 
         public void LastPage()
         {
             PagedSchemesView.MoveToLastPage();
 
+            UpdateInfoBar();
+        }
+
+        private void UpdateInfoBar()
+        {
             OnPropertyChanged("CurrentPage");
             OnPropertyChanged("OverallPages");
             OnPropertyChanged("FirstItemNumber");

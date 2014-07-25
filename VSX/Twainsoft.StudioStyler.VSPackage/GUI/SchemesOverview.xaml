@@ -49,44 +49,26 @@
         <Style TargetType="{x:Type DataGrid}">
             <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.ToolWindowBackgroundKey}}" />
             <Setter Property="BorderBrush" Value="{DynamicResource {x:Static shell:VsBrushes.ToolWindowBorderKey}}"/>
-            <Setter Property="MinRowHeight" Value="20"/>
+            <Setter Property="RowHeight" Value="25"/>
             <Setter Property="BorderThickness" Value="0"/>
         </Style>
-        <Style TargetType="{x:Type DataGridRow}">
-            <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.ToolWindowBackgroundKey}}" />
-            <Setter Property="Foreground" Value="{DynamicResource {x:Static shell:VsBrushes.ButtonTextKey}}"/>
-            <Setter Property="BorderThickness" Value="0" />
-            <Style.Triggers>
-                <Trigger Property="IsSelected" Value="True">
-                    <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.HighlightKey}}" />
-                    <Setter Property="BorderThickness" Value="0" />
-                </Trigger>
-                <MultiTrigger>
-                    <MultiTrigger.Conditions>
-                        <Condition Property="IsFocused" Value="False"/>
-                        <Condition Property="IsSelected" Value="True"/>
-                    </MultiTrigger.Conditions>
-                    <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.InactiveBorderKey}}"/>
-                </MultiTrigger>
-            </Style.Triggers>
-        </Style>
         <Style TargetType="{x:Type DataGridCell}">
-            <Setter Property="Padding" Value="10,5,5,5" />
             <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.ToolWindowBackgroundKey}}" />
             <Setter Property="Foreground" Value="{DynamicResource {x:Static shell:VsBrushes.ButtonTextKey}}"/>
             <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridCell}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
             <Style.Triggers>
                 <Trigger Property="IsSelected" Value="True">
                     <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.HighlightKey}}" />
-                    <Setter Property="BorderThickness" Value="0" />
                 </Trigger>
-                <MultiTrigger>
-                    <MultiTrigger.Conditions>
-                        <Condition Property="IsFocused" Value="False"/>
-                        <Condition Property="IsSelected" Value="True"/>
-                    </MultiTrigger.Conditions>
-                    <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.InactiveBorderKey}}"/>
-                </MultiTrigger>
             </Style.Triggers>
         </Style>
         <Style TargetType="{x:Type DataGridColumnHeader}">
@@ -142,9 +124,9 @@
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.ToolWindowBorderKey}}" />
                 </Trigger>
-                <!--<Trigger Property="IsPressed" Value="True">
+                <Trigger Property="IsPressed" Value="True">
                     <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.HighlightKey}}" />
-                </Trigger>-->
+                </Trigger>
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
@@ -167,13 +149,13 @@
             </TextBlock.Text>
         </TextBlock>
         <DataGrid DockPanel.Dock="Bottom" ItemsSource="{Binding PagedSchemesView}" AutoGenerateColumns="False" 
-                  HeadersVisibility="Column" SelectionMode="Single" CanUserDeleteRows="False" CanUserAddRows="False"
+                  HeadersVisibility="Column" SelectionMode="Single" SelectionUnit="FullRow" CanUserDeleteRows="False" CanUserAddRows="False"
                   CanUserResizeRows="False" CanUserSortColumns="True" IsReadOnly="True" CanUserReorderColumns="False">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="View" SortMemberPath="View">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock>
+                            <TextBlock HorizontalAlignment="Center">
                                 <Hyperlink NavigateUri="{Binding Path}" RequestNavigate="ViewScheme_OnRequestNavigate">View</Hyperlink>
                             </TextBlock>
                         </DataTemplate>
@@ -181,7 +163,13 @@
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Title" Width="*" Binding="{Binding Title}"/>
                 <DataGridTextColumn Header="Author" Width="*" Binding="{Binding Author}"/>
-                <DataGridTextColumn Header="Rated" Binding="{Binding Rating}"/>
+                <DataGridTextColumn Header="Rated" Binding="{Binding Rating}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="HorizontalAlignment" Value="Right" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
     </DockPanel>
