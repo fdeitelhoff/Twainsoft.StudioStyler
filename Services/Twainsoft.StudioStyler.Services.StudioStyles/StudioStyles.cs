@@ -28,16 +28,16 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles
             return await taskCompletionSource.Task;
         }
 
-        //public async Task<byte[]> Preview(string title)
-        //{
-        //    var client = new RestClient(BaseUrl);
-        //    var request = new RestRequest(string.Format("schemes/{0}/snippet.png", title.Replace(' ', '-')), Method.GET);
+        public async Task<byte[]> Preview(string title)
+        {
+            var client = new RestClient(BaseUrl);
+            var request = new RestRequest(string.Format("schemes/{0}/snippet.png", title.Replace(' ', '-')), Method.GET);
 
-        //    var taskCompletionSource = new TaskCompletionSource<byte[]>();
-        //    client.ExecuteAsync(request, response => taskCompletionSource.SetResult(response.RawBytes));
+            var taskCompletionSource = new TaskCompletionSource<byte[]>();
+            client.ExecuteAsync(request, response => taskCompletionSource.SetResult(response.RawBytes));
 
-        //    return await taskCompletionSource.Task;
-        //}
+            return await taskCompletionSource.Task;
+        }
 
         public async Task<string> DownloadAsync(string path)
         {

@@ -1,0 +1,130 @@
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="1079" measuredH="507" mockupW="1037" mockupH="471">
+  <controls>
+    <control controlID="36" controlTypeID="com.balsamiq.mockups::TitleWindow" x="42" y="36" w="563" h="471" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bottomheight>21</bottomheight>
+        <dragger>false</dragger>
+        <text>Available%20Studio%20Styles</text>
+      </controlProperties>
+    </control>
+    <control controlID="39" controlTypeID="com.balsamiq.mockups::Label" x="45" y="61" w="47" h="-1" measuredW="44" measuredH="21" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Search%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="40" controlTypeID="com.balsamiq.mockups::ComboBox" x="92" y="59" w="172" h="-1" measuredW="82" measuredH="24" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Obsidian</text>
+      </controlProperties>
+    </control>
+    <control controlID="41" controlTypeID="com.balsamiq.mockups::Button" x="264" y="58" w="-1" h="-1" measuredW="69" measuredH="27" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Refresh</text>
+      </controlProperties>
+    </control>
+    <control controlID="42" controlTypeID="com.balsamiq.mockups::Button" x="331" y="58" w="-1" h="-1" measuredW="70" measuredH="27" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Activate</text>
+      </controlProperties>
+    </control>
+    <control controlID="43" controlTypeID="com.balsamiq.mockups::Button" x="462" y="58" w="-1" h="-1" measuredW="39" measuredH="27" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%3C%3C</text>
+      </controlProperties>
+    </control>
+    <control controlID="45" controlTypeID="com.balsamiq.mockups::Button" x="501" y="58" w="-1" h="-1" measuredW="31" measuredH="27" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%3C</text>
+      </controlProperties>
+    </control>
+    <control controlID="46" controlTypeID="com.balsamiq.mockups::Button" x="532" y="58" w="-1" h="-1" measuredW="32" measuredH="27" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%3E</text>
+      </controlProperties>
+    </control>
+    <control controlID="47" controlTypeID="com.balsamiq.mockups::Button" x="564" y="58" w="-1" h="-1" measuredW="41" measuredH="27" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%3E%3E</text>
+      </controlProperties>
+    </control>
+    <control controlID="48" controlTypeID="com.balsamiq.mockups::Button" x="399" y="58" w="-1" h="-1" measuredW="64" measuredH="27" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>History</text>
+      </controlProperties>
+    </control>
+    <control controlID="50" controlTypeID="com.balsamiq.mockups::DataGrid" x="44" y="85" w="561" h="400" measuredW="361" measuredH="51" zOrder="10" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>View%2C%20Title%2C%20Author%2C%20Popularty%20v%2C%20Downloads%0ALink%2C%20Son%20of%20Obsidian%2C%20einaros%2C%20277.83%2C%20100</text>
+      </controlProperties>
+    </control>
+    <control controlID="51" controlTypeID="com.balsamiq.mockups::Label" x="46" y="485" w="-1" h="-1" measuredW="224" measuredH="21" zOrder="11" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Page%20%7B0%7D/%7B1%7D%20-%20Showing%20Item%20%7B2%7D%20-%20%7B3%7D</text>
+      </controlProperties>
+    </control>
+    <control controlID="64" controlTypeID="com.balsamiq.mockups::Canvas" x="630" y="87" w="449" h="136" measuredW="100" measuredH="70" zOrder="12" locked="false" isInGroup="-1"/>
+    <control controlID="65" controlTypeID="com.balsamiq.mockups::Image" x="645" y="97" w="116" h="111" measuredW="77" measuredH="79" zOrder="13" locked="false" isInGroup="-1"/>
+    <control controlID="66" controlTypeID="com.balsamiq.mockups::Label" x="776" y="97" w="294" h="-1" measuredW="38" measuredH="21" zOrder="14" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%7BTitle%7D</text>
+      </controlProperties>
+    </control>
+    <control controlID="67" controlTypeID="com.balsamiq.mockups::Label" x="776" y="123" w="294" h="-1" measuredW="68" measuredH="21" zOrder="15" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>by%20%7BAuthor%7D</text>
+      </controlProperties>
+    </control>
+    <control controlID="68" controlTypeID="com.balsamiq.mockups::Label" x="776" y="149" w="143" h="-1" measuredW="133" measuredH="21" zOrder="16" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Popularity%20%7BPopularity%7D</text>
+      </controlProperties>
+    </control>
+    <control controlID="69" controlTypeID="com.balsamiq.mockups::Label" x="919" y="149" w="151" h="-1" measuredW="144" measuredH="21" zOrder="17" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Downloads%20%7BDownloads%7D</text>
+      </controlProperties>
+    </control>
+    <control controlID="70" controlTypeID="com.balsamiq.mockups::Link" x="776" y="185" w="-1" h="-1" measuredW="48" measuredH="19" zOrder="18" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Activate</text>
+      </controlProperties>
+    </control>
+    <control controlID="71" controlTypeID="com.balsamiq.mockups::Link" x="839" y="185" w="-1" h="-1" measuredW="26" measuredH="19" zOrder="19" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Visit</text>
+      </controlProperties>
+    </control>
+    <control controlID="72" controlTypeID="com.balsamiq.mockups::Canvas" x="630" y="245" w="449" h="136" measuredW="100" measuredH="70" zOrder="20" locked="false" isInGroup="-1"/>
+    <control controlID="73" controlTypeID="com.balsamiq.mockups::Image" x="645" y="255" w="116" h="111" measuredW="77" measuredH="79" zOrder="21" locked="false" isInGroup="-1"/>
+    <control controlID="74" controlTypeID="com.balsamiq.mockups::Label" x="776" y="255" w="294" h="-1" measuredW="95" measuredH="21" zOrder="22" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Son%20of%20Obsidian</text>
+      </controlProperties>
+    </control>
+    <control controlID="75" controlTypeID="com.balsamiq.mockups::Label" x="776" y="281" w="294" h="-1" measuredW="61" measuredH="21" zOrder="23" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>by%20einaros</text>
+      </controlProperties>
+    </control>
+    <control controlID="76" controlTypeID="com.balsamiq.mockups::Label" x="776" y="307" w="143" h="-1" measuredW="104" measuredH="21" zOrder="24" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Popularity%20277.83</text>
+      </controlProperties>
+    </control>
+    <control controlID="77" controlTypeID="com.balsamiq.mockups::Label" x="919" y="307" w="151" h="-1" measuredW="89" measuredH="21" zOrder="25" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Downloads%20100</text>
+      </controlProperties>
+    </control>
+    <control controlID="78" controlTypeID="com.balsamiq.mockups::Link" x="776" y="343" w="-1" h="-1" measuredW="48" measuredH="19" zOrder="26" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Activate</text>
+      </controlProperties>
+    </control>
+    <control controlID="79" controlTypeID="com.balsamiq.mockups::Link" x="839" y="343" w="-1" h="-1" measuredW="26" measuredH="19" zOrder="27" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Visit</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>

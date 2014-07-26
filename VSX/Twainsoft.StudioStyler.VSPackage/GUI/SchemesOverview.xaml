@@ -161,6 +161,13 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Preview">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding Preview}"></Image>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Title" Width="*" Binding="{Binding Title}"/>
                 <DataGridTextColumn Header="Author" Width="*" Binding="{Binding Author}"/>
                 <DataGridTextColumn Header="Rated" Binding="{Binding Rating}">

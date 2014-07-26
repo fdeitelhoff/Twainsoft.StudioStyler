@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 using System.Xml;
 using System.Xml.Serialization;
 using Twainsoft.StudioStyler.Services.StudioStyles.Annotations;
@@ -74,22 +75,26 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
 
             var schemes = await StudioStyles.AllAsync();
 
-            //foreach (var scheme in Schemes)
-            //{
-            //    var png = await StudioStyles.Preview(scheme.Title);
+            for (var i = 0; i <= 10; i++)
+            {
+                try
+                {
+                    var scheme = schemes[i];
 
-            //    //var decoder = new PngBitmapDecoder(new MemoryStream(png), BitmapCreateOptions.PreservePixelFormat,
-            //    //                                   BitmapCacheOption.OnLoad);
-            //    //scheme.Preview = decoder.Frames[0];
-            //    //CreateBitmapSourceFromBitmap(new Bitmap(Bitmap.FromStream(new MemoryStream(png))));
+                    var png = await StudioStyles.Preview(scheme.Title);
 
-            //    var image = new BitmapImage();
-            //    image.BeginInit();
-            //    image.StreamSource = new MemoryStream(png);
-            //    image.EndInit();
+                    var image = new BitmapImage();
+                    image.BeginInit();
+                    image.StreamSource = new MemoryStream(png);
+                    image.EndInit();
 
-            //    scheme.Preview = image;
-            //}
+                    scheme.Preview = image;
+                }
+                catch
+                {
+                    //Console.WriteLine(exception);
+                }
+            }
 
             SeserializeCachedSchemes();
 
