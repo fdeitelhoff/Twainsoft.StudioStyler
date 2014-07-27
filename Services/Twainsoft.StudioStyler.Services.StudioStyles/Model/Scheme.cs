@@ -1,12 +1,15 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows.Media.Imaging;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
+using Twainsoft.StudioStyler.Services.StudioStyles.Annotations;
 
 namespace Twainsoft.StudioStyler.Services.StudioStyles.Model
 {
     [Serializable]
-    public class Scheme
+    public class Scheme : INotifyPropertyChanged
     {
         [JsonProperty(PropertyName = "title")]
         [XmlElement("Title")]
@@ -40,8 +43,29 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Model
         [JsonProperty(PropertyName = "downloads")]
         public int Downloads { get; set; }
 
+        private BitmapSource preview;
+
         [XmlElement("Preview")]
         [JsonIgnore]
-        public BitmapSource Preview { get; set; }
+        public BitmapSource Preview {
+            get
+            {
+                return preview;
+            }
+            set
+            {
+                preview = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

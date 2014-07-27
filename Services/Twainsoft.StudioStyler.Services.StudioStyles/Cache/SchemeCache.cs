@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Security.AccessControl;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using System.Xml;
@@ -24,6 +25,7 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
         public ObservableCollection<Scheme> Schemes { get; private set; }
         
         private string SchemesDataPath { get; set; }
+        private string SchemesPreviewPath { get; set; }
 
         //public Action SchemesLoaded;
 
@@ -58,6 +60,7 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
 
             StudioStyles = new StudioStyles();
 
+            // Das hier könnte etwas umgestellt werden. Allgemeiner Pfad und SchemeDataPath dann das konkrete Unterverzeichnis.
             SchemesDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                 Path.Combine("Twainsoft", "StudioStyler"));
 
@@ -67,6 +70,13 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
             }
 
             schemesCacheFile = "SchemesCache.xml";
+
+            SchemesPreviewPath = Path.Combine(SchemesDataPath, "Previews");
+
+            if (!Directory.Exists(SchemesPreviewPath))
+            {
+                Directory.CreateDirectory(SchemesPreviewPath);
+            }
         }
 
         public async Task Refresh()
@@ -75,39 +85,88 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
 
             var schemes = await StudioStyles.AllAsync();
 
-            for (var i = 0; i <= 10; i++)
-            {
-                try
-                {
-                    var scheme = schemes[i];
-
-                    var png = await StudioStyles.Preview(scheme.Title);
-
-                    var image = new BitmapImage();
-                    image.BeginInit();
-                    image.StreamSource = new MemoryStream(png);
-                    image.EndInit();
-
-                    scheme.Preview = image;
-                }
-                catch
-                {
-                    //Console.WriteLine(exception);
-                }
-            }
-
-            SeserializeCachedSchemes();
-
             Schemes.Clear();
             foreach (var scheme in schemes)
             {
                 Schemes.Add(scheme);
             }
 
+            SeserializeCachedSchemes();
+
+            foreach (var scheme in schemes)
+            {
+                try
+                {
+                    var file = Path.Combine(SchemesPreviewPath, TransformTitle(scheme.Title) + ".png");
+
+
+
+                    if (!File.Exists(file))
+                    {
+                        //var png = await StudioStyles.Preview(scheme.Title);
+
+                        // Hier noch die DecodePixelWith setzen. Braucht wohl nicht so viel Speicher.
+                        var image = new BitmapImage(); //new Uri("http://studiostyl.es/" + string.Format("schemes/{0}/snippet.png", scheme.Title.Replace(' ', '-'))));
+                        image.DownloadCompleted += delegate (object sender, EventArgs args) { scheme.Preview = image; };
+                        image.CacheOption= BitmapCacheOption.OnLoad;
+                        image.BeginInit();
+                        image.UriSource =
+                            new Uri("http://studiostyl.es/" +
+                                    string.Format("schemes/{0}/snippet.png", scheme.Title.Replace(' ', '-')));
+                        //image.StreamSource = new MemoryStream(png);
+                        image.EndInit();
+                        
+
+                        
+
+                        //using (var fileStream = new FileStream(file, FileMode.Create))
+                        //{
+                        //    var encoder = new PngBitmapEncoder();
+                        //    encoder.Frames.Add(BitmapFrame.Create(image));
+                        //    encoder.Save(fileStream);
+                        //}
+                    }
+                    //else
+                    //{
+                    //    var image = new BitmapImage();
+                    //    image.BeginInit();
+                    //    image.StreamSource = new FileStream(file, FileMode.Open, FileAccess.Read);
+                    //    image.EndInit();
+
+                    //    scheme.Preview = image;
+                    //}
+                }
+                catch (InvalidOperationException e)
+                {
+                    Console.WriteLine(e);
+                }
+                catch (NotSupportedException e)
+                {
+                    Console.WriteLine(e);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+            }
+
             IsCacheValid = true;
             IsCacheRefreshing = false;
             
             //return Schemes;
+        }
+
+        private string TransformTitle(string title)
+        {
+            return title.Replace('<', '-')
+                .Replace('>', '-')
+                .Replace('?', '-')
+                .Replace('"', '-')
+                .Replace(':', '-')
+                .Replace('|', '-')
+                .Replace('\\', '-')
+                .Replace('/', '-')
+                .Replace('*', '-');
         }
 
         public void Check()
