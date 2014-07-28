@@ -16,6 +16,8 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
     {
         private bool isCacheValid;
         private bool isCacheRefreshing;
+        private bool isImageCachRefreshing;
+        private int currentSchemeNumber;
 
         private readonly string schemesCacheFile;
 
@@ -50,10 +52,34 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
             }
         }
 
+        public bool IsImageCacheRefreshing
+        {
+            get { return isImageCachRefreshing; }
+            set
+            {
+                if (value.Equals(isImageCachRefreshing)) return;
+                isImageCachRefreshing = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int CurrentSchemeNumber
+        {
+            get { return currentSchemeNumber; }
+            set
+            {
+                if (value.Equals(currentSchemeNumber)) return;
+                currentSchemeNumber = value;
+                OnPropertyChanged();
+            }
+        }
+
         public SchemeCache()
         {
             IsCacheValid = false;
             IsCacheRefreshing = false;
+            IsImageCacheRefreshing = false;
+            CurrentSchemeNumber = 0;
 
             Schemes = new ObservableCollection<Scheme>();
 
@@ -90,62 +116,46 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
                 Schemes.Add(scheme);
             }
 
-            SeserializeCachedSchemes();
+            SeserializeCachedSchemes(false);
 
-            //for (var i = 0; i <= 50; i++)
+            IsCacheRefreshing = false;
+            IsImageCacheRefreshing = true;
+
             foreach (var scheme in schemes)
             {
                 try
                 {
-                    //var scheme = schemes[i];
-
                     var file = Path.Combine(SchemesPreviewPath, TransformTitle(scheme.Title) + ".png");
 
-
+                    var image = new BitmapImage();
+                    image.BeginInit();
 
                     if (!File.Exists(file))
                     {
-                        //var png = await StudioStyles.Preview(scheme.Title);
+                        var png = await StudioStyles.Preview(scheme.Title);
 
                         // Hier noch die DecodePixelWith setzen. Braucht wohl nicht so viel Speicher.
-                        //var image = new BitmapImage(); //new Uri("http://studiostyl.es/" + string.Format("schemes/{0}/snippet.png", scheme.Title.Replace(' ', '-'))));
-                        //image.DownloadCompleted += delegate (object sender, EventArgs args) { scheme.Preview = image; };
-                        //image.CacheOption= BitmapCacheOption.OnLoad;
-                        //image.BeginInit();
-                        //image.UriSource =
-                        //    new Uri("http://studiostyl.es/" +
-                        //            string.Format("schemes/{0}/snippet.png", scheme.Title.Replace(' ', '-')));
-                        ////image.StreamSource = new MemoryStream(png);
-                        //image.EndInit();
+                        image.StreamSource = new MemoryStream(png);
+                        image.EndInit();
 
+                        scheme.Preview = image;
 
-                            var image = new BitmapImage(new Uri("http://studiostyl.es/" + string.Format("schemes/{0}/snippet.png", scheme.Title.Replace(' ', '-'))))
-                            {
-                                CacheOption = BitmapCacheOption.OnLoad
-                            };
-                        //    image.BeginInit();
-                        //image.StreamSource = new MemoryStream(png);
-                        //    image.StreamSource = new FileStream(file, FileMode.Open, FileAccess.Read);
-                            //image.EndInit();
-
-                            scheme.Preview = image;
-
-                        //using (var fileStream = new FileStream(file, FileMode.Create))
-                        //{
-                        //    var encoder = new PngBitmapEncoder();
-                        //    encoder.Frames.Add(BitmapFrame.Create(image));
-                        //    encoder.Save(fileStream);
-                        //}
+                        using (var fileStream = new FileStream(file, FileMode.Create))
+                        {
+                            var encoder = new PngBitmapEncoder();
+                            encoder.Frames.Add(BitmapFrame.Create(image));
+                            encoder.Save(fileStream);
+                        }
                     }
-                    //else
-                    //{
-                    //    var image = new BitmapImage();
-                    //    image.BeginInit();
-                    //    image.StreamSource = new FileStream(file, FileMode.Open, FileAccess.Read);
-                    //    image.EndInit();
+                    else
+                    {
+                        image.StreamSource = new FileStream(file, FileMode.Open, FileAccess.Read);
+                        image.EndInit();
 
-                    //    scheme.Preview = image;
-                    //}
+                        scheme.Preview = image;
+                    }
+
+                    CurrentSchemeNumber = CurrentSchemeNumber + 1;
                 }
                 catch (InvalidOperationException e)
                 {
@@ -161,10 +171,10 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
                 }
             }
 
+            SeserializeCachedSchemes(true);
+
             IsCacheValid = true;
-            IsCacheRefreshing = false;
-            
-            //return Schemes;
+            IsImageCacheRefreshing = false;
         }
 
         private string TransformTitle(string title)
@@ -195,6 +205,38 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
 
                     DeserializeCachedSchemes();
 
+                    foreach (var scheme in Schemes)
+                    {
+                        try
+                        {
+                            var file = Path.Combine(SchemesPreviewPath, TransformTitle(scheme.Title) + ".png");
+
+                            if (File.Exists(file))
+                            {
+                                var image = new BitmapImage();
+                                image.BeginInit();
+                                image.StreamSource = new FileStream(file, FileMode.Open, FileAccess.Read);
+                                image.EndInit();
+
+                                scheme.Preview = image;
+                            }
+
+                            CurrentSchemeNumber = CurrentSchemeNumber + 1;
+                        }
+                        catch (InvalidOperationException e)
+                        {
+                            Console.WriteLine(e);
+                        }
+                        catch (NotSupportedException e)
+                        {
+                            Console.WriteLine(e);
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                        }
+                    }
+
                     IsCacheRefreshing = false;
 
                     //if (SchemesLoaded != null)
@@ -223,9 +265,9 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
             }
         }
 
-        private void SeserializeCachedSchemes()
+        private void SeserializeCachedSchemes(bool imagesFinished)
         {
-            var schemes = new Schemes {AllSchemes = Schemes};
+            var schemes = new Schemes {AllSchemes = Schemes, ImagesFinished = imagesFinished};
 
             var file = Path.Combine(SchemesDataPath, schemesCacheFile);
 
@@ -245,7 +287,7 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
         {
             using (var streamReader = new StreamReader(Path.Combine(SchemesDataPath, schemesCacheFile)))
             {
-                var xmlSerializer = new XmlSerializer(typeof (Schemes), new[] { typeof(BitmapImage) });
+                var xmlSerializer = new XmlSerializer(typeof (Schemes));
                 var schemes = xmlSerializer.Deserialize(streamReader) as Schemes;
 
                 if (schemes != null)

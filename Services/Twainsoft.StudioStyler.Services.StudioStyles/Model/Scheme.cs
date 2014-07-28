@@ -9,7 +9,7 @@ using Twainsoft.StudioStyler.Services.StudioStyles.Annotations;
 namespace Twainsoft.StudioStyler.Services.StudioStyles.Model
 {
     [Serializable]
-    public class Scheme : INotifyPropertyChanged
+    public sealed class Scheme : INotifyPropertyChanged
     {
         [JsonProperty(PropertyName = "title")]
         [XmlElement("Title")]
@@ -45,8 +45,6 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Model
 
         private BitmapSource preview;
 
-        [XmlElement("Preview")]
-        //[JsonProperty(PropertyName = "preview")]
         [JsonIgnore]
         public BitmapSource Preview {
             get
@@ -63,7 +61,7 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Model
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChangedEventHandler handler = PropertyChanged;
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));

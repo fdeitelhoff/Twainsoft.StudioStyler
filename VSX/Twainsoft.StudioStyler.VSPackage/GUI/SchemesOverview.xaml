@@ -30,7 +30,7 @@
             <Setter Property="Foreground" Value="{DynamicResource {x:Static shell:VsBrushes.ButtonTextKey}}"/>
             <Setter Property="Padding" Value="3"/>
         </Style>
-        <Style TargetType="{x:Type ProgressBar}">
+        <Style x:Key="CacheProgressBar" TargetType="{x:Type ProgressBar}">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding SchemeCache.IsCacheRefreshing}" Value="true">
                     <Setter Property="Visibility" Value="Visible"/>
@@ -44,6 +44,16 @@
                 <DataTrigger Binding="{Binding IsSchemeDownloading}" Value="false">
                     <Setter Property="Visibility" Value="Collapsed"/>
                 </DataTrigger>-->
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="ImageCacheProgressBar" TargetType="{x:Type ProgressBar}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding SchemeCache.IsImageCacheRefreshing}" Value="true">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding SchemeCache.IsImageCacheRefreshing}" Value="false">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
             </Style.Triggers>
         </Style>
         <Style TargetType="{x:Type DataGrid}">
@@ -136,7 +146,9 @@
             <Hyperlink NavigateUri="SchemesOverview.xaml.cs" RequestNavigate="UpdateCache">Refresh</Hyperlink>
             it.
         </TextBlock>
-        <ProgressBar IsIndeterminate="True" Height="5" HorizontalAlignment="Stretch" DockPanel.Dock="Top"/>
+        <ProgressBar Style="{StaticResource CacheProgressBar}" IsIndeterminate="True" Height="5" HorizontalAlignment="Stretch" DockPanel.Dock="Top"/>
+        <ProgressBar Style="{StaticResource ImageCacheProgressBar}" Minimum="0" Maximum="{Binding SchemeCache.Schemes.Count}" Value="{Binding SchemeCache.CurrentSchemeNumber}"
+                     Height="5" HorizontalAlignment="Stretch" DockPanel.Dock="Top"/>
         <TextBlock Style="{StaticResource InfoTextBlock}"
                    DockPanel.Dock="Bottom">
             <TextBlock.Text>
