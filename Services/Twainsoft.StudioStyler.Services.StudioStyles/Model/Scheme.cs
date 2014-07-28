@@ -46,6 +46,7 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Model
         private BitmapSource preview;
 
         [XmlElement("Preview")]
+        //[JsonProperty(PropertyName = "preview")]
         [JsonIgnore]
         public BitmapSource Preview {
             get
