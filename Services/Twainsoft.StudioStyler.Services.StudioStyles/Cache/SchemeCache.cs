@@ -28,8 +28,6 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
         private string SchemesDataPath { get; set; }
         private string SchemesPreviewPath { get; set; }
 
-        //public Action SchemesLoaded;
-
         public bool IsCacheValid
         {
             get { return isCacheValid; }
@@ -190,20 +188,23 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
                 .Replace('*', '-');
         }
 
-        public void Check()
+        public async Task Check()
         {
-            var schemesCache = Path.Combine(SchemesDataPath, schemesCacheFile);
+            var schemesCachePath = Path.Combine(SchemesDataPath, schemesCacheFile);
 
             try
             {
-                if (File.Exists(Path.Combine(SchemesDataPath, schemesCacheFile)))
+                if (File.Exists(schemesCachePath))
                 {
-                    var lastWriteTime = File.GetLastWriteTime(Path.Combine(SchemesDataPath, schemesCacheFile));
+                    var lastWriteTime = File.GetLastWriteTime(schemesCachePath);
 
                     IsCacheValid = DateTime.Now.Subtract(lastWriteTime).Days <= 3;
                     IsCacheRefreshing = true;
 
-                    DeserializeCachedSchemes();
+                    var imagesFinished = DeserializeCachedSchemes();
+
+                    IsCacheRefreshing = false;
+                    IsImageCacheRefreshing = true;
 
                     foreach (var scheme in Schemes)
                     {
@@ -211,10 +212,28 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
                         {
                             var file = Path.Combine(SchemesPreviewPath, TransformTitle(scheme.Title) + ".png");
 
-                            if (File.Exists(file))
+                            var image = new BitmapImage();
+                            image.BeginInit();
+
+                            if (!imagesFinished && !File.Exists(file))
                             {
-                                var image = new BitmapImage();
-                                image.BeginInit();
+                                var png = await StudioStyles.Preview(scheme.Title);
+
+                                // Hier noch die DecodePixelWith setzen. Braucht wohl nicht so viel Speicher.
+                                image.StreamSource = new MemoryStream(png);
+                                image.EndInit();
+
+                                scheme.Preview = image;
+
+                                using (var fileStream = new FileStream(file, FileMode.Create))
+                                {
+                                    var encoder = new PngBitmapEncoder();
+                                    encoder.Frames.Add(BitmapFrame.Create(image));
+                                    encoder.Save(fileStream);
+                                }
+                            }
+                            else if (File.Exists(file))
+                            {
                                 image.StreamSource = new FileStream(file, FileMode.Open, FileAccess.Read);
                                 image.EndInit();
 
@@ -237,12 +256,9 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
                         }
                     }
 
-                    IsCacheRefreshing = false;
+                    SeserializeCachedSchemes(true);
 
-                    //if (SchemesLoaded != null)
-                    //{
-                    //    SchemesLoaded();
-                    //}
+                    IsImageCacheRefreshing = false;
                 }
                 else
                 {
@@ -254,14 +270,14 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
                 IsCacheValid = false;
                 IsCacheRefreshing = false;
 
-                File.Delete(schemesCache);
+                File.Delete(schemesCachePath);
             }
             catch (XmlException)
             {
                 IsCacheValid = false;
                 IsCacheRefreshing = false;
 
-                File.Delete(schemesCache);
+                File.Delete(schemesCachePath);
             }
         }
 
@@ -283,21 +299,25 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
             }
         }
 
-        private void DeserializeCachedSchemes()
+        private bool DeserializeCachedSchemes()
         {
             using (var streamReader = new StreamReader(Path.Combine(SchemesDataPath, schemesCacheFile)))
             {
                 var xmlSerializer = new XmlSerializer(typeof (Schemes));
                 var schemes = xmlSerializer.Deserialize(streamReader) as Schemes;
 
-                if (schemes != null)
+                if (schemes == null)
                 {
-                    Schemes.Clear();
-                    foreach (var scheme in schemes.AllSchemes)
-                    {
-                        Schemes.Add(scheme);
-                    }
+                    return false;
                 }
+
+                Schemes.Clear();
+                foreach (var scheme in schemes.AllSchemes)
+                {
+                    Schemes.Add(scheme);
+                }
+
+                return schemes.ImagesFinished;
             }
         }
 

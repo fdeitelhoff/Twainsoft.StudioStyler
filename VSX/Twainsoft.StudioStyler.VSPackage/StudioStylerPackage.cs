@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.ComponentModel.Design;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -35,6 +36,13 @@ namespace Twainsoft.StudioStyler.VSPackage
             var windowFrame = (IVsWindowFrame)window.Frame;
             Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(windowFrame.Show());
         }
+
+        //protected override void OnSaveOptions(string key, Stream stream)
+        //{
+        //    base.OnSaveOptions(key, stream);
+
+        //    Console.WriteLine();
+        //}
 
         protected override void Initialize()
         {

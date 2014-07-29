@@ -13,7 +13,7 @@
             <Setter Property="Foreground" Value="{DynamicResource {x:Static shell:VsBrushes.WindowTextKey}}"/>
             <Setter Property="BorderBrush" Value="{DynamicResource {x:Static shell:VsBrushes.ToolWindowBorderKey}}"/>
         </Style>
-        <Style TargetType="{x:Type TextBlock}">
+        <Style x:Key="CacheValidTextBox" TargetType="{x:Type TextBlock}">
             <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.ToolWindowBackgroundKey}}" />
             <Setter Property="Foreground" Value="{DynamicResource {x:Static shell:VsBrushes.ButtonTextKey}}"/>
             <Style.Triggers>
@@ -22,6 +22,24 @@
                 </DataTrigger>
                 <DataTrigger Binding="{Binding SchemeCache.IsCacheValid}" Value="false">
                     <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding SchemeCache.IsCacheRefreshing}" Value="true">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding SchemeCache.IsCacheRefreshing}" Value="false">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="ImageCacheTextBox" TargetType="{x:Type TextBlock}">
+            <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.ToolWindowBackgroundKey}}" />
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static shell:VsBrushes.ButtonTextKey}}"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding SchemeCache.IsImageCacheRefreshing}" Value="true">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding SchemeCache.IsImageCacheRefreshing}" Value="false">
+                    <Setter Property="Visibility" Value="Collapsed"/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -141,10 +159,18 @@
         </Style>
     </UserControl.Resources>
     <DockPanel>
-        <TextBlock DockPanel.Dock="Top">
+        <TextBlock DockPanel.Dock="Top" HorizontalAlignment="Center" Style="{StaticResource CacheValidTextBox}">
             Your Studio Styles cache is out of date.
             <Hyperlink NavigateUri="SchemesOverview.xaml.cs" RequestNavigate="UpdateCache">Refresh</Hyperlink>
             it.
+        </TextBlock>
+        <TextBlock DockPanel.Dock="Top" HorizontalAlignment="Center" Style="{StaticResource ImageCacheTextBox}">
+            <TextBlock.Text>
+                <MultiBinding StringFormat="Image {0} of {1} gets cached up...">
+                    <Binding Path="SchemeCache.CurrentSchemeNumber"/>
+                    <Binding Path="SchemeCache.Schemes.Count"/>
+                </MultiBinding>
+            </TextBlock.Text>
         </TextBlock>
         <ProgressBar Style="{StaticResource CacheProgressBar}" IsIndeterminate="True" Height="5" HorizontalAlignment="Stretch" DockPanel.Dock="Top"/>
         <ProgressBar Style="{StaticResource ImageCacheProgressBar}" Minimum="0" Maximum="{Binding SchemeCache.Schemes.Count}" Value="{Binding SchemeCache.CurrentSchemeNumber}"
