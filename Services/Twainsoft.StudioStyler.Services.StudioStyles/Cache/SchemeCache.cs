@@ -123,12 +123,21 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
             {
                 try
                 {
+                    scheme.ImageDownloadTried = true;
+
+                    CurrentSchemeNumber = CurrentSchemeNumber + 1;
+                    
+                    if (CurrentSchemeNumber % 25 == 0)
+                    {
+                        SeserializeCachedSchemes(false);
+                    }
+
                     var file = Path.Combine(SchemesPreviewPath, TransformTitle(scheme.Title) + ".png");
 
                     var image = new BitmapImage();
                     image.BeginInit();
 
-                    if (!File.Exists(file))
+                    if (!scheme.ImageDownloadTried && !File.Exists(file))
                     {
                         var png = await StudioStyles.Preview(scheme.Title);
 
@@ -152,8 +161,6 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
 
                         scheme.Preview = image;
                     }
-
-                    CurrentSchemeNumber = CurrentSchemeNumber + 1;
                 }
                 catch (InvalidOperationException e)
                 {
@@ -210,6 +217,8 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
                     {
                         try
                         {
+                            CurrentSchemeNumber = CurrentSchemeNumber + 1;
+
                             var file = Path.Combine(SchemesPreviewPath, TransformTitle(scheme.Title) + ".png");
 
                             var image = new BitmapImage();
@@ -239,8 +248,6 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
 
                                 scheme.Preview = image;
                             }
-
-                            CurrentSchemeNumber = CurrentSchemeNumber + 1;
                         }
                         catch (InvalidOperationException e)
                         {
@@ -263,6 +270,7 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
                 else
                 {
                     IsCacheValid = false;
+                    IsCacheRefreshing = false;
                 }
             }
             catch (InvalidOperationException)
@@ -287,10 +295,10 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
 
             var file = Path.Combine(SchemesDataPath, schemesCacheFile);
 
-            if (File.Exists(file))
-            {
-                File.Delete(file);
-            }
+            //if (File.Exists(file))
+            //{
+            //    File.Delete(file);
+            //}
 
             using (var fileStream = new FileStream(file, FileMode.Create))
             {
