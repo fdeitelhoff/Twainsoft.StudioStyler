@@ -123,11 +123,7 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
             {
                 try
                 {
-                    scheme.ImageDownloadTried = true;
-
-                    CurrentSchemeNumber = CurrentSchemeNumber + 1;
-                    
-                    if (CurrentSchemeNumber % 25 == 0)
+                    if (++CurrentSchemeNumber%50 == 0)
                     {
                         SeserializeCachedSchemes(false);
                     }
@@ -137,8 +133,10 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
                     var image = new BitmapImage();
                     image.BeginInit();
 
-                    if (!scheme.ImageDownloadTried && !File.Exists(file))
+                    if (!scheme.ImageDownloadTried && !scheme.ImagePresent)
                     {
+                        scheme.ImagePresent = true;
+
                         var png = await StudioStyles.Preview(scheme.Title);
 
                         // Hier noch die DecodePixelWith setzen. Braucht wohl nicht so viel Speicher.
@@ -154,19 +152,25 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
                             encoder.Save(fileStream);
                         }
                     }
-                    else
+                    else if (scheme.ImagePresent)
                     {
                         image.StreamSource = new FileStream(file, FileMode.Open, FileAccess.Read);
                         image.EndInit();
 
                         scheme.Preview = image;
                     }
+
+                    scheme.ImageDownloadTried = true;
                 }
                 catch (InvalidOperationException e)
                 {
                     Console.WriteLine(e);
                 }
                 catch (NotSupportedException e)
+                {
+                    Console.WriteLine(e);
+                }
+                catch (FileNotFoundException e)
                 {
                     Console.WriteLine(e);
                 }

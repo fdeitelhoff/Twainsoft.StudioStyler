@@ -44,9 +44,11 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Model
         public int Downloads { get; set; }
 
         [JsonIgnore]
+        [XmlIgnore]
         private BitmapSource preview;
 
         [JsonIgnore]
+        [XmlIgnore]
         public BitmapSource Preview {
             get
             {
@@ -71,5 +73,9 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Model
         [XmlElement("ImageDownloadTried")]
         [JsonProperty(PropertyName = "imageDownloadTried")]
         public bool ImageDownloadTried { get; set; }
+
+        [XmlElement("ImagePresent")]
+        [JsonProperty(PropertyName = "imagePresent")]
+        public bool ImagePresent { get; set; }
     }
 }
