@@ -119,11 +119,21 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
             IsCacheRefreshing = false;
             IsImageCacheRefreshing = true;
 
-            foreach (var scheme in schemes)
+            await CheckSchemes(false);
+
+            SeserializeCachedSchemes(true);
+
+            IsCacheValid = true;
+            IsImageCacheRefreshing = false;
+        }
+
+        private async Task CheckSchemes(bool imagesCompletelyLoaded)
+        {
+            foreach (var scheme in Schemes)
             {
                 try
                 {
-                    if (++CurrentSchemeNumber%50 == 0)
+                    if (++CurrentSchemeNumber % 50 == 0)
                     {
                         SeserializeCachedSchemes(false);
                     }
@@ -133,10 +143,8 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
                     var image = new BitmapImage();
                     image.BeginInit();
 
-                    if (!scheme.ImageDownloadTried && !scheme.ImagePresent)
+                    if (!imagesCompletelyLoaded && !scheme.ImageDownloadTried && !scheme.ImagePresent)
                     {
-                        scheme.ImagePresent = true;
-
                         var png = await StudioStyles.Preview(scheme.Title);
 
                         // Hier noch die DecodePixelWith setzen. Braucht wohl nicht so viel Speicher.
@@ -151,6 +159,9 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
                             encoder.Frames.Add(BitmapFrame.Create(image));
                             encoder.Save(fileStream);
                         }
+
+                        scheme.ImagePresent = true;
+                        scheme.ImageDownloadTried = true;
                     }
                     else if (scheme.ImagePresent)
                     {
@@ -159,31 +170,29 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
 
                         scheme.Preview = image;
                     }
-
-                    scheme.ImageDownloadTried = true;
                 }
                 catch (InvalidOperationException e)
                 {
                     Console.WriteLine(e);
+
+                    scheme.ImagePresent = false;
+                    scheme.ImageDownloadTried = true;
                 }
                 catch (NotSupportedException e)
                 {
                     Console.WriteLine(e);
-                }
-                catch (FileNotFoundException e)
-                {
-                    Console.WriteLine(e);
+
+                    scheme.ImagePresent = false;
+                    scheme.ImageDownloadTried = true;
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine(e);
+
+                    scheme.ImagePresent = false;
+                    scheme.ImageDownloadTried = true;
                 }
             }
-
-            SeserializeCachedSchemes(true);
-
-            IsCacheValid = true;
-            IsImageCacheRefreshing = false;
         }
 
         private string TransformTitle(string title)
@@ -217,55 +226,7 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
                     IsCacheRefreshing = false;
                     IsImageCacheRefreshing = true;
 
-                    foreach (var scheme in Schemes)
-                    {
-                        try
-                        {
-                            CurrentSchemeNumber = CurrentSchemeNumber + 1;
-
-                            var file = Path.Combine(SchemesPreviewPath, TransformTitle(scheme.Title) + ".png");
-
-                            var image = new BitmapImage();
-                            image.BeginInit();
-
-                            if (!imagesFinished && !File.Exists(file))
-                            {
-                                var png = await StudioStyles.Preview(scheme.Title);
-
-                                // Hier noch die DecodePixelWith setzen. Braucht wohl nicht so viel Speicher.
-                                image.StreamSource = new MemoryStream(png);
-                                image.EndInit();
-
-                                scheme.Preview = image;
-
-                                using (var fileStream = new FileStream(file, FileMode.Create))
-                                {
-                                    var encoder = new PngBitmapEncoder();
-                                    encoder.Frames.Add(BitmapFrame.Create(image));
-                                    encoder.Save(fileStream);
-                                }
-                            }
-                            else if (File.Exists(file))
-                            {
-                                image.StreamSource = new FileStream(file, FileMode.Open, FileAccess.Read);
-                                image.EndInit();
-
-                                scheme.Preview = image;
-                            }
-                        }
-                        catch (InvalidOperationException e)
-                        {
-                            Console.WriteLine(e);
-                        }
-                        catch (NotSupportedException e)
-                        {
-                            Console.WriteLine(e);
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine(e);
-                        }
-                    }
+                    await CheckSchemes(imagesFinished);
 
                     SeserializeCachedSchemes(true);
 
@@ -298,11 +259,6 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
             var schemes = new Schemes {AllSchemes = Schemes, ImagesFinished = imagesFinished};
 
             var file = Path.Combine(SchemesDataPath, schemesCacheFile);
-
-            //if (File.Exists(file))
-            //{
-            //    File.Delete(file);
-            //}
 
             using (var fileStream = new FileStream(file, FileMode.Create))
             {

@@ -74,9 +74,9 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
             UpdateInfoBar();
         }
 
-        public void CheckCache()
+        public async void CheckCache()
         {
-            SchemeCache.Check();
+            await SchemeCache.Check();
         }
 
         public void Search(OleMenuCmdEventArgs eventArgs)
