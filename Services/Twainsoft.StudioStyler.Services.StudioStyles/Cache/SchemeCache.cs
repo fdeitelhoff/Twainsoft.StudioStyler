@@ -143,7 +143,17 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
                     var image = new BitmapImage();
                     image.BeginInit();
 
-                    if (!imagesCompletelyLoaded && !scheme.ImageDownloadTried && !scheme.ImagePresent)
+                    if (File.Exists(file))
+                    {
+                        image.StreamSource = new FileStream(file, FileMode.Open, FileAccess.Read);
+                        image.EndInit();
+
+                        scheme.Preview = image;
+
+                        scheme.ImagePresent = true;
+                        scheme.ImageDownloadTried = true;
+                    }
+                    else if (!imagesCompletelyLoaded && !scheme.ImageDownloadTried && !scheme.ImagePresent)
                     {
                         var png = await StudioStyles.Preview(scheme.Title);
 
@@ -169,6 +179,9 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
                         image.EndInit();
 
                         scheme.Preview = image;
+
+                        scheme.ImagePresent = true;
+                        scheme.ImageDownloadTried = true;
                     }
                 }
                 catch (InvalidOperationException e)
