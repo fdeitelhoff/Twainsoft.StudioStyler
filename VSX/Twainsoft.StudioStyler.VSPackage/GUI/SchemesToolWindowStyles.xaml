@@ -101,6 +101,22 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+    <Style TargetType="{x:Type DataGridRow}">
+        <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.ToolWindowBackgroundKey}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static shell:VsBrushes.ToolWindowBorderKey}}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type DataGridRow}">
+                    <SelectiveScrollingGrid>
+                        <SelectiveScrollingGrid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                        </SelectiveScrollingGrid.ColumnDefinitions>
+                        <TextBlock Text="{Binding Path=Title}"></TextBlock>    
+                    </SelectiveScrollingGrid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
     <Style TargetType="{x:Type DataGridColumnHeader}">
         <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.SortBackgroundKey}}"/>
         <Setter Property="Foreground" Value="{DynamicResource {x:Static shell:VsBrushes.WindowTextKey}}"/>
