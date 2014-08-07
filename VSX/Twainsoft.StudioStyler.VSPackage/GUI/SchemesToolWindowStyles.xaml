@@ -79,7 +79,7 @@
     <Style TargetType="{x:Type DataGrid}">
         <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.ToolWindowBackgroundKey}}" />
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static shell:VsBrushes.ToolWindowBorderKey}}"/>
-        <Setter Property="RowHeight" Value="25"/>
+        <Setter Property="RowHeight" Value="70"/>
         <Setter Property="BorderThickness" Value="0"/>
     </Style>
     <Style TargetType="{x:Type DataGridCell}">
@@ -111,7 +111,15 @@
                         <SelectiveScrollingGrid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                         </SelectiveScrollingGrid.ColumnDefinitions>
-                        <TextBlock Text="{Binding Path=Title}"></TextBlock>    
+                        <Grid Height="100">
+                            <Image Source="{Binding Preview}" HorizontalAlignment="Left" Margin="10,10,0,10" Width="107" Height="Auto"/>
+                            <TextBlock Text="{Binding Path=Title}" Margin="130,10,10,0" VerticalAlignment="Top"/>
+                            <TextBlock Margin="130,35,10,0" VerticalAlignment="Top" Text="{Binding Author}" />
+                            <!--    <MultiBinding StringFormat="by {0}">
+                                    <Binding Path="{Binding Author}"/>
+                                </MultiBinding>
+                            </TextBlock>-->
+                        </Grid>
                     </SelectiveScrollingGrid>
                 </ControlTemplate>
             </Setter.Value>

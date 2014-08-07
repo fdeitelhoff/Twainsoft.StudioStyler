@@ -58,7 +58,7 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
         private SchemesOverviewModel()
         {
             SchemeCache = new SchemeCache();
-            PagedSchemesView = new PagedCollectionView(SchemeCache.Schemes) { PageSize = 40};
+            PagedSchemesView = new PagedCollectionView(SchemeCache.Schemes) { PageSize = 20};
             
             CurrentSearchString = "";
             SearchValues = new List<string>();

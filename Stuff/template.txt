@@ -1,0 +1,37 @@
+    <!--<Style TargetType="{x:Type DataGridRow}">
+        <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.ToolWindowBackgroundKey}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static shell:VsBrushes.ButtonTextKey}}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <SelectiveScrollingGrid>
+                        <SelectiveScrollingGrid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                        </SelectiveScrollingGrid.ColumnDefinitions>
+                        <Grid>
+                            <Image Source="{Binding Preview}" HorizontalAlignment="Left" Margin="10,10,0,10" Width="107"/>
+                            <TextBlock Text="{Binding Path=Title}" Margin="130,10,10,0" VerticalAlignment="Top"/>
+                            <TextBlock Margin="130,35,10,0" VerticalAlignment="Top">
+                                <MultiBinding StringFormat="by {0}">
+                                    <Binding Path="{Binding Author}"/>
+                                </MultiBinding>
+                            </TextBlock>
+                            <TextBlock HorizontalAlignment="Left" Margin="130,60,0,0" VerticalAlignment="Top" Width="155">
+                                <MultiBinding StringFormat="Rated {0}">
+                                    <Binding Path="{Binding Rated}"/>
+                                </MultiBinding>
+                            </TextBlock>
+                            <TextBlock Margin="296,60,10,0" VerticalAlignment="Top">
+                                <MultiBinding StringFormat="Downloads {0}">
+                                    <Binding Path="{Binding Downloads}"/>
+                                </MultiBinding>
+                            </TextBlock>
+                            <TextBlock Margin="130,100,10,0" VerticalAlignment="Top" Name="textblockbla">
+                                <Hyperlink NavigateUri="{Binding Path}" Name="VisitHyperlink">Visit</Hyperlink> | <Hyperlink>Activate</Hyperlink>
+                            </TextBlock>
+                        </Grid>
+                    </SelectiveScrollingGrid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>-->
