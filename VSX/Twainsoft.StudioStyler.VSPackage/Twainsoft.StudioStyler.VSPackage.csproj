@@ -141,6 +141,9 @@
     </Compile>
     <Compile Include="GUI\SchemesOverviewWindow.cs" />
     <Compile Include="Model\SchemesOverviewModel.cs" />
+    <Compile Include="UserControl1.xaml.cs">
+      <DependentUpon>UserControl1.xaml</DependentUpon>
+    </Compile>
     <Compile Include="VSX\Guids.cs" />
     <Compile Include="GUI\TypeHelper.cs" />
     <Compile Include="GUI\VSMessageBox.cs" />
@@ -198,6 +201,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="GUI\SchemesToolWindowStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControl1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

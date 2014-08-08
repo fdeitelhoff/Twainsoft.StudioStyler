@@ -56,6 +56,15 @@
         <Setter Property="Foreground" Value="{DynamicResource {x:Static shell:VsBrushes.ButtonTextKey}}"/>
         <Setter Property="Padding" Value="3"/>
     </Style>
+    <Style x:Key="Preview" TargetType="TextBlock">
+        <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.ToolWindowBackgroundKey}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static shell:VsBrushes.ButtonTextKey}}"/>
+        <Setter Property="Padding" Value="3"/>
+    </Style>
+    <Style TargetType="{x:Type GridSplitter}">
+        <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.ToolWindowBackgroundKey}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static shell:VsBrushes.ButtonTextKey}}"/>
+    </Style>
     <Style x:Key="CacheProgressBar" TargetType="{x:Type ProgressBar}">
         <Style.Triggers>
             <DataTrigger Binding="{Binding SchemeCache.IsCacheRefreshing}" Value="true">
@@ -79,7 +88,7 @@
     <Style TargetType="{x:Type DataGrid}">
         <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.ToolWindowBackgroundKey}}" />
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static shell:VsBrushes.ToolWindowBorderKey}}"/>
-        <Setter Property="RowHeight" Value="70"/>
+        <Setter Property="RowHeight" Value="25"/>
         <Setter Property="BorderThickness" Value="0"/>
     </Style>
     <Style TargetType="{x:Type DataGridCell}">
@@ -101,9 +110,10 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    <Style TargetType="{x:Type DataGridRow}">
+    <!--<Style TargetType="{x:Type DataGridRow}">
         <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.ToolWindowBackgroundKey}}" />
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static shell:VsBrushes.ToolWindowBorderKey}}"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static shell:VsBrushes.ButtonTextKey}}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGridRow}">
@@ -112,19 +122,19 @@
                             <ColumnDefinition Width="Auto" />
                         </SelectiveScrollingGrid.ColumnDefinitions>
                         <Grid Height="100">
-                            <Image Source="{Binding Preview}" HorizontalAlignment="Left" Margin="10,10,0,10" Width="107" Height="Auto"/>
+                            <Image Source="{Binding Preview}" HorizontalAlignment="Left" Margin="10,10,0,10"/>
                             <TextBlock Text="{Binding Path=Title}" Margin="130,10,10,0" VerticalAlignment="Top"/>
                             <TextBlock Margin="130,35,10,0" VerticalAlignment="Top" Text="{Binding Author}" />
-                            <!--    <MultiBinding StringFormat="by {0}">
+                                --><!--<MultiBinding StringFormat="by {0}">
                                     <Binding Path="{Binding Author}"/>
                                 </MultiBinding>
-                            </TextBlock>-->
+                            </TextBlock>--><!--
                         </Grid>
                     </SelectiveScrollingGrid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>
+    </Style>-->
     <Style TargetType="{x:Type DataGridColumnHeader}">
         <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.SortBackgroundKey}}"/>
         <Setter Property="Foreground" Value="{DynamicResource {x:Static shell:VsBrushes.WindowTextKey}}"/>
