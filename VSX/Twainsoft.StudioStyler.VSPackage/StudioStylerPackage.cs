@@ -37,13 +37,6 @@ namespace Twainsoft.StudioStyler.VSPackage
             Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(windowFrame.Show());
         }
 
-        //protected override void OnSaveOptions(string key, Stream stream)
-        //{
-        //    base.OnSaveOptions(key, stream);
-
-        //    Console.WriteLine();
-        //}
-
         protected override void Initialize()
         {
             base.Initialize();
@@ -78,9 +71,9 @@ namespace Twainsoft.StudioStyler.VSPackage
                 mcs.AddCommand(activateSchemeCommand);
 
                 // The history scheme command.
-                var historyCommandId = new CommandID(GuidList.GuidSchemesToolbarCmdSet, CommandIds.SchemesHistory);
-                var historyPageCommand = new OleMenuCommand(OnSchemesHistory, historyCommandId);
-                mcs.AddCommand(historyPageCommand);
+                //var historyCommandId = new CommandID(GuidList.GuidSchemesToolbarCmdSet, CommandIds.SchemesHistory);
+                //var historyPageCommand = new OleMenuCommand(OnSchemesHistory, historyCommandId);
+                //mcs.AddCommand(historyPageCommand);
 
                 // The first page command.
                 var firstPageCommandId = new CommandID(GuidList.GuidSchemesToolbarCmdSet, CommandIds.FirstPageNavigation);
@@ -135,16 +128,6 @@ namespace Twainsoft.StudioStyler.VSPackage
         {
             Model.ActivateScheme();
         }
-
-        //private void OnBeforeQueryStatusActivateScheme(object sender, EventArgs e)
-        //{
-        //    var command = sender as OleMenuCommand;
-
-        //    if (null != command)
-        //    {
-        //        command.Enabled = SchemesOverviewModel.IsSchemeSelected;
-        //    }
-        //}
 
         private void OnSchemesHistory(object sender, EventArgs e)
         {

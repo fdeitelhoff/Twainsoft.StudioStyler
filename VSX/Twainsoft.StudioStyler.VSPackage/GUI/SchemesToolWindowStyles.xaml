@@ -62,7 +62,10 @@
         <Setter Property="Padding" Value="3"/>
     </Style>
     <Style TargetType="{x:Type GridSplitter}">
-        <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.ToolWindowBackgroundKey}}" />
+        <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.ToolWindowBorderKey}}" />
+    </Style>
+    <Style TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.ToolWindowBorderKey}}" />
         <Setter Property="Foreground" Value="{DynamicResource {x:Static shell:VsBrushes.ButtonTextKey}}"/>
     </Style>
     <Style x:Key="CacheProgressBar" TargetType="{x:Type ProgressBar}">

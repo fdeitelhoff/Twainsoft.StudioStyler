@@ -45,13 +45,13 @@
       </Button>
       
       <!-- History Button -->
-      <Button guid="guidSchemesToolbarCmdSet" id="SchemesHistory" priority="0x0003" type="Button">
+      <!--<Button guid="guidSchemesToolbarCmdSet" id="SchemesHistory" priority="0x0003" type="Button">
         <Parent guid="guidSchemesToolbarCmdSet" id="SchemesToolbarGroup"/>
         <CommandFlag>DefaultDisabled</CommandFlag>
         <Strings>
           <ButtonText>History</ButtonText>
         </Strings>
-      </Button>
+      </Button>-->
       
       <!-- First Page Button -->
       <Button guid="guidSchemesToolbarCmdSet" id="FirstPageNavigation" priority="0x0004" type="Button">

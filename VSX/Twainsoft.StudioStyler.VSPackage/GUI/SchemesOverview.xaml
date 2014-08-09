@@ -39,13 +39,13 @@
         </TextBlock>
         <Grid DockPanel.Dock="Bottom">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="5" />
-                <RowDefinition Height="*" />
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="5"/>
+                <RowDefinition Name="PreviewRow" Height="100" x:FieldModifier="private" />
             </Grid.RowDefinitions>
             <DataGrid DockPanel.Dock="Bottom" ItemsSource="{Binding PagedSchemesView}" AutoGenerateColumns="False"
                       HeadersVisibility="Column" SelectionMode="Single" SelectionUnit="FullRow" CanUserDeleteRows="False" CanUserAddRows="False"
-                      CanUserResizeRows="False" CanUserSortColumns="True" IsReadOnly="True" CanUserReorderColumns="False">
+                      CanUserResizeRows="False" CanUserSortColumns="True" IsReadOnly="True" CanUserReorderColumns="False" MouseDoubleClick="StudioStylesGrid_OnMouseDoubleClick">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="View" SortMemberPath="View">
                         <DataGridTemplateColumn.CellTemplate>
@@ -59,7 +59,7 @@
                     <DataGridTemplateColumn Header="Preview">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Image Source="{Binding Preview}"></Image>
+                                <Image Source="{Binding Preview}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -76,14 +76,17 @@
             </DataGrid>
             <GridSplitter HorizontalAlignment="Stretch" Grid.Row="1"/>
             <DockPanel Grid.Row="2">
-                <TextBlock DockPanel.Dock="Top" Style="{StaticResource Preview}">
-                    <TextBlock.Text>
-                        <MultiBinding StringFormat="Preview image for '{0}'">
-                            <Binding Path="PagedSchemesView.CurrentItem.Title"/>
-                        </MultiBinding>
-                    </TextBlock.Text>
-                </TextBlock>
-                <Image Source="{Binding PagedSchemesView.CurrentItem.Preview}"></Image>
+                <DockPanel DockPanel.Dock="Top">
+                    <Button DockPanel.Dock="Right" Content=" X " Click="CollapsePreview_OnClick"/>
+                    <TextBlock Style="{StaticResource Preview}">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="Preview image for '{0}'">
+                                <Binding Path="PagedSchemesView.CurrentItem.Title"/>
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </DockPanel>
+                <Image Source="{Binding PagedSchemesView.CurrentItem.Preview}"/>
             </DockPanel>
         </Grid>
     </DockPanel>
