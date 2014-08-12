@@ -1,17 +1,15 @@
 ﻿using System;
-using System.IO;
-using System.Runtime.InteropServices;
 using System.ComponentModel.Design;
-using Microsoft.VisualStudio.Shell.Interop;
+using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 using Twainsoft.StudioStyler.VSPackage.GUI;
 using Twainsoft.StudioStyler.VSPackage.Model;
-using Twainsoft.StudioStyler.VSPackage.VSX;
 
-namespace Twainsoft.StudioStyler.VSPackage
+namespace Twainsoft.StudioStyler.VSPackage.VSX
 {
     [PackageRegistration(UseManagedResourcesOnly = true)]
-    [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)]
+    [InstalledProductRegistration("#110", "#112", "0.4", IconResourceID = 400)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideToolWindow(typeof(SchemesOverviewWindow))]
     [Guid(GuidList.guidTwainsoft_StudioStyler_VSPackagePkgString)]
@@ -30,7 +28,7 @@ namespace Twainsoft.StudioStyler.VSPackage
 
             if ((null == window) || (null == window.Frame))
             {
-                throw new NotSupportedException(Resources.CanNotCreateWindow);
+                throw new NotSupportedException(Resources.Resources.CanNotCreateWindow);
             }
 
             var windowFrame = (IVsWindowFrame)window.Frame;
@@ -59,6 +57,11 @@ namespace Twainsoft.StudioStyler.VSPackage
                 var searchSTringValuesCommand = new OleMenuCommand(OnSearchStringValues, searchStringValuesCommandId);
                 mcs.AddCommand(searchSTringValuesCommand);
 
+                // The clear search command.
+                var clearSearchCommandId = new CommandID(GuidList.GuidSchemesToolbarCmdSet, CommandIds.ClearSearch);
+                var clearSearchCommand = new OleMenuCommand(OnClearSearch, clearSearchCommandId);
+                mcs.AddCommand(clearSearchCommand);
+
                 // The refresh schemes cache command.
                 var refreshSchemesCacheCommandId = new CommandID(GuidList.GuidSchemesToolbarCmdSet, CommandIds.RefreshSchemesCache);
                 var refreshSchemesCacheCommand = new OleMenuCommand(OnRefreshSchemesCache, refreshSchemesCacheCommandId);
@@ -69,11 +72,6 @@ namespace Twainsoft.StudioStyler.VSPackage
                 var activateSchemeCommand = new OleMenuCommand(OnActivateScheme, activateSchemeCommandId);
                 //activateSchemeCommand.BeforeQueryStatus += new EventHandler(OnBeforeQueryStatusActivateScheme);
                 mcs.AddCommand(activateSchemeCommand);
-
-                // The history scheme command.
-                //var historyCommandId = new CommandID(GuidList.GuidSchemesToolbarCmdSet, CommandIds.SchemesHistory);
-                //var historyPageCommand = new OleMenuCommand(OnSchemesHistory, historyCommandId);
-                //mcs.AddCommand(historyPageCommand);
 
                 // The first page command.
                 var firstPageCommandId = new CommandID(GuidList.GuidSchemesToolbarCmdSet, CommandIds.FirstPageNavigation);
@@ -119,6 +117,11 @@ namespace Twainsoft.StudioStyler.VSPackage
             }
         }
 
+        private void OnClearSearch(object sender, EventArgs e)
+        {
+            Model.ClearSearch();
+        }
+
         private void OnRefreshSchemesCache(object sender, EventArgs e)
         {
             Model.RefreshCache();
@@ -127,11 +130,6 @@ namespace Twainsoft.StudioStyler.VSPackage
         private void OnActivateScheme(object sender, EventArgs e)
         {
             Model.ActivateScheme();
-        }
-
-        private void OnSchemesHistory(object sender, EventArgs e)
-        {
-            
         }
 
         private void OnFirstPage(object sender, EventArgs e)

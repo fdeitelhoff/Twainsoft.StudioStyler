@@ -26,21 +26,34 @@
     <!-- Interactive elements. -->
     <Buttons>
 
+      <!-- Clear Search Button -->
+      <Button guid="guidSchemesToolbarCmdSet" id="ClearSearch" priority="0x0000" type="Button">
+        <Parent guid="guidSchemesToolbarCmdSet" id="SchemesToolbarGroup"/>
+        <Icon guid="guidImages" id="pngClearSearch"/>
+        <Strings>
+          <ButtonText>Clear</ButtonText>
+        <ToolTipText>Clear The Current Search</ToolTipText>
+        </Strings>
+      </Button>
+      
       <!-- Refresh Button -->
       <Button guid="guidSchemesToolbarCmdSet" id="RefreshSchemesCache" priority="0x0001" type="Button">
         <Parent guid="guidSchemesToolbarCmdSet" id="SchemesToolbarGroup"/>
-        <!--<Icon guid="guidImages" id="bmpPic1"/>-->
+        <Icon guid="guidImages" id="pngSearch"/>
         <Strings>
           <ButtonText>Refresh</ButtonText>
+        <ToolTipText>Get Fresh Data From 'studiostyl.es'</ToolTipText>
         </Strings>
       </Button>
       
       <!-- Activate Button -->
       <Button guid="guidSchemesToolbarCmdSet" id="ActivateScheme" priority="0x0002" type="Button">
         <Parent guid="guidSchemesToolbarCmdSet" id="SchemesToolbarGroup"/>
+        <Icon guid="guidImages" id="pngActivate"/>
         <CommandFlag>DefaultDisabled</CommandFlag>
         <Strings>
           <ButtonText>Activate</ButtonText>
+          <ToolTipText>Activates The Current Selected Style</ToolTipText>
         </Strings>
       </Button>
       
@@ -56,43 +69,51 @@
       <!-- First Page Button -->
       <Button guid="guidSchemesToolbarCmdSet" id="FirstPageNavigation" priority="0x0004" type="Button">
         <Parent guid="guidSchemesToolbarCmdSet" id="SchemesToolbarGroup"/>
+        <Icon guid="guidImages" id="pngFirst"/>
         <CommandFlag>DefaultDisabled</CommandFlag>
         <Strings>
-          <ButtonText>f</ButtonText>
+          <ButtonText>First Page</ButtonText>
+          <ToolTipText>Navigate To The First Page</ToolTipText>
         </Strings>
       </Button>
       
       <!-- Previous Page Button -->
       <Button guid="guidSchemesToolbarCmdSet" id="PreviousPageNavigation" priority="0x0005" type="Button">
         <Parent guid="guidSchemesToolbarCmdSet" id="SchemesToolbarGroup"/>
+        <Icon guid="guidImages" id="pngPrevious"/>
         <CommandFlag>DefaultDisabled</CommandFlag>
         <Strings>
-          <ButtonText>p</ButtonText>
+          <ButtonText>Previous Page</ButtonText>
+          <ToolTipText>Navigate To The Previous Page</ToolTipText>
         </Strings>
       </Button>   
       
       <!-- Next Page Button -->
       <Button guid="guidSchemesToolbarCmdSet" id="NextPageNavigation" priority="0x0006" type="Button">
         <Parent guid="guidSchemesToolbarCmdSet" id="SchemesToolbarGroup"/>
+        <Icon guid="guidImages" id="pngNext"/>
         <CommandFlag>DefaultDisabled</CommandFlag>
         <Strings>
-          <ButtonText>n</ButtonText>
+          <ButtonText>Next Page</ButtonText>
+          <ToolTipText>Navigate To The Next Page</ToolTipText>
         </Strings>
       </Button>    
       
       <!-- Last Page Button -->
       <Button guid="guidSchemesToolbarCmdSet" id="LastPageNavigation" priority="0x0007" type="Button">
         <Parent guid="guidSchemesToolbarCmdSet" id="SchemesToolbarGroup"/>
+        <Icon guid="guidImages" id="pngLast"/>
         <CommandFlag>DefaultDisabled</CommandFlag>
         <Strings>
-          <ButtonText>l</ButtonText>
+          <ButtonText>Last Page</ButtonText>
+          <ToolTipText>Navigate To The Last Page</ToolTipText>
         </Strings>
       </Button>         
       
       <!-- ToolWindow Button in the View -> Other Windows Menu -->
       <Button guid="guidTwainsoft_StudioStyler_VSPackageCmdSet" id="ShowStudioStyles" priority="0x0100" type="Button">
         <Parent guid="guidSHLMainMenu" id="IDG_VS_WNDO_OTRWNDWS1"/>
-        <Icon guid="guidImages" id="bmpPic2" />
+        <Icon guid="guidImages" id="pngMenu" />
         <Strings>
           <ButtonText>Studio Styles</ButtonText>
         </Strings>
@@ -111,7 +132,7 @@
         <Strings>
           <ButtonText>Search:</ButtonText>
           <MenuText>Search:</MenuText>
-          <ToolTipText>Search for StudioStyles.</ToolTipText>
+          <ToolTipText>Search For Styles in { Title, Author }</ToolTipText>
           <CommandName>Search</CommandName>
           <CanonicalName>Search</CanonicalName>
         </Strings>
@@ -120,7 +141,8 @@
 
     <!-- The bitmaps section is used to define the bitmaps that are used for the commands. -->
     <Bitmaps>
-      <Bitmap guid="guidImages" href="Resources\Images.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows"/>
+      <Bitmap guid="guidImages" href="..\Resources\Images.png"
+              usedList="pngMenu, pngClearSearch, pngSearch, pngActivate, pngFirst, pngPrevious, pngNext, pngLast"/>
     </Bitmaps>
 
   </Commands>
@@ -139,7 +161,7 @@
     <!-- This is the guid used to group the menu commands together -->
     <GuidSymbol name="guidTwainsoft_StudioStyler_VSPackageCmdSet" value="{8c817fba-98c3-459f-b94c-ef299123e600}">
 
-      <IDSymbol name="MyMenuGroup" value="0x1020" />
+      <!--<IDSymbol name="MyMenuGroup" value="0x1020" />-->
       <IDSymbol name="ShowStudioStyles" value="0x0101" />
     </GuidSymbol>
 
@@ -156,15 +178,18 @@
       <IDSymbol name="PreviousPageNavigation" value="0x1108" />
       <IDSymbol name="NextPageNavigation" value="0x1109" />
       <IDSymbol name="LastPageNavigation" value="0x1110" />
+      <IDSymbol name="ClearSearch" value="0x1111" />
     </GuidSymbol>
 
     <GuidSymbol name="guidImages" value="{eaa006c0-e439-46df-bf71-bbf3e4100ccd}" >
-      <IDSymbol name="bmpPic1" value="1" />
-      <IDSymbol name="bmpPic2" value="2" />
-      <IDSymbol name="bmpPicSearch" value="3" />
-      <IDSymbol name="bmpPicX" value="4" />
-      <IDSymbol name="bmpPicArrows" value="5" />
-      <IDSymbol name="bmpPicStrikethrough" value="6" />
+      <IDSymbol name="pngMenu" value="1" />
+      <IDSymbol name="pngClearSearch" value="2" />
+      <IDSymbol name="pngSearch" value="3" />
+      <IDSymbol name="pngActivate" value="4" />
+      <IDSymbol name="pngFirst" value="5" />
+      <IDSymbol name="pngPrevious" value="6" />
+      <IDSymbol name="pngNext" value="7" />
+      <IDSymbol name="pngLast" value="8" />
     </GuidSymbol>
   </Symbols>
 

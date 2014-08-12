@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows.Data;
@@ -105,11 +104,25 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
                     {
                         var scheme = obj as Scheme;
 
-                        return scheme != null 
-                            && (scheme.Title.ToLower().Contains(CurrentSearchString)
-                            //|| scheme.Author.ToLower().Contains(CurrentSearchString)
-                            || scheme.Popularity.ToString(CultureInfo.InvariantCulture).Contains(CurrentSearchString)
-                            || scheme.Rating.ToString(CultureInfo.InvariantCulture).Contains(CurrentSearchString));
+                        if (scheme == null)
+                        {
+                            return false;
+                        }
+
+                        var matchingTitle = false;
+                        var matchingAuthor = false;
+
+                        if (!string.IsNullOrWhiteSpace(scheme.Title))
+                        {
+                            matchingTitle = scheme.Title.ToLower().Contains(CurrentSearchString);
+                        }
+
+                        if (!string.IsNullOrWhiteSpace(scheme.Author))
+                        {
+                            matchingAuthor = scheme.Author.ToLower().Contains(CurrentSearchString);
+                        }
+
+                        return matchingTitle || matchingAuthor;
                     };
                 }
                 else
@@ -129,6 +142,12 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
             {
                 Marshal.GetNativeVariantForObject(SearchValues.ToArray(), vOut);
             }
+        }
+
+        public void ClearSearch()
+        {
+            CurrentSearchString = null;
+            PagedSchemesView.Filter = null;
         }
 
         public void ActivateScheme()

@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="eb3bc074-f91c-4654-b850-df23e2082845" Version="0.1" Language="en-US" Publisher="Twainsoft" />
-    <DisplayName>Twainsoft.StudioStyler.VSPackage</DisplayName>
-    <Description>Information about my package</Description>
+    <Identity Id="eb3bc074-f91c-4654-b850-df23e2082845" Version="0.4" Language="en-US" Publisher="Fabian Deitelhoff" />
+    <DisplayName>Twainsoft StudioStyler</DisplayName>
+    <Description xml:space="preserve">This package provides a ToolWindow with all styles listet at http://studiostyl.es/ so you can easily download and activate those styles directly within Visual Studio.</Description>
   </Metadata>
   <Installation InstalledByMsi="false">
     <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="11.0" />

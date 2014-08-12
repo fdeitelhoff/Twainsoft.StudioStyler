@@ -17,5 +17,6 @@
         public const int PreviousPageNavigation = 0x1108;
         public const int NextPageNavigation = 0x1109;
         public const int LastPageNavigation = 0x1110;
+        public const int ClearSearch = 0x1111;
     };
 }
