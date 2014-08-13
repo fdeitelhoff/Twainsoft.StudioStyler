@@ -5,9 +5,8 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows.Data;
 using Microsoft.VisualStudio.Shell;
-using Twainsoft.StudioStyler.Services.StudioStyles;
 using Twainsoft.StudioStyler.Services.StudioStyles.Annotations;
-using Twainsoft.StudioStyler.Services.StudioStyles.Cache;
+using Twainsoft.StudioStyler.Services.StudioStyles.Caches;
 using Twainsoft.StudioStyler.Services.StudioStyles.Model;
 using Twainsoft.StudioStyler.Services.StudioStyles.Settings;
 using Twainsoft.StudioStyler.Services.StudioStyles.Styles;
@@ -24,6 +23,7 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
 
         private StudioStyles StudioStyles { get; set; }
         private SettingsActivator SettingsActivator { get; set; }
+        private SchemesHistory SchemesHistory { get; set; }
 
         private static SchemesOverviewModel instance;
 
@@ -70,6 +70,7 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
 
             StudioStyles = new StudioStyles();
             SettingsActivator = new SettingsActivator();
+            SchemesHistory = new SchemesHistory();
         }
 
         public async void RefreshCache()
@@ -169,7 +170,10 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
             {
                 var file = await StudioStyles.DownloadAsync(scheme.DownloadPath);
 
-                SettingsActivator.LoadScheme(file);
+                if (SettingsActivator.LoadScheme(file))
+                {
+                    SchemesHistory.Add(scheme);
+                }
             }
         }
 

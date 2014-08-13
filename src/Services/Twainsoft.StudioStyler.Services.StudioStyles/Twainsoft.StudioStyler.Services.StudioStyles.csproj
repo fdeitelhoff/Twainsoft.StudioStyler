@@ -60,7 +60,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cache\SchemeCache.cs" />
+    <Compile Include="Caches\SchemeCache.cs" />
+    <Compile Include="Caches\SchemesHistory.cs" />
+    <Compile Include="Model\History.cs" />
     <Compile Include="Model\Scheme.cs" />
     <Compile Include="Model\Schemes.cs" />
     <Compile Include="Properties\Annotations.cs" />

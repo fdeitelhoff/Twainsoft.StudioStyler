@@ -10,7 +10,7 @@ using System.Xml.Serialization;
 using Twainsoft.StudioStyler.Services.StudioStyles.Annotations;
 using Twainsoft.StudioStyler.Services.StudioStyles.Model;
 
-namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
+namespace Twainsoft.StudioStyler.Services.StudioStyles.Caches
 {
     public sealed class SchemeCache : INotifyPropertyChanged
     {
