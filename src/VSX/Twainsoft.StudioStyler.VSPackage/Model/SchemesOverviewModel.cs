@@ -41,17 +41,22 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
             get { return PagedSchemesView.PageCount; }
         }
 
-        public object FirstItemNumber
+        public int FirstItemNumber
         {
             get { return PagedSchemesView.PageIndex * PagedSchemesView.PageSize + 1; }
         }
 
-        public object LastItemNumber
+        public int LastItemNumber
         {
             get
             {
                 return Math.Min(PagedSchemesView.PageIndex * PagedSchemesView.PageSize + PagedSchemesView.PageSize, PagedSchemesView.ItemCount);
             }
+        }
+
+        public int OverallItemCount
+        {
+            get { return SchemeCache.Schemes.Count; }
         }
 
         private SchemesOverviewModel()

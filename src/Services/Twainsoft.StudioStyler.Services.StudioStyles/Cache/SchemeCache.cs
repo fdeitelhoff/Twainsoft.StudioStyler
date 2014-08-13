@@ -129,6 +129,8 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
 
         private async Task CheckSchemes(bool imagesCompletelyLoaded)
         {
+            CurrentSchemeNumber = 0;
+
             foreach (var scheme in Schemes)
             {
                 try

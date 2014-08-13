@@ -29,11 +29,12 @@
                      Height="5" HorizontalAlignment="Stretch" DockPanel.Dock="Top"/>
         <TextBlock Style="{StaticResource InfoTextBlock}" DockPanel.Dock="Bottom">
             <TextBlock.Text>
-                <MultiBinding StringFormat="Page {0} / {1} - Showing Items {2} - {3}">
+                <MultiBinding StringFormat="Page {0} / {1} - Showing Items {2} - {3} of {4} Overall Items">
                     <Binding Path="CurrentPage"/>
                     <Binding Path="OverallPages"/>
                     <Binding Path="FirstItemNumber"/>
                     <Binding Path="LastItemNumber"/>
+                    <Binding Path="OverallItemCount"/>
                 </MultiBinding>
             </TextBlock.Text>
         </TextBlock>
