@@ -10,6 +10,7 @@ using Twainsoft.StudioStyler.Services.StudioStyles.Annotations;
 using Twainsoft.StudioStyler.Services.StudioStyles.Cache;
 using Twainsoft.StudioStyler.Services.StudioStyles.Model;
 using Twainsoft.StudioStyler.Services.StudioStyles.Settings;
+using Twainsoft.StudioStyler.Services.StudioStyles.Styles;
 
 namespace Twainsoft.StudioStyler.VSPackage.Model
 {

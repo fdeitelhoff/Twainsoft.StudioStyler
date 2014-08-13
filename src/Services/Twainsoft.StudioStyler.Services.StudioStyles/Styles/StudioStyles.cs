@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using RestSharp;
 using Twainsoft.StudioStyler.Services.StudioStyles.Model;
 
-namespace Twainsoft.StudioStyler.Services.StudioStyles
+namespace Twainsoft.StudioStyler.Services.StudioStyles.Styles
 {
     public class StudioStyles
     {

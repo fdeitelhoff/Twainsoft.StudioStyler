@@ -21,7 +21,7 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
 
         private readonly string schemesCacheFile;
 
-        private StudioStyles StudioStyles { get; set; }
+        private Styles.StudioStyles StudioStyles { get; set; }
 
         public ObservableCollection<Scheme> Schemes { get; private set; }
         
@@ -81,9 +81,8 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
 
             Schemes = new ObservableCollection<Scheme>();
 
-            StudioStyles = new StudioStyles();
+            StudioStyles = new Styles.StudioStyles();
 
-            // Das hier könnte etwas umgestellt werden. Allgemeiner Pfad und SchemeDataPath dann das konkrete Unterverzeichnis.
             SchemesDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                 Path.Combine("Twainsoft", "StudioStyler"));
 
@@ -233,7 +232,7 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Cache
                 {
                     var lastWriteTime = File.GetLastWriteTime(schemesCachePath);
 
-                    IsCacheValid = DateTime.Now.Subtract(lastWriteTime).Days <= 3;
+                    IsCacheValid = DateTime.Now.Subtract(lastWriteTime).Days <= 5;
                     IsCacheRefreshing = true;
 
                     var imagesFinished = DeserializeCachedSchemes();
