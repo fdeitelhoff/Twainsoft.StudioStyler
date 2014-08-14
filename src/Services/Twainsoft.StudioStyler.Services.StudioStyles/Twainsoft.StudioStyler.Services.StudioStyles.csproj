@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="Caches\SchemeCache.cs" />
     <Compile Include="Caches\SchemesHistory.cs" />
+    <Compile Include="Model\Histories.cs" />
     <Compile Include="Model\History.cs" />
     <Compile Include="Model\Scheme.cs" />
     <Compile Include="Model\Schemes.cs" />

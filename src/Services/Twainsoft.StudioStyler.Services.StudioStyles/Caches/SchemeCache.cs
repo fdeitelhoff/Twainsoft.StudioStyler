@@ -113,14 +113,14 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Caches
                 Schemes.Add(scheme);
             }
 
-            SeserializeCachedSchemes(false);
+            SerializeCachedSchemes(false);
 
             IsCacheRefreshing = false;
             IsImageCacheRefreshing = true;
 
             await CheckSchemes(false);
 
-            SeserializeCachedSchemes(true);
+            SerializeCachedSchemes(true);
 
             IsCacheValid = true;
             IsImageCacheRefreshing = false;
@@ -136,7 +136,7 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Caches
                 {
                     if (++CurrentSchemeNumber % 50 == 0)
                     {
-                        SeserializeCachedSchemes(false);
+                        SerializeCachedSchemes(false);
                     }
 
                     var file = Path.Combine(SchemesPreviewPath, TransformTitle(scheme.Title) + ".png");
@@ -242,7 +242,7 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Caches
 
                     await CheckSchemes(imagesFinished);
 
-                    SeserializeCachedSchemes(true);
+                    SerializeCachedSchemes(true);
 
                     IsImageCacheRefreshing = false;
                 }
@@ -268,7 +268,7 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Caches
             }
         }
 
-        private void SeserializeCachedSchemes(bool imagesFinished)
+        private void SerializeCachedSchemes(bool imagesFinished)
         {
             var schemes = new Schemes {AllSchemes = Schemes, ImagesFinished = imagesFinished};
 

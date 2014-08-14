@@ -211,6 +211,7 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
             OnPropertyChanged("OverallPages");
             OnPropertyChanged("FirstItemNumber");
             OnPropertyChanged("LastItemNumber");
+            OnPropertyChanged("OverallItemCount");
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
