@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
+using Microsoft.VisualStudio.Shell;
 using Twainsoft.StudioStyler.Services.StudioStyles.Model;
 
 namespace Twainsoft.StudioStyler.Services.StudioStyles.Caches
@@ -45,42 +45,66 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Caches
             SerializeSchemesHistory();
         }
 
-        // In this check, we need to populate the schemes Dictionary too!!
+        public void Check()
+        {
+            var historyFile = Path.Combine(HistoryDataPath, HistoryCacheFile);
 
-        //public void Check()
-        //{
-        //    var schemesCachePath = Path.Combine(HistoryDataPath, HistoryCacheFile);
+            try
+            {
+                if (File.Exists(historyFile))
+                {
+                    DeserializeSchemsHistory();
+                }
+            }
+            catch (InvalidOperationException)
+            {
+                File.Delete(historyFile);
+            }
+            catch (XmlException)
+            {
+                File.Delete(historyFile);
+            }
+        }
 
-        //    try
-        //    {
-        //        if (File.Exists(schemesCachePath))
-        //        {
-        //            var lastWriteTime = File.GetLastWriteTime(schemesCachePath);
-        //        }
-        //        else
-        //        {
-        //        }
-        //    }
-        //    catch (InvalidOperationException)
-        //    {
-        //        File.Delete(schemesCachePath);
-        //    }
-        //    catch (XmlException)
-        //    {
-        //        File.Delete(schemesCachePath);
-        //    }
-        //}
+        private void DeserializeSchemsHistory()
+        {
+            using (var streamReader = new StreamReader(Path.Combine(HistoryDataPath, HistoryCacheFile)))
+            {
+                var xmlSerializer = new XmlSerializer(typeof(Histories));
+                var histories = xmlSerializer.Deserialize(streamReader) as Histories;
+
+                if (histories != null)
+                {
+                    foreach (var history in histories.AllHistories)
+                    {
+                        Schemes.Add(history.Scheme, history);
+                        History.Add(history);
+                    }
+                }
+            }
+        }
 
         private void SerializeSchemesHistory()
         {
             var histories = new Histories { AllHistories = History };
 
-            var file = Path.Combine(HistoryDataPath, HistoryCacheFile);
+            var historyFile = Path.Combine(HistoryDataPath, HistoryCacheFile);
 
-            using (var fileStream = new FileStream(file, FileMode.Create))
+            try
             {
-                var xmlSerializer = new XmlSerializer(typeof(History));
-                xmlSerializer.Serialize(fileStream, histories);
+                using (var fileStream = new FileStream(historyFile, FileMode.Create))
+                {
+                    var xmlSerializer = new XmlSerializer(typeof (Histories));
+                    xmlSerializer.Serialize(fileStream, histories);
+                }
+            }
+            catch (InvalidOperationException)
+            {
+                File.Delete(historyFile);
+            }
+            catch (XmlException)
+            {
+                File.Delete(historyFile);
             }
         }
     }

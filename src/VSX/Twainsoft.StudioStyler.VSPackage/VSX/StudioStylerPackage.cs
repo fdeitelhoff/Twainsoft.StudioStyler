@@ -94,7 +94,7 @@ namespace Twainsoft.StudioStyler.VSPackage.VSX
                 mcs.AddCommand(lastPageCommand);
             }
 
-            Model.CheckCache();
+            Model.CheckCaches();
         }
 
         private void OnSearchStringValues(object sender, EventArgs e)
