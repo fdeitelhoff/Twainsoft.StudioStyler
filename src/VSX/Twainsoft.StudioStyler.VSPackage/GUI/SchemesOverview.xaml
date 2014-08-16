@@ -44,37 +44,72 @@
                 <RowDefinition Height="5"/>
                 <RowDefinition Name="PreviewRow" Height="100" x:FieldModifier="private" />
             </Grid.RowDefinitions>
-            <DataGrid DockPanel.Dock="Bottom" ItemsSource="{Binding PagedSchemesView}" AutoGenerateColumns="False"
+            <DockPanel>
+                <DataGrid ItemsSource="{Binding SchemesHistory.History}" AutoGenerateColumns="False" Visibility="Collapsed"
                       HeadersVisibility="Column" SelectionMode="Single" SelectionUnit="FullRow" CanUserDeleteRows="False" CanUserAddRows="False"
-                      CanUserResizeRows="False" CanUserSortColumns="True" IsReadOnly="True" CanUserReorderColumns="False" MouseDoubleClick="StudioStylesGrid_OnMouseDoubleClick">
-                <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="View" SortMemberPath="View">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock HorizontalAlignment="Center">
+                      CanUserResizeRows="False" CanUserSortColumns="True" IsReadOnly="True" CanUserReorderColumns="False"
+                      Name="SchemesHistory">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="View" SortMemberPath="View">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock HorizontalAlignment="Center">
                                     <Hyperlink NavigateUri="{Binding Path}" RequestNavigate="ViewScheme_OnRequestNavigate">View</Hyperlink>
-                                </TextBlock>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Preview">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Image Source="{Binding Preview}"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Title" Width="*" Binding="{Binding Title}"/>
-                    <DataGridTextColumn Header="Author" Width="*" Binding="{Binding Author}"/>
-                    <DataGridTextColumn Header="Rated" Binding="{Binding Rating}">
-                        <DataGridTextColumn.ElementStyle>
-                            <Style TargetType="{x:Type TextBlock}">
-                                <Setter Property="HorizontalAlignment" Value="Right" />
-                            </Style>
-                        </DataGridTextColumn.ElementStyle>
-                    </DataGridTextColumn>
-                </DataGrid.Columns>
-            </DataGrid>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Preview">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image Source="{Binding Scheme.Preview}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="Title" Width="*" Binding="{Binding Scheme.Title}"/>
+                        <DataGridTextColumn Header="Author" Width="*" Binding="{Binding Scheme.Author}"/>
+                        <DataGridTextColumn Header="Rated" Binding="{Binding Scheme.Rating}">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Setter Property="HorizontalAlignment" Value="Right" />
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <DataGrid ItemsSource="{Binding PagedSchemesView}" AutoGenerateColumns="False" Visibility="Visible"
+                      HeadersVisibility="Column" SelectionMode="Single" SelectionUnit="FullRow" CanUserDeleteRows="False" CanUserAddRows="False"
+                      CanUserResizeRows="False" CanUserSortColumns="True" IsReadOnly="True" CanUserReorderColumns="False" MouseDoubleClick="StudioStylesGrid_OnMouseDoubleClick"
+                      Name="Schemes">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="View" SortMemberPath="View">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock HorizontalAlignment="Center">
+                                    <Hyperlink NavigateUri="{Binding Path}" RequestNavigate="ViewScheme_OnRequestNavigate">View</Hyperlink>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Preview">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image Source="{Binding Preview}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="Title" Width="*" Binding="{Binding Title}"/>
+                        <DataGridTextColumn Header="Author" Width="*" Binding="{Binding Author}"/>
+                        <DataGridTextColumn Header="Rated" Binding="{Binding Rating}">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Setter Property="HorizontalAlignment" Value="Right" />
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
             <GridSplitter HorizontalAlignment="Stretch" Grid.Row="1"/>
             <DockPanel Grid.Row="2">
                 <DockPanel DockPanel.Dock="Top">

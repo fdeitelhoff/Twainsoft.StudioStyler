@@ -23,7 +23,7 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
 
         private StudioStyles StudioStyles { get; set; }
         private SettingsActivator SettingsActivator { get; set; }
-        private SchemesHistory SchemesHistory { get; set; }
+        public SchemesHistory SchemesHistory { get; set; }
 
         private static SchemesOverviewModel instance;
 
