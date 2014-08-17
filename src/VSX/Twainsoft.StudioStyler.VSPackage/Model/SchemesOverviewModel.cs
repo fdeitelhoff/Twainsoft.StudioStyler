@@ -10,6 +10,7 @@ using Twainsoft.StudioStyler.Services.StudioStyles.Caches;
 using Twainsoft.StudioStyler.Services.StudioStyles.Model;
 using Twainsoft.StudioStyler.Services.StudioStyles.Settings;
 using Twainsoft.StudioStyler.Services.StudioStyles.Styles;
+using Twainsoft.StudioStyler.VSPackage.GUI;
 
 namespace Twainsoft.StudioStyler.VSPackage.Model
 {
@@ -175,6 +176,8 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
                 if (SettingsActivator.LoadScheme(file))
                 {
                     SchemesHistory.Add(scheme);
+
+                    StatusBar.Update(string.Format("The Style '{0}' was activated successfully!", scheme.Title));
                 }
             }
         }
