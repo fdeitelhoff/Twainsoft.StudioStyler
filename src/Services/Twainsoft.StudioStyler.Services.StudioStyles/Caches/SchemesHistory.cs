@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
-using Microsoft.VisualStudio.Shell;
 using Twainsoft.StudioStyler.Services.StudioStyles.Model;
 
 namespace Twainsoft.StudioStyler.Services.StudioStyles.Caches
