@@ -11,6 +11,7 @@ using Twainsoft.StudioStyler.Services.StudioStyles.Model;
 using Twainsoft.StudioStyler.Services.StudioStyles.Settings;
 using Twainsoft.StudioStyler.Services.StudioStyles.Styles;
 using Twainsoft.StudioStyler.VSPackage.GUI;
+using Twainsoft.StudioStyler.VSPackage.GUI.Options;
 
 namespace Twainsoft.StudioStyler.VSPackage.Model
 {
@@ -25,6 +26,8 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
         private StudioStyles StudioStyles { get; set; }
         private SettingsActivator SettingsActivator { get; set; }
         public SchemesHistory SchemesHistory { get; set; }
+
+        public OptionsStore OptionsStore { get; set; }
 
         private static SchemesOverviewModel instance;
 

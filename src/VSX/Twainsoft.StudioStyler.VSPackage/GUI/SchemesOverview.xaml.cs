@@ -16,6 +16,8 @@ namespace Twainsoft.StudioStyler.VSPackage.GUI
 
             Model = SchemesOverviewModel.Instance;
             DataContext = Model;
+
+            PreviewRow.Height = !Model.OptionsStore.IsSchemePreviewVisible ? new GridLength(0) : new GridLength(100);
         }
 
         private void UpdateCache(object sender, RequestNavigateEventArgs e)
@@ -31,11 +33,17 @@ namespace Twainsoft.StudioStyler.VSPackage.GUI
         private void CollapsePreview_OnClick(object sender, RoutedEventArgs e)
         {
             PreviewRow.Height = new GridLength(0);
+
+            Model.OptionsStore.IsSchemePreviewVisible = false;
+            Model.OptionsStore.SaveSettingsToStorage();
         }
 
         private void StudioStylesGrid_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             PreviewRow.Height = new GridLength(100);
+
+            Model.OptionsStore.IsSchemePreviewVisible = true;
+            Model.OptionsStore.SaveSettingsToStorage();
         }
     }
 }

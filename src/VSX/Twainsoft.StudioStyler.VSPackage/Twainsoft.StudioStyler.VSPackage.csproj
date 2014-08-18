@@ -129,6 +129,15 @@
     <Compile Include="GUI\CollectionViewGroupInternal.cs" />
     <Compile Include="GUI\CollectionViewGroupRoot.cs" />
     <Compile Include="GUI\IPagedCollectionView.cs" />
+    <Compile Include="GUI\Options\OptionsView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Options\OptionsView.Designer.cs">
+      <DependentUpon>OptionsView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Options\OptionsStore.cs">
+      <SubType>component</SubType>
+    </Compile>
     <Compile Include="GUI\PageChangingEventArgs.cs" />
     <Compile Include="GUI\PagedCollectionView.cs" />
     <Compile Include="GUI\PagedCollectionViewResources.Designer.cs">
@@ -156,6 +165,9 @@
     <Compile Include="VSX\CommandIds.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="GUI\Options\OptionsView.resx">
+      <DependentUpon>OptionsView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\PagedCollectionViewResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>PagedCollectionViewResources.Designer.cs</LastGenOutput>

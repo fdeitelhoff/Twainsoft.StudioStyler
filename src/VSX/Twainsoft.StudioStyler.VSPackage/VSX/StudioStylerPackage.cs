@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Twainsoft.StudioStyler.VSPackage.GUI;
+using Twainsoft.StudioStyler.VSPackage.GUI.Options;
 using Twainsoft.StudioStyler.VSPackage.Model;
 
 namespace Twainsoft.StudioStyler.VSPackage.VSX
@@ -13,14 +14,10 @@ namespace Twainsoft.StudioStyler.VSPackage.VSX
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideToolWindow(typeof(SchemesOverviewWindow))]
     [Guid(GuidList.guidTwainsoft_StudioStyler_VSPackagePkgString)]
+    [ProvideOptionPage(typeof(OptionsStore), "Twainsoft StudioStyler", "General", 0, 0, true)]
     public sealed class StudioStylerPackage : Package
     {
         private SchemesOverviewModel Model { get; set; }
-
-        public StudioStylerPackage()
-        {
-            Model = SchemesOverviewModel.Instance;
-        }
 
         private void ShowToolWindow(object sender, EventArgs e)
         {
@@ -38,6 +35,11 @@ namespace Twainsoft.StudioStyler.VSPackage.VSX
         protected override void Initialize()
         {
             base.Initialize();
+
+            var optionsStore = GetDialogPage(typeof(OptionsStore)) as OptionsStore;
+
+            Model = SchemesOverviewModel.Instance;
+            Model.OptionsStore = optionsStore;
 
             var mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
             if (null != mcs)
