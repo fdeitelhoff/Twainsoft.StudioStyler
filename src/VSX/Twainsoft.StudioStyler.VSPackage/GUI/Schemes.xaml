@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:model="clr-namespace:Twainsoft.StudioStyler.VSPackage.Model"
              mc:Ignorable="d" 
-             d:DesignHeight="413" d:DesignWidth="331" d:DataContext="{d:DesignInstance model:SchemesOverviewModel}">
+             d:DesignHeight="413" d:DesignWidth="331" d:DataContext="{d:DesignInstance model:SchemesModel}">
     <UserControl.Resources>
         <ResourceDictionary Source="SchemesToolWindowStyles.xaml"/>
     </UserControl.Resources>

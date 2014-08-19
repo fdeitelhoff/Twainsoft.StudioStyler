@@ -17,7 +17,7 @@ namespace Twainsoft.StudioStyler.VSPackage.VSX
     [ProvideOptionPage(typeof(OptionsStore), "Twainsoft StudioStyler", "General", 0, 0, true)]
     public sealed class StudioStylerPackage : Package
     {
-        private SchemesOverviewModel Model { get; set; }
+        private SchemesModel Model { get; set; }
 
         private void ShowToolWindow(object sender, EventArgs e)
         {
@@ -38,7 +38,7 @@ namespace Twainsoft.StudioStyler.VSPackage.VSX
 
             var optionsStore = GetDialogPage(typeof(OptionsStore)) as OptionsStore;
 
-            Model = SchemesOverviewModel.Instance;
+            Model = SchemesModel.Instance;
             Model.OptionsStore = optionsStore;
 
             var mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;

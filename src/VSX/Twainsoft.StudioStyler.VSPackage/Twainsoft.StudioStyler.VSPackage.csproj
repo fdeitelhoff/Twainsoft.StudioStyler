@@ -156,7 +156,7 @@
     </Compile>
     <Compile Include="GUI\SchemesOverviewWindow.cs" />
     <Compile Include="GUI\StatusBar.cs" />
-    <Compile Include="Model\SchemesOverviewModel.cs" />
+    <Compile Include="Model\SchemesModel.cs" />
     <Compile Include="VSX\Guids.cs" />
     <Compile Include="GUI\TypeHelper.cs" />
     <Compile Include="GUI\VSMessageBox.cs" />
