@@ -1,13 +1,13 @@
-﻿<UserControl x:Class="Twainsoft.StudioStyler.VSPackage.GUI.SchemesOverview"
+﻿<UserControl x:Class="Twainsoft.StudioStyler.VSPackage.GUI.Schemes"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:model="clr-namespace:Twainsoft.StudioStyler.VSPackage.Model"
              mc:Ignorable="d" 
              d:DesignHeight="413" d:DesignWidth="331" d:DataContext="{d:DesignInstance model:SchemesOverviewModel}">
     <UserControl.Resources>
-       <ResourceDictionary Source="SchemesToolWindowStyles.xaml"/>
+        <ResourceDictionary Source="SchemesToolWindowStyles.xaml"/>
     </UserControl.Resources>
     <DockPanel>
         <TextBlock DockPanel.Dock="Top" HorizontalAlignment="Center" Style="{StaticResource CacheValidTextBox}">

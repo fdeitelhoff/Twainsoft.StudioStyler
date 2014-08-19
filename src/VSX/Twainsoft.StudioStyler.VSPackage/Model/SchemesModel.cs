@@ -15,7 +15,7 @@ using Twainsoft.StudioStyler.VSPackage.GUI.Options;
 
 namespace Twainsoft.StudioStyler.VSPackage.Model
 {
-    public sealed class SchemesOverviewModel : INotifyPropertyChanged
+    public sealed class SchemesModel : INotifyPropertyChanged
     {
         public SchemeCache SchemeCache { get; private set; }
         public PagedCollectionView PagedSchemesView { get; private set; }
@@ -29,11 +29,11 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
 
         public OptionsStore OptionsStore { get; set; }
 
-        private static SchemesOverviewModel instance;
+        private static SchemesModel instance;
 
-        public static SchemesOverviewModel Instance
+        public static SchemesModel Instance
         {
-            get { return instance ?? (instance = new SchemesOverviewModel()); }
+            get { return instance ?? (instance = new SchemesModel()); }
         }
 
         public int CurrentPage
@@ -64,7 +64,7 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
             get { return SchemeCache.Schemes.Count; }
         }
 
-        private SchemesOverviewModel()
+        private SchemesModel()
         {
             SchemeCache = new SchemeCache();
             PagedSchemesView = new PagedCollectionView(SchemeCache.Schemes) { PageSize = 40};

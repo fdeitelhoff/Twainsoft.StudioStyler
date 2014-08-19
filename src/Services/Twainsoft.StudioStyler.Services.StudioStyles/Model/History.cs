@@ -8,6 +8,7 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Model
         [JsonProperty(PropertyName = "scheme")]
         [XmlElement("Scheme")]
         public Scheme Scheme { get; set; }
+
         [JsonProperty(PropertyName = "activations")]
         [XmlElement("Activations")]
         public int Activations { get; set; }

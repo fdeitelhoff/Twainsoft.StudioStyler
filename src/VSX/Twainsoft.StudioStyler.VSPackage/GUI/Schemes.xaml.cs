@@ -1,23 +1,26 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Navigation;
 using Twainsoft.StudioStyler.VSPackage.Model;
-using Process = System.Diagnostics.Process;
 
 namespace Twainsoft.StudioStyler.VSPackage.GUI
 {
-    public partial class SchemesOverview
+    public partial class Schemes
     {
-        private SchemesOverviewModel Model { get; set; }
+        private SchemesModel Model { get; set; }
 
-        public SchemesOverview()
+        public Schemes()
         {
             InitializeComponent();
 
-            Model = SchemesOverviewModel.Instance;
+            Model = SchemesModel.Instance;
             DataContext = Model;
 
-            PreviewRow.Height = !Model.OptionsStore.IsSchemePreviewVisible ? new GridLength(0) : new GridLength(100);
+            if (Model.OptionsStore != null)
+            {
+                PreviewRow.Height = !Model.OptionsStore.IsSchemePreviewVisible ? new GridLength(0) : new GridLength(100);
+            }
         }
 
         private void UpdateCache(object sender, RequestNavigateEventArgs e)
