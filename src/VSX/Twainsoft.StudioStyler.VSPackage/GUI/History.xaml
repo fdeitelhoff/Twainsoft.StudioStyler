@@ -2,10 +2,76 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:model="clr-namespace:Twainsoft.StudioStyler.VSPackage.Model"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-            
-    </Grid>
+             d:DesignHeight="413" d:DesignWidth="331" d:DataContext="{d:DesignInstance model:HistoryModel}">
+    <UserControl.Resources>
+        <ResourceDictionary Source="SchemesToolWindowStyles.xaml"/>
+    </UserControl.Resources>
+    <DockPanel>
+        <TextBlock Style="{StaticResource InfoTextBlock}" DockPanel.Dock="Bottom">
+            <TextBlock.Text>
+                <MultiBinding StringFormat="Page {0} / {1} - Showing Items {2} - {3} of {4} Overall Items">
+                    <Binding Path="CurrentPage"/>
+                    <Binding Path="OverallPages"/>
+                    <Binding Path="FirstItemNumber"/>
+                    <Binding Path="LastItemNumber"/>
+                    <Binding Path="OverallItemCount"/>
+                </MultiBinding>
+            </TextBlock.Text>
+        </TextBlock>
+        <Grid DockPanel.Dock="Bottom">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="5"/>
+                <RowDefinition Name="PreviewRow" Height="100" x:FieldModifier="private" />
+            </Grid.RowDefinitions>
+            <DataGrid ItemsSource="{Binding PagedHistoryView}" AutoGenerateColumns="False"
+                    HeadersVisibility="Column" SelectionMode="Single" SelectionUnit="FullRow" CanUserDeleteRows="False" CanUserAddRows="False"
+                    CanUserResizeRows="False" CanUserSortColumns="True" IsReadOnly="True" CanUserReorderColumns="False" MouseDoubleClick="StudioStylesGrid_OnMouseDoubleClick">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="View" SortMemberPath="View">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Center">
+                                <Hyperlink NavigateUri="{Binding Scheme.Path}" RequestNavigate="ViewScheme_OnRequestNavigate">View</Hyperlink>
+                                </TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Preview">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding Scheme.Preview}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Title" Width="*" Binding="{Binding Scheme.Title}"/>
+                    <DataGridTextColumn Header="Author" Width="*" Binding="{Binding Scheme.Author}"/>
+                    <DataGridTextColumn Header="Rated" Binding="{Binding Scheme.Rating}">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="HorizontalAlignment" Value="Right" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <GridSplitter HorizontalAlignment="Stretch" Grid.Row="1"/>
+            <DockPanel Grid.Row="2">
+                <DockPanel DockPanel.Dock="Top">
+                    <Button DockPanel.Dock="Right" Content=" X " Click="CollapsePreview_OnClick"/>
+                    <TextBlock Style="{StaticResource Preview}">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="Preview image for '{0}'">
+                                <Binding Path="PagedHistoryView.CurrentItem.Scheme.Title"/>
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </DockPanel>
+                <Image Source="{Binding PagedHistoryView.CurrentItem.Scheme.Preview}"/>
+            </DockPanel>
+        </Grid>
+    </DockPanel>
 </UserControl>

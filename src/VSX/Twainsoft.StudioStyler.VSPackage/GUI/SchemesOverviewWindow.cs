@@ -18,7 +18,7 @@ namespace Twainsoft.StudioStyler.VSPackage.GUI
 
             ToolBar = new CommandID(GuidList.GuidSchemesToolbarCmdSet, CommandIds.SchemesToolbarId);
 
-            base.Content = new SchemesOverview();
+            base.Content = new StudioStyles();
         }
     }
 }

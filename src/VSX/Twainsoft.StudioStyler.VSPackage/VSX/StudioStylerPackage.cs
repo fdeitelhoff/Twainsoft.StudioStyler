@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Design;
 using System.Runtime.InteropServices;
+using System.Windows;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Twainsoft.StudioStyler.VSPackage.GUI;
@@ -17,7 +18,7 @@ namespace Twainsoft.StudioStyler.VSPackage.VSX
     [ProvideOptionPage(typeof(OptionsStore), "Twainsoft StudioStyler", "General", 0, 0, true)]
     public sealed class StudioStylerPackage : Package
     {
-        private SchemesModel Model { get; set; }
+        private IModel Model { get; set; }
 
         private void ShowToolWindow(object sender, EventArgs e)
         {
@@ -72,8 +73,14 @@ namespace Twainsoft.StudioStyler.VSPackage.VSX
                 // The activate scheme command.
                 var activateSchemeCommandId = new CommandID(GuidList.GuidSchemesToolbarCmdSet, CommandIds.ActivateScheme);
                 var activateSchemeCommand = new OleMenuCommand(OnActivateScheme, activateSchemeCommandId);
-                //activateSchemeCommand.BeforeQueryStatus += new EventHandler(OnBeforeQueryStatusActivateScheme);
+                activateSchemeCommand.BeforeQueryStatus += OnBeforeQueryStatusActivateScheme;
                 mcs.AddCommand(activateSchemeCommand);
+
+                // The history command.
+                var historyCommandId = new CommandID(GuidList.GuidSchemesToolbarCmdSet, CommandIds.SchemesHistory);
+                var historyCommand = new OleMenuCommand(OnHistory, historyCommandId);
+                historyCommand.BeforeQueryStatus += HistoryCommandOnBeforeQueryStatus;
+                mcs.AddCommand(historyCommand);
 
                 // The first page command.
                 var firstPageCommandId = new CommandID(GuidList.GuidSchemesToolbarCmdSet, CommandIds.FirstPageNavigation);
@@ -96,7 +103,7 @@ namespace Twainsoft.StudioStyler.VSPackage.VSX
                 mcs.AddCommand(lastPageCommand);
             }
 
-            Model.CheckCaches();
+            Model.CheckCache();
         }
 
         private void OnSearchStringValues(object sender, EventArgs e)
@@ -132,6 +139,65 @@ namespace Twainsoft.StudioStyler.VSPackage.VSX
         private void OnActivateScheme(object sender, EventArgs e)
         {
             Model.ActivateScheme();
+        }
+
+        private void OnBeforeQueryStatusActivateScheme(object sender, EventArgs e)
+        {
+            var myCommand = sender as OleMenuCommand;
+            if (null != myCommand)
+            {
+                myCommand.Enabled = Model.IsItemSelected;
+            }
+        }
+
+        private void OnHistory(object sender, EventArgs e)
+        {
+            var window = FindToolWindow(typeof(SchemesOverviewWindow), 0, true);
+
+            if ((null == window) || (null == window.Frame))
+            {
+                throw new NotSupportedException(Resources.Resources.CanNotCreateWindow);
+            }
+
+            if (Model is SchemesModel)
+            {
+                Model = HistoryModel.Instance;
+                Model.CheckCache();
+
+                var schemesOverview = window as SchemesOverviewWindow;
+
+                var studioStyles = schemesOverview.Content as StudioStyles;
+
+                studioStyles.SchemesView.Visibility = Visibility.Hidden;
+                studioStyles.HistoryView.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                Model = SchemesModel.Instance;
+
+                var schemesOverview = window as SchemesOverviewWindow;
+
+                var studioStyles = schemesOverview.Content as StudioStyles;
+
+                studioStyles.SchemesView.Visibility = Visibility.Visible;
+                studioStyles.HistoryView.Visibility = Visibility.Hidden;
+            }
+        }
+
+        private void HistoryCommandOnBeforeQueryStatus(object sender, EventArgs eventArgs)
+        {
+            var myCommand = sender as OleMenuCommand;
+            if (null != myCommand)
+            {
+                if (Model is SchemesModel)
+                {
+                    myCommand.Text = "History";
+                }
+                else
+                {
+                    myCommand.Text = "Styles";
+                }
+            }
         }
 
         private void OnFirstPage(object sender, EventArgs e)

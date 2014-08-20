@@ -156,6 +156,8 @@
     </Compile>
     <Compile Include="GUI\SchemesOverviewWindow.cs" />
     <Compile Include="GUI\StatusBar.cs" />
+    <Compile Include="Model\HistoryModel.cs" />
+    <Compile Include="Model\IModel.cs" />
     <Compile Include="Model\SchemesModel.cs" />
     <Compile Include="VSX\Guids.cs" />
     <Compile Include="GUI\TypeHelper.cs" />

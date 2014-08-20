@@ -15,10 +15,9 @@ using StudioStyles = Twainsoft.StudioStyler.Services.StudioStyles.Styles.StudioS
 
 namespace Twainsoft.StudioStyler.VSPackage.Model
 {
-    public sealed class SchemesModel : IModel, INotifyPropertyChanged
+    public sealed class HistoryModel : IModel, INotifyPropertyChanged
     {
-        public SchemeCache SchemeCache { get; private set; }
-        public PagedCollectionView PagedSchemesView { get; private set; }
+        public PagedCollectionView PagedHistoryView { get; private set; }
 
         private string CurrentSearchString { get; set; }
         private List<string> SearchValues { get; set; }
@@ -29,70 +28,65 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
 
         public OptionsStore OptionsStore { get; set; }
 
-        private static SchemesModel instance;
+        private static HistoryModel instance;
 
-        public static SchemesModel Instance
+        public static HistoryModel Instance
         {
-            get { return instance ?? (instance = new SchemesModel()); }
+            get { return instance ?? (instance = new HistoryModel()); }
         }
 
         public int CurrentPage
         {
-            get { return PagedSchemesView.CurrentPage; }
+            get { return PagedHistoryView.CurrentPage; }
         }
 
         public int OverallPages
         {
-            get { return PagedSchemesView.PageCount; }
+            get { return PagedHistoryView.PageCount; }
         }
 
         public int FirstItemNumber
         {
-            get { return PagedSchemesView.PageIndex * PagedSchemesView.PageSize + 1; }
+            get { return PagedHistoryView.PageIndex * PagedHistoryView.PageSize + 1; }
         }
 
         public int LastItemNumber
         {
             get
             {
-                return Math.Min(PagedSchemesView.PageIndex * PagedSchemesView.PageSize + PagedSchemesView.PageSize, PagedSchemesView.ItemCount);
+                return Math.Min(PagedHistoryView.PageIndex * PagedHistoryView.PageSize + PagedHistoryView.PageSize, PagedHistoryView.ItemCount);
             }
         }
 
         public int OverallItemCount
         {
-            get { return SchemeCache.Schemes.Count; }
+            get { return SchemesHistory.History.Count; }
         }
 
         public bool IsItemSelected
         {
-            get { return PagedSchemesView.CurrentItem != null; }
+            get { return PagedHistoryView.CurrentItem != null; }
         }
 
-        private SchemesModel()
+        private HistoryModel()
         {
-            SchemeCache = new SchemeCache();
-            PagedSchemesView = new PagedCollectionView(SchemeCache.Schemes) { PageSize = 40};
+            SchemesHistory = new SchemesHistory();
+            PagedHistoryView = new PagedCollectionView(SchemesHistory.History) { PageSize = 40};
             
             CurrentSearchString = "";
             SearchValues = new List<string>();
 
             StudioStyles = new StudioStyles();
             SettingsActivator = new SettingsActivator();
-            SchemesHistory = new SchemesHistory();
         }
 
-        public async void RefreshCache()
+        public void RefreshCache()
         {
-            await SchemeCache.Refresh();
-
             UpdateInfoBar();
         }
 
-        public async void CheckCache()
+        public void CheckCache()
         {
-            await SchemeCache.Check();
-
             SchemesHistory.Check();
         }
 
@@ -118,7 +112,7 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
                         SearchValues.Add(CurrentSearchString);
                     }
 
-                    PagedSchemesView.Filter += delegate(object obj)
+                    PagedHistoryView.Filter += delegate(object obj)
                     {
                         var scheme = obj as Scheme;
 
@@ -145,7 +139,7 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
                 }
                 else
                 {
-                    PagedSchemesView.Filter = null;
+                    PagedHistoryView.Filter = null;
                 }
             }
 
@@ -165,7 +159,7 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
         public void ClearSearch()
         {
             CurrentSearchString = null;
-            PagedSchemesView.Filter = null;
+            PagedHistoryView.Filter = null;
         }
 
         public void ActivateScheme()
@@ -175,7 +169,7 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
 
         private async void DownloadScheme()
         {
-            var scheme = PagedSchemesView.CurrentItem as Scheme;
+            var scheme = PagedHistoryView.CurrentItem as Scheme;
 
             if (scheme != null)
             {
@@ -192,28 +186,28 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
 
         public void NextPage()
         {
-            PagedSchemesView.MoveToNextPage();
+            PagedHistoryView.MoveToNextPage();
 
             UpdateInfoBar();
         }
 
         public void FirstPage()
         {
-            PagedSchemesView.MoveToFirstPage();
+            PagedHistoryView.MoveToFirstPage();
 
             UpdateInfoBar();
         }
 
         public void PreviousPage()
         {
-            PagedSchemesView.MoveToPreviousPage();
+            PagedHistoryView.MoveToPreviousPage();
 
             UpdateInfoBar();
         }
 
         public void LastPage()
         {
-            PagedSchemesView.MoveToLastPage();
+            PagedHistoryView.MoveToLastPage();
 
             UpdateInfoBar();
         }
