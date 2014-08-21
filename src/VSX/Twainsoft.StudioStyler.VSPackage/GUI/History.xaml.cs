@@ -8,13 +8,13 @@ namespace Twainsoft.StudioStyler.VSPackage.GUI
 {
     public partial class History
     {
-        private SchemesModel Model { get; set; }
+        private HistoryModel Model { get; set; }
 
         public History()
         {
             InitializeComponent();
 
-            Model = SchemesModel.Instance;
+            Model = HistoryModel.Instance;
             DataContext = Model;
 
             if (Model.OptionsStore != null)

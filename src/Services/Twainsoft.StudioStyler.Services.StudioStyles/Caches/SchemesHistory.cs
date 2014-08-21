@@ -16,7 +16,14 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Caches
         private string HistoryDataPath { get; set; }
         private string HistoryCacheFile { get; set; }
 
-        public SchemesHistory()
+        private static SchemesHistory instance;
+
+        public static SchemesHistory Instance
+        {
+            get { return instance ?? (instance = new SchemesHistory()); }
+        }
+
+        private SchemesHistory()
         {
             Schemes = new Dictionary<Scheme, History>();
             History = new ObservableCollection<History>();
@@ -25,6 +32,8 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Caches
                 Path.Combine("Twainsoft", "StudioStyler"));
 
             HistoryCacheFile = "SchemesHistory.xml";
+
+            Check();
         }
 
         public void Add(Scheme scheme)

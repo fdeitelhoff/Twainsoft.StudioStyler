@@ -79,7 +79,7 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
 
             StudioStyles = new StudioStyles();
             SettingsActivator = new SettingsActivator();
-            SchemesHistory = new SchemesHistory();
+            SchemesHistory = SchemesHistory.Instance;
         }
 
         public async void RefreshCache()

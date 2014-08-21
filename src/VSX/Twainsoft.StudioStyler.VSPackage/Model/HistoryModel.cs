@@ -70,7 +70,7 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
 
         private HistoryModel()
         {
-            SchemesHistory = new SchemesHistory();
+            SchemesHistory = SchemesHistory.Instance;
             PagedHistoryView = new PagedCollectionView(SchemesHistory.History) { PageSize = 40};
             
             CurrentSearchString = "";
