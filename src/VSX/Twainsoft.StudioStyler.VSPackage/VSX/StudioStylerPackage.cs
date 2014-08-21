@@ -159,14 +159,13 @@ namespace Twainsoft.StudioStyler.VSPackage.VSX
                 throw new NotSupportedException(Resources.Resources.CanNotCreateWindow);
             }
 
+            var schemesOverview = window as SchemesOverviewWindow;
+
+            var studioStyles = schemesOverview.Content as StudioStyles;
+
             if (Model is SchemesModel)
             {
                 Model = HistoryModel.Instance;
-                Model.CheckCache();
-
-                var schemesOverview = window as SchemesOverviewWindow;
-
-                var studioStyles = schemesOverview.Content as StudioStyles;
 
                 studioStyles.SchemesView.Visibility = Visibility.Hidden;
                 studioStyles.HistoryView.Visibility = Visibility.Visible;
@@ -174,10 +173,6 @@ namespace Twainsoft.StudioStyler.VSPackage.VSX
             else
             {
                 Model = SchemesModel.Instance;
-
-                var schemesOverview = window as SchemesOverviewWindow;
-
-                var studioStyles = schemesOverview.Content as StudioStyles;
 
                 studioStyles.SchemesView.Visibility = Visibility.Visible;
                 studioStyles.HistoryView.Visibility = Visibility.Hidden;
