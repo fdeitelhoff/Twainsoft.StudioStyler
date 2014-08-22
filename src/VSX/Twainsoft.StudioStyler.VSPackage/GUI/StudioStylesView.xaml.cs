@@ -1,8 +1,8 @@
 ﻿namespace Twainsoft.StudioStyler.VSPackage.GUI
 {
-    public partial class StudioStyles
+    public partial class StudioStylesView
     {
-        public StudioStyles()
+        public StudioStylesView()
         {
             InitializeComponent();
         }

@@ -9,9 +9,9 @@ using Twainsoft.StudioStyler.Services.StudioStyles.Annotations;
 using Twainsoft.StudioStyler.Services.StudioStyles.Caches;
 using Twainsoft.StudioStyler.Services.StudioStyles.Model;
 using Twainsoft.StudioStyler.Services.StudioStyles.Settings;
+using Twainsoft.StudioStyler.Services.StudioStyles.Styles;
 using Twainsoft.StudioStyler.VSPackage.GUI;
 using Twainsoft.StudioStyler.VSPackage.GUI.Options;
-using StudioStyles = Twainsoft.StudioStyler.Services.StudioStyles.Styles.StudioStyles;
 
 namespace Twainsoft.StudioStyler.VSPackage.Model
 {

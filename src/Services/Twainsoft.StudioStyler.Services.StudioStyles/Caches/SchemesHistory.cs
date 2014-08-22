@@ -83,6 +83,8 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Caches
 
                 if (histories != null)
                 {
+                    Schemes.Clear();
+                    History.Clear();
                     foreach (var history in histories.AllHistories)
                     {
                         Schemes.Add(history.Scheme, history);

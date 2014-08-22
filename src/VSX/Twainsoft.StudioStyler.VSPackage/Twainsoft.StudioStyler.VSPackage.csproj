@@ -128,8 +128,8 @@
   <ItemGroup>
     <Compile Include="GUI\CollectionViewGroupInternal.cs" />
     <Compile Include="GUI\CollectionViewGroupRoot.cs" />
-    <Compile Include="GUI\History.xaml.cs">
-      <DependentUpon>History.xaml</DependentUpon>
+    <Compile Include="GUI\HistoryView.xaml.cs">
+      <DependentUpon>HistoryView.xaml</DependentUpon>
     </Compile>
     <Compile Include="GUI\IPagedCollectionView.cs" />
     <Compile Include="GUI\Options\OptionsView.cs">
@@ -148,11 +148,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>PagedCollectionViewResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Schemes.xaml.cs">
-      <DependentUpon>Schemes.xaml</DependentUpon>
+    <Compile Include="GUI\SchemesView.xaml.cs">
+      <DependentUpon>SchemesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GUI\StudioStyles.xaml.cs">
-      <DependentUpon>StudioStyles.xaml</DependentUpon>
+    <Compile Include="GUI\StudioStylesView.xaml.cs">
+      <DependentUpon>StudioStylesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="GUI\SchemesOverviewWindow.cs" />
     <Compile Include="GUI\StatusBar.cs" />
@@ -213,15 +213,15 @@
     <Content Include="Resources\Package.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="GUI\History.xaml">
+    <Page Include="GUI\HistoryView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="GUI\Schemes.xaml">
+    <Page Include="GUI\SchemesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="GUI\StudioStyles.xaml">
+    <Page Include="GUI\StudioStylesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

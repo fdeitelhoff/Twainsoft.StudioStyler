@@ -6,26 +6,21 @@ using Twainsoft.StudioStyler.VSPackage.Model;
 
 namespace Twainsoft.StudioStyler.VSPackage.GUI
 {
-    public partial class Schemes
+    public partial class HistoryView
     {
-        private SchemesModel Model { get; set; }
+        private HistoryModel Model { get; set; }
 
-        public Schemes()
+        public HistoryView()
         {
             InitializeComponent();
 
-            Model = SchemesModel.Instance;
+            Model = HistoryModel.Instance;
             DataContext = Model;
 
             if (Model.OptionsStore != null)
             {
                 PreviewRow.Height = !Model.OptionsStore.IsSchemePreviewVisible ? new GridLength(0) : new GridLength(100);
             }
-        }
-
-        private void UpdateCache(object sender, RequestNavigateEventArgs e)
-        {
-            Model.RefreshCache();
         }
 
         private void ViewScheme_OnRequestNavigate(object sender, RequestNavigateEventArgs e)

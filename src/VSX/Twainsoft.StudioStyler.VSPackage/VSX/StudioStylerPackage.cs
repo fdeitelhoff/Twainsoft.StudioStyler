@@ -2,6 +2,7 @@
 using System.ComponentModel.Design;
 using System.Runtime.InteropServices;
 using System.Windows;
+using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Twainsoft.StudioStyler.VSPackage.GUI;
@@ -20,34 +21,22 @@ namespace Twainsoft.StudioStyler.VSPackage.VSX
     {
         private IModel Model { get; set; }
 
-        private void ShowToolWindow(object sender, EventArgs e)
-        {
-            var window = FindToolWindow(typeof(SchemesOverviewWindow), 0, true);
+        private SchemesView SchemesView { get; set; }
+        private HistoryView HistoryView { get; set; }
 
-            if ((null == window) || (null == window.Frame))
-            {
-                throw new NotSupportedException(Resources.Resources.CanNotCreateWindow);
-            }
-
-            var windowFrame = (IVsWindowFrame)window.Frame;
-            Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(windowFrame.Show());
-        }
+        private ToolWindowPane Window { get; set; }
+        private StudioStylesView StudioStylesView { get; set; }
 
         protected override void Initialize()
         {
             base.Initialize();
-
-            var optionsStore = GetDialogPage(typeof(OptionsStore)) as OptionsStore;
-
-            Model = SchemesModel.Instance;
-            Model.OptionsStore = optionsStore;
 
             var mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
             if (null != mcs)
             {
                 // The ToolWindow menu command.
                 var toolWindowCommandId = new CommandID(GuidList.guidTwainsoft_StudioStyler_VSPackageCmdSet, CommandIds.ShowStudioStylesId);
-                var menuToolWin = new MenuCommand(ShowToolWindow, toolWindowCommandId);
+                var menuToolWin = new MenuCommand(OnShowToolWindow, toolWindowCommandId);
                 mcs.AddCommand(menuToolWin);
 
                 // The search combobox command.
@@ -103,7 +92,56 @@ namespace Twainsoft.StudioStyler.VSPackage.VSX
                 mcs.AddCommand(lastPageCommand);
             }
 
-            Model.CheckCache();
+            var optionsStore = GetDialogPage(typeof(OptionsStore)) as OptionsStore;
+
+            HistoryModel.Instance.OptionsStore = optionsStore;
+            SchemesModel.Instance.OptionsStore = optionsStore;
+
+            HistoryModel.Instance.CheckCache();
+            SchemesModel.Instance.CheckCache();
+
+            Model = SchemesModel.Instance;
+
+            // Maybe insert the model here?
+            SchemesView = new SchemesView();
+            HistoryView = new HistoryView();
+
+            // Save those objects. We need them more than once!
+            Window = FindToolWindow(typeof(SchemesOverviewWindow), 0, true);
+
+            if (Window == null || Window.Frame == null)
+            {
+                throw new NotSupportedException(Resources.Resources.CanNotCreateWindow);
+            }
+
+            var schemesOverview = Window as SchemesOverviewWindow;
+
+            if (schemesOverview == null)
+            {
+                throw new InvalidOperationException("Cannot find the SchemesOverviewWindow!");
+            }
+
+            StudioStylesView = schemesOverview.Content as StudioStylesView;
+
+            if (StudioStylesView == null)
+            {
+                throw new InvalidOperationException("Cannot find the StudioStylesView!");
+            }
+
+            StudioStylesView.Dock.Children.Add(SchemesView);
+        }
+
+        private void OnShowToolWindow(object sender, EventArgs e)
+        {
+            //var window = FindToolWindow(typeof(SchemesOverviewWindow), 0, true);
+
+            //if ((null == window) || (null == window.Frame))
+            //{
+            //    throw new NotSupportedException(Resources.Resources.CanNotCreateWindow);
+            //}
+
+            var windowFrame = (IVsWindowFrame)Window.Frame;
+            ErrorHandler.ThrowOnFailure(windowFrame.Show());
         }
 
         private void OnSearchStringValues(object sender, EventArgs e)
@@ -152,30 +190,40 @@ namespace Twainsoft.StudioStyler.VSPackage.VSX
 
         private void OnHistory(object sender, EventArgs e)
         {
-            var window = FindToolWindow(typeof(SchemesOverviewWindow), 0, true);
+            //var window = FindToolWindow(typeof(SchemesOverviewWindow), 0, true);
 
-            if ((null == window) || (null == window.Frame))
-            {
-                throw new NotSupportedException(Resources.Resources.CanNotCreateWindow);
-            }
+            //if ((null == window) || (null == window.Frame))
+            //{
+            //    throw new NotSupportedException(Resources.Resources.CanNotCreateWindow);
+            //}
 
-            var schemesOverview = window as SchemesOverviewWindow;
+            //var schemesOverview = window as SchemesOverviewWindow;
 
-            var studioStyles = schemesOverview.Content as StudioStyles;
+            //if (schemesOverview == null)
+            //{
+            //    throw new InvalidOperationException("Cannot find the SchemesOverviewWindow!");
+            //}
+
+            //var studioStyles = schemesOverview.Content as StudioStylesView;
+
+            //if (studioStyles == null)
+            //{
+            //    throw new InvalidOperationException("Cannot find the StudioStylesView!");
+            //}
 
             if (Model is SchemesModel)
             {
                 Model = HistoryModel.Instance;
 
-                studioStyles.SchemesView.Visibility = Visibility.Hidden;
-                studioStyles.HistoryView.Visibility = Visibility.Visible;
+                StudioStylesView.Dock.Children.Remove(SchemesView);
+                StudioStylesView.Dock.Children.Add(HistoryView);
             }
             else
             {
                 Model = SchemesModel.Instance;
 
-                studioStyles.SchemesView.Visibility = Visibility.Visible;
-                studioStyles.HistoryView.Visibility = Visibility.Hidden;
+                StudioStylesView.Dock.Children.Remove(HistoryView);
+                StudioStylesView.Dock.Children.Add(SchemesView);
             }
         }
 

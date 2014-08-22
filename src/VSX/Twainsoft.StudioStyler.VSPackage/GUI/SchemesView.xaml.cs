@@ -6,21 +6,26 @@ using Twainsoft.StudioStyler.VSPackage.Model;
 
 namespace Twainsoft.StudioStyler.VSPackage.GUI
 {
-    public partial class History
+    public partial class SchemesView
     {
-        private HistoryModel Model { get; set; }
+        private SchemesModel Model { get; set; }
 
-        public History()
+        public SchemesView()
         {
             InitializeComponent();
 
-            Model = HistoryModel.Instance;
+            Model = SchemesModel.Instance;
             DataContext = Model;
 
             if (Model.OptionsStore != null)
             {
                 PreviewRow.Height = !Model.OptionsStore.IsSchemePreviewVisible ? new GridLength(0) : new GridLength(100);
             }
+        }
+
+        private void UpdateCache(object sender, RequestNavigateEventArgs e)
+        {
+            Model.RefreshCache();
         }
 
         private void ViewScheme_OnRequestNavigate(object sender, RequestNavigateEventArgs e)
@@ -32,16 +37,16 @@ namespace Twainsoft.StudioStyler.VSPackage.GUI
         {
             PreviewRow.Height = new GridLength(0);
 
-            //Model.OptionsStore.IsSchemePreviewVisible = false;
-            //Model.OptionsStore.SaveSettingsToStorage();
+            Model.OptionsStore.IsSchemePreviewVisible = false;
+            Model.OptionsStore.SaveSettingsToStorage();
         }
 
         private void StudioStylesGrid_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             PreviewRow.Height = new GridLength(100);
 
-            //Model.OptionsStore.IsSchemePreviewVisible = true;
-            //Model.OptionsStore.SaveSettingsToStorage();
+            Model.OptionsStore.IsSchemePreviewVisible = true;
+            Model.OptionsStore.SaveSettingsToStorage();
         }
     }
 }

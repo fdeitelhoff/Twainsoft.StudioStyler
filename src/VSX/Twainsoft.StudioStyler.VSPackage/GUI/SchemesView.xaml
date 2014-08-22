@@ -1,15 +1,32 @@
-﻿<UserControl x:Class="Twainsoft.StudioStyler.VSPackage.GUI.History"
+﻿<UserControl x:Class="Twainsoft.StudioStyler.VSPackage.GUI.SchemesView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:model="clr-namespace:Twainsoft.StudioStyler.VSPackage.Model"
              mc:Ignorable="d" 
-             d:DesignHeight="413" d:DesignWidth="331" d:DataContext="{d:DesignInstance model:HistoryModel}">
+             d:DesignHeight="413" d:DesignWidth="331" d:DataContext="{d:DesignInstance model:SchemesModel}">
     <UserControl.Resources>
         <ResourceDictionary Source="SchemesToolWindowStyles.xaml"/>
     </UserControl.Resources>
     <DockPanel>
+        <TextBlock DockPanel.Dock="Top" HorizontalAlignment="Center" Style="{StaticResource CacheValidTextBox}">
+            Your Studio Styles cache is out of date.
+            <Hyperlink NavigateUri="SchemesOverview.xaml.cs" RequestNavigate="UpdateCache">Refresh</Hyperlink>
+            it.
+        </TextBlock>
+        <TextBlock DockPanel.Dock="Top" HorizontalAlignment="Center" Text="The Studio Styles cache is updating..." Style="{StaticResource CacheUpdatingTextBox}"/>
+        <TextBlock DockPanel.Dock="Top" HorizontalAlignment="Center" Style="{StaticResource ImageCacheTextBox}">
+            <TextBlock.Text>
+                <MultiBinding StringFormat="Image {0} of {1} gets cached up...">
+                    <Binding Path="SchemeCache.CurrentSchemeNumber"/>
+                    <Binding Path="SchemeCache.Schemes.Count"/>
+                </MultiBinding>
+            </TextBlock.Text>
+        </TextBlock>
+        <ProgressBar Style="{StaticResource CacheProgressBar}" IsIndeterminate="True" Height="5" HorizontalAlignment="Stretch" DockPanel.Dock="Top"/>
+        <ProgressBar Style="{StaticResource ImageCacheProgressBar}" Minimum="0" Maximum="{Binding SchemeCache.Schemes.Count}" Value="{Binding SchemeCache.CurrentSchemeNumber}"
+                     Height="5" HorizontalAlignment="Stretch" DockPanel.Dock="Top"/>
         <TextBlock Style="{StaticResource InfoTextBlock}" DockPanel.Dock="Bottom">
             <TextBlock.Text>
                 <MultiBinding StringFormat="Page {0} / {1} - Showing Items {2} - {3} of {4} Overall Items">
@@ -27,7 +44,7 @@
                 <RowDefinition Height="5"/>
                 <RowDefinition Name="PreviewRow" Height="100" x:FieldModifier="private" />
             </Grid.RowDefinitions>
-            <DataGrid ItemsSource="{Binding PagedHistoryView}" AutoGenerateColumns="False"
+            <DataGrid ItemsSource="{Binding PagedSchemesView}" AutoGenerateColumns="False"
                     HeadersVisibility="Column" SelectionMode="Single" SelectionUnit="FullRow" CanUserDeleteRows="False" CanUserAddRows="False"
                     CanUserResizeRows="False" CanUserSortColumns="True" IsReadOnly="True" CanUserReorderColumns="False" MouseDoubleClick="StudioStylesGrid_OnMouseDoubleClick">
                 <DataGrid.Columns>
@@ -35,7 +52,7 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock HorizontalAlignment="Center">
-                                <Hyperlink NavigateUri="{Binding Scheme.Path}" RequestNavigate="ViewScheme_OnRequestNavigate">View</Hyperlink>
+                                <Hyperlink NavigateUri="{Binding Path}" RequestNavigate="ViewScheme_OnRequestNavigate">View</Hyperlink>
                                 </TextBlock>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -43,13 +60,13 @@
                     <DataGridTemplateColumn Header="Preview">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Image Source="{Binding Scheme.Preview}"/>
+                                <Image Source="{Binding Preview}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Title" Width="*" Binding="{Binding Scheme.Title}"/>
-                    <DataGridTextColumn Header="Author" Width="*" Binding="{Binding Scheme.Author}"/>
-                    <DataGridTextColumn Header="Rated" Binding="{Binding Scheme.Rating}">
+                    <DataGridTextColumn Header="Title" Width="*" Binding="{Binding Title}"/>
+                    <DataGridTextColumn Header="Author" Width="*" Binding="{Binding Author}"/>
+                    <DataGridTextColumn Header="Rated" Binding="{Binding Rating}">
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="{x:Type TextBlock}">
                                 <Setter Property="HorizontalAlignment" Value="Right" />
@@ -65,12 +82,12 @@
                     <TextBlock Style="{StaticResource Preview}">
                         <TextBlock.Text>
                             <MultiBinding StringFormat="Preview image for '{0}'">
-                                <Binding Path="PagedHistoryView.CurrentItem.Scheme.Title"/>
+                                <Binding Path="PagedSchemesView.CurrentItem.Title"/>
                             </MultiBinding>
                         </TextBlock.Text>
                     </TextBlock>
                 </DockPanel>
-                <Image Source="{Binding PagedHistoryView.CurrentItem.Scheme.Preview}"/>
+                <Image Source="{Binding PagedSchemesView.CurrentItem.Preview}"/>
             </DockPanel>
         </Grid>
     </DockPanel>
