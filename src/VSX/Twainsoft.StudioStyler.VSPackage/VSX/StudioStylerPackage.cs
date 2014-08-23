@@ -1,10 +1,10 @@
 ﻿using System;
 using System.ComponentModel.Design;
 using System.Runtime.InteropServices;
-using System.Windows;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
+using Twainsoft.StudioStyler.Services.StudioStyles.Caches;
 using Twainsoft.StudioStyler.VSPackage.GUI;
 using Twainsoft.StudioStyler.VSPackage.GUI.Options;
 using Twainsoft.StudioStyler.VSPackage.Model;
@@ -23,6 +23,11 @@ namespace Twainsoft.StudioStyler.VSPackage.VSX
 
         private SchemesView SchemesView { get; set; }
         private HistoryView HistoryView { get; set; }
+
+        private SchemeCache SchemeCache { get; set; }
+        private SchemesHistory SchemesHistory { get; set; }
+        private SchemesModel SchemesModel { get; set; }
+        private HistoryModel HistoryModel { get; set; }
 
         private ToolWindowPane Window { get; set; }
         private StudioStylesView StudioStylesView { get; set; }
@@ -92,19 +97,24 @@ namespace Twainsoft.StudioStyler.VSPackage.VSX
                 mcs.AddCommand(lastPageCommand);
             }
 
+            // The general options for this package.
             var optionsStore = GetDialogPage(typeof(OptionsStore)) as OptionsStore;
 
-            HistoryModel.Instance.OptionsStore = optionsStore;
-            SchemesModel.Instance.OptionsStore = optionsStore;
+            // The cache holds all studio styles (called schemes) that are available.
+            // TODO: Schemes or Scheme? Either refactor this or the models.
+            SchemeCache = new SchemeCache();
+            SchemesHistory = new SchemesHistory(SchemeCache);
 
-            HistoryModel.Instance.CheckCache();
-            SchemesModel.Instance.CheckCache();
+            // Instantiate the models. They are the main classes to interact with the ui and the data.
+            SchemesModel = new SchemesModel(SchemeCache, SchemesHistory, optionsStore);
+            HistoryModel = new HistoryModel(SchemesHistory, optionsStore);
 
-            Model = SchemesModel.Instance;
+            // Instantiate the views. This are the WPF controls that visualize the styles and the history.
+            SchemesView = new SchemesView(SchemesModel);
+            HistoryView = new HistoryView(HistoryModel);
 
-            // Maybe insert the model here?
-            SchemesView = new SchemesView();
-            HistoryView = new HistoryView();
+            // Some Visual Studio visuals can fire some events so that the model is need very early.
+            Model = SchemesModel;
 
             // Save those objects. We need them more than once!
             Window = FindToolWindow(typeof(SchemesOverviewWindow), 0, true);
@@ -129,17 +139,14 @@ namespace Twainsoft.StudioStyler.VSPackage.VSX
             }
 
             StudioStylesView.Dock.Children.Add(SchemesView);
+
+            // Check both model caches (Styles and History) so that saved data is present.
+            SchemesModel.CheckCache();
+            HistoryModel.CheckCache();
         }
 
         private void OnShowToolWindow(object sender, EventArgs e)
         {
-            //var window = FindToolWindow(typeof(SchemesOverviewWindow), 0, true);
-
-            //if ((null == window) || (null == window.Frame))
-            //{
-            //    throw new NotSupportedException(Resources.Resources.CanNotCreateWindow);
-            //}
-
             var windowFrame = (IVsWindowFrame)Window.Frame;
             ErrorHandler.ThrowOnFailure(windowFrame.Show());
         }
@@ -190,40 +197,24 @@ namespace Twainsoft.StudioStyler.VSPackage.VSX
 
         private void OnHistory(object sender, EventArgs e)
         {
-            //var window = FindToolWindow(typeof(SchemesOverviewWindow), 0, true);
-
-            //if ((null == window) || (null == window.Frame))
-            //{
-            //    throw new NotSupportedException(Resources.Resources.CanNotCreateWindow);
-            //}
-
-            //var schemesOverview = window as SchemesOverviewWindow;
-
-            //if (schemesOverview == null)
-            //{
-            //    throw new InvalidOperationException("Cannot find the SchemesOverviewWindow!");
-            //}
-
-            //var studioStyles = schemesOverview.Content as StudioStylesView;
-
-            //if (studioStyles == null)
-            //{
-            //    throw new InvalidOperationException("Cannot find the StudioStylesView!");
-            //}
-
+            // TODO: The update of the visuals (changed history activation count) doesnt work! We need some other methods!
             if (Model is SchemesModel)
             {
-                Model = HistoryModel.Instance;
+                Model = HistoryModel;
 
                 StudioStylesView.Dock.Children.Remove(SchemesView);
                 StudioStylesView.Dock.Children.Add(HistoryView);
+
+                //HistoryView.InvalidateVisual();
             }
             else
             {
-                Model = SchemesModel.Instance;
+                Model = SchemesModel;
 
                 StudioStylesView.Dock.Children.Remove(HistoryView);
                 StudioStylesView.Dock.Children.Add(SchemesView);
+
+                //SchemesView.InvalidateVisual();
             }
         }
 

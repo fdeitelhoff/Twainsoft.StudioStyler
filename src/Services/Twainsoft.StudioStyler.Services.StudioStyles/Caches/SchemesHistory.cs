@@ -10,21 +10,18 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Caches
 {
     public class SchemesHistory
     {
+        private SchemeCache SchemeCache { get; set; }
+
         private Dictionary<Scheme, History> Schemes { get; set; }
         public ObservableCollection<History> History { get; private set; }
 
         private string HistoryDataPath { get; set; }
         private string HistoryCacheFile { get; set; }
 
-        private static SchemesHistory instance;
-
-        public static SchemesHistory Instance
+        public SchemesHistory(SchemeCache schemeCache)
         {
-            get { return instance ?? (instance = new SchemesHistory()); }
-        }
+            SchemeCache = schemeCache;
 
-        private SchemesHistory()
-        {
             Schemes = new Dictionary<Scheme, History>();
             History = new ObservableCollection<History>();
 
@@ -32,8 +29,6 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Caches
                 Path.Combine("Twainsoft", "StudioStyler"));
 
             HistoryCacheFile = "SchemesHistory.xml";
-
-            Check();
         }
 
         public void Add(Scheme scheme)
@@ -81,15 +76,22 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Caches
                 var xmlSerializer = new XmlSerializer(typeof(Histories));
                 var histories = xmlSerializer.Deserialize(streamReader) as Histories;
 
-                if (histories != null)
+                if (histories == null)
                 {
-                    Schemes.Clear();
-                    History.Clear();
-                    foreach (var history in histories.AllHistories)
-                    {
-                        Schemes.Add(history.Scheme, history);
-                        History.Add(history);
-                    }
+                    throw new InvalidOperationException("The History Chace File Is Corrupted. It was deleted!");
+                }
+                
+                Schemes.Clear();
+                History.Clear();
+                foreach (var history in histories.AllHistories)
+                {
+                    var scheme = SchemeCache.ByTitle(history.Scheme.Title);
+
+                    // TODO: Is this update necessary? Maybe the scheme was changed and so the history gets updated?
+                    history.Scheme = scheme;
+
+                    Schemes.Add(history.Scheme, history);
+                    History.Add(history);
                 }
             }
         }

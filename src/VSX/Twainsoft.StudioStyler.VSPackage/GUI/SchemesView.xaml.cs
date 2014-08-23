@@ -8,24 +8,25 @@ namespace Twainsoft.StudioStyler.VSPackage.GUI
 {
     public partial class SchemesView
     {
-        private SchemesModel Model { get; set; }
+        private SchemesModel SchemesModel { get; set; }
 
-        public SchemesView()
+        public SchemesView(SchemesModel schemesModel)
         {
             InitializeComponent();
 
-            Model = SchemesModel.Instance;
-            DataContext = Model;
+            SchemesModel = schemesModel;
+            DataContext = SchemesModel;
 
-            if (Model.OptionsStore != null)
+            // TODO: This OptionStore things can be made better!
+            if (SchemesModel.OptionsStore != null)
             {
-                PreviewRow.Height = !Model.OptionsStore.IsSchemePreviewVisible ? new GridLength(0) : new GridLength(100);
+                PreviewRow.Height = !SchemesModel.OptionsStore.IsSchemePreviewVisible ? new GridLength(0) : new GridLength(100);
             }
         }
 
         private void UpdateCache(object sender, RequestNavigateEventArgs e)
         {
-            Model.RefreshCache();
+            SchemesModel.RefreshCache();
         }
 
         private void ViewScheme_OnRequestNavigate(object sender, RequestNavigateEventArgs e)
@@ -37,16 +38,16 @@ namespace Twainsoft.StudioStyler.VSPackage.GUI
         {
             PreviewRow.Height = new GridLength(0);
 
-            Model.OptionsStore.IsSchemePreviewVisible = false;
-            Model.OptionsStore.SaveSettingsToStorage();
+            SchemesModel.OptionsStore.IsSchemePreviewVisible = false;
+            SchemesModel.OptionsStore.SaveSettingsToStorage();
         }
 
         private void StudioStylesGrid_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             PreviewRow.Height = new GridLength(100);
 
-            Model.OptionsStore.IsSchemePreviewVisible = true;
-            Model.OptionsStore.SaveSettingsToStorage();
+            SchemesModel.OptionsStore.IsSchemePreviewVisible = true;
+            SchemesModel.OptionsStore.SaveSettingsToStorage();
         }
     }
 }

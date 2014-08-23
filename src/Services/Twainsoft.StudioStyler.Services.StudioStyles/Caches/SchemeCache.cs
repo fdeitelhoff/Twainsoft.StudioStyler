@@ -21,6 +21,7 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Caches
 
         private readonly string schemesCacheFile;
 
+        // TODO: The StudioStyles class musst be renamed due to naming conflicts. StudioStylesService maybe?
         private Styles.StudioStyles StudioStyles { get; set; }
 
         public ObservableCollection<Scheme> Schemes { get; private set; }
@@ -301,6 +302,20 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Caches
 
                 return schemes.ImagesFinished;
             }
+        }
+
+        // TODO: Are Schem titles are unique? Hopefully they are. Test it on the studiostyl.es homepage!
+        public Scheme ByTitle(string title)
+        {
+            foreach (var scheme in Schemes)
+            {
+                if (scheme.Title == title)
+                {
+                    return scheme;
+                }
+            }
+
+            throw new ArgumentOutOfRangeException("The Specific Style cannot be found!");
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

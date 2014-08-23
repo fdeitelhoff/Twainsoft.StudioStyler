@@ -25,16 +25,17 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
 
         private StudioStyles StudioStyles { get; set; }
         private SettingsActivator SettingsActivator { get; set; }
-        public SchemesHistory SchemesHistory { get; set; }
+        private SchemesHistory SchemesHistory { get; set; }
 
+        // TODO: Setter can be made private? Change this in the IModel interface, too!
         public OptionsStore OptionsStore { get; set; }
 
-        private static SchemesModel instance;
+        //private static SchemesModel instance;
 
-        public static SchemesModel Instance
-        {
-            get { return instance ?? (instance = new SchemesModel()); }
-        }
+        //public static SchemesModel Instance
+        //{
+        //    get { return instance ?? (instance = new SchemesModel()); }
+        //}
 
         public int CurrentPage
         {
@@ -69,9 +70,12 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
             get { return PagedSchemesView.CurrentItem != null; }
         }
 
-        private SchemesModel()
+        public SchemesModel(SchemeCache schemeCache, SchemesHistory schemesHistory, OptionsStore optionsStore)
         {
-            SchemeCache = new SchemeCache();
+            SchemeCache = schemeCache;
+            SchemesHistory = schemesHistory;
+            OptionsStore = optionsStore;
+
             PagedSchemesView = new PagedCollectionView(SchemeCache.Schemes) { PageSize = 40};
             
             CurrentSearchString = "";
@@ -79,7 +83,6 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
 
             StudioStyles = new StudioStyles();
             SettingsActivator = new SettingsActivator();
-            SchemesHistory = SchemesHistory.Instance;
         }
 
         public async void RefreshCache()
@@ -92,8 +95,6 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
         public async void CheckCache()
         {
             await SchemeCache.Check();
-
-            SchemesHistory.Check();
         }
 
         public void Search(OleMenuCmdEventArgs eventArgs)

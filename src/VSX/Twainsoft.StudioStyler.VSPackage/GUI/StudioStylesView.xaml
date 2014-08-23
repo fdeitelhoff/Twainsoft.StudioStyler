@@ -3,10 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:gui="clr-namespace:Twainsoft.StudioStyler.VSPackage.GUI"
              mc:Ignorable="d" d:DesignHeight="413" d:DesignWidth="331">
-    <DockPanel x:FieldModifier="public" x:Name="Dock"/>
-        <!--<gui:SchemesView/>-->
-        <!--<gui:History x:FieldModifier="public" x:Name="HistoryView" Visibility="Visible"/>-->
-    
+    <DockPanel x:FieldModifier="public" x:Name="Dock"/>   
 </UserControl>

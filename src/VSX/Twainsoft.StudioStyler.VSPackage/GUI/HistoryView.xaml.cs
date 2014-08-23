@@ -8,18 +8,19 @@ namespace Twainsoft.StudioStyler.VSPackage.GUI
 {
     public partial class HistoryView
     {
-        private HistoryModel Model { get; set; }
+        private HistoryModel HistoryModel { get; set; }
 
-        public HistoryView()
+        public HistoryView(HistoryModel historyModel)
         {
             InitializeComponent();
 
-            Model = HistoryModel.Instance;
-            DataContext = Model;
+            HistoryModel = historyModel;
+            DataContext = HistoryModel;
 
-            if (Model.OptionsStore != null)
+            // TODO: This OptionsStore stuff can be made better!
+            if (HistoryModel.OptionsStore != null)
             {
-                PreviewRow.Height = !Model.OptionsStore.IsSchemePreviewVisible ? new GridLength(0) : new GridLength(100);
+                PreviewRow.Height = !HistoryModel.OptionsStore.IsSchemeHistoryPreviewVisible ? new GridLength(0) : new GridLength(100);
             }
         }
 
@@ -32,16 +33,16 @@ namespace Twainsoft.StudioStyler.VSPackage.GUI
         {
             PreviewRow.Height = new GridLength(0);
 
-            Model.OptionsStore.IsSchemePreviewVisible = false;
-            Model.OptionsStore.SaveSettingsToStorage();
+            HistoryModel.OptionsStore.IsSchemeHistoryPreviewVisible = false;
+            HistoryModel.OptionsStore.SaveSettingsToStorage();
         }
 
         private void StudioStylesGrid_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             PreviewRow.Height = new GridLength(100);
 
-            Model.OptionsStore.IsSchemePreviewVisible = true;
-            Model.OptionsStore.SaveSettingsToStorage();
+            HistoryModel.OptionsStore.IsSchemeHistoryPreviewVisible = true;
+            HistoryModel.OptionsStore.SaveSettingsToStorage();
         }
     }
 }

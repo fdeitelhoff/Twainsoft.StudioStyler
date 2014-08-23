@@ -24,16 +24,10 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
 
         private StudioStyles StudioStyles { get; set; }
         private SettingsActivator SettingsActivator { get; set; }
-        public SchemesHistory SchemesHistory { get; set; }
+        private SchemesHistory SchemesHistory { get; set; }
 
+        // TODO: Setter must be private. Refactor this stuff including the IModel interface.
         public OptionsStore OptionsStore { get; set; }
-
-        private static HistoryModel instance;
-
-        public static HistoryModel Instance
-        {
-            get { return instance ?? (instance = new HistoryModel()); }
-        }
 
         public int CurrentPage
         {
@@ -68,9 +62,11 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
             get { return PagedHistoryView.CurrentItem != null; }
         }
 
-        private HistoryModel()
+        public HistoryModel(SchemesHistory schemesHistory, OptionsStore optionsStore)
         {
-            SchemesHistory = SchemesHistory.Instance;
+            SchemesHistory = schemesHistory;
+            OptionsStore = optionsStore;
+            
             PagedHistoryView = new PagedCollectionView(SchemesHistory.History) { PageSize = 40};
             
             CurrentSearchString = "";
