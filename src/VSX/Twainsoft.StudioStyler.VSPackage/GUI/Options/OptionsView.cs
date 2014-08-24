@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.Windows.Forms;
 
 namespace Twainsoft.StudioStyler.VSPackage.GUI.Options
@@ -23,7 +22,7 @@ namespace Twainsoft.StudioStyler.VSPackage.GUI.Options
 
         private void Initialize()
         {
-            stylesPerPage.Text = OptionsStore.StylesPerPage.ToString(CultureInfo.InvariantCulture);
+            stylesPerPage.Value = Convert.ToInt32(OptionsStore.StylesPerPage);
         }
         
         private void stylesPerPage_ValueChanged(object sender, EventArgs e)

@@ -5,6 +5,8 @@ using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Twainsoft.StudioStyler.Services.StudioStyles.Caches;
+using Twainsoft.StudioStyler.Services.StudioStyles.Settings;
+using Twainsoft.StudioStyler.Services.StudioStyles.Styles;
 using Twainsoft.StudioStyler.VSPackage.GUI;
 using Twainsoft.StudioStyler.VSPackage.GUI.Options;
 using Twainsoft.StudioStyler.VSPackage.GUI.ToolWindow;
@@ -28,6 +30,9 @@ namespace Twainsoft.StudioStyler.VSPackage.VSX
 
         private SchemeCache SchemeCache { get; set; }
         private SchemeHistory SchemeHistory { get; set; }
+        private StudioStylesService StudioStylesService { get; set; }
+        private SettingsActivator SettingsActivator { get; set; }
+
         private SchemeModel SchemeModel { get; set; }
         private HistoryModel HistoryModel { get; set; }
 
@@ -105,9 +110,13 @@ namespace Twainsoft.StudioStyler.VSPackage.VSX
             SchemeCache = new SchemeCache();
             SchemeHistory = new SchemeHistory(SchemeCache);
 
+            // Some services that provides important functionalities.
+            StudioStylesService = new StudioStylesService();
+            SettingsActivator = new SettingsActivator();
+
             // Instantiate the models. They are the main classes to interact with the ui and the data.
-            SchemeModel = new SchemeModel(SchemeCache, SchemeHistory, optionsStore);
-            HistoryModel = new HistoryModel(SchemeHistory, optionsStore);
+            SchemeModel = new SchemeModel(SchemeCache, SchemeHistory, optionsStore, StudioStylesService, SettingsActivator);
+            HistoryModel = new HistoryModel(SchemeHistory, optionsStore, StudioStylesService, SettingsActivator);
 
             // Instantiate the views. This are the WPF controls that visualize the styles and the history.
             SchemeView = new SchemeView(SchemeModel);

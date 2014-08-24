@@ -52,7 +52,7 @@
                     </DataGridTemplateColumn>
                     <DataGridTextColumn Header="Title" Width="*" Binding="{Binding Scheme.Title}"/>
                     <DataGridTextColumn Header="Author" Width="*" Binding="{Binding Scheme.Author}"/>
-                    <DataGridTextColumn Header="Rated" Binding="{Binding Activations}">
+                    <DataGridTextColumn Header="Activations" Width="*" Binding="{Binding Activations}">
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="{x:Type TextBlock}">
                                 <Setter Property="HorizontalAlignment" Value="Right" />

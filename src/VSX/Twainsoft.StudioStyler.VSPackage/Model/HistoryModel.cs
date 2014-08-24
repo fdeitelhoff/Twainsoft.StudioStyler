@@ -22,7 +22,7 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
         private string CurrentSearchString { get; set; }
         private List<string> SearchValues { get; set; }
 
-        private StudioStylesService StudioStyles { get; set; }
+        private StudioStylesService StudioStylesService { get; set; }
         private SettingsActivator SettingsActivator { get; set; }
         private SchemeHistory SchemesHistory { get; set; }
 
@@ -62,18 +62,21 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
             get { return PagedHistoryView.CurrentItem != null; }
         }
 
-        public HistoryModel(SchemeHistory schemesHistory, OptionsStore optionsStore)
+        public HistoryModel(SchemeHistory schemesHistory, OptionsStore optionsStore, 
+            StudioStylesService studioStylesService, SettingsActivator settingsActivator)
         {
             SchemesHistory = schemesHistory;
             OptionsStore = optionsStore;
-            
-            PagedHistoryView = new PagedCollectionView(SchemesHistory.History) { PageSize = 40};
-            
+            StudioStylesService = studioStylesService;
+            SettingsActivator = settingsActivator;
+
+            var stylesPerPage = optionsStore.StylesPerPage;
+
+            PagedHistoryView = new PagedCollectionView(SchemesHistory.History) { PageSize = stylesPerPage };
+            PagedHistoryView.SortDescriptions.Add(new SortDescription("Activations", ListSortDirection.Descending));
+
             CurrentSearchString = "";
             SearchValues = new List<string>();
-
-            StudioStyles = new StudioStylesService();
-            SettingsActivator = new SettingsActivator();
         }
 
         public void RefreshCache()
@@ -169,7 +172,7 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
 
             if (scheme != null)
             {
-                var file = await StudioStyles.DownloadAsync(scheme.DownloadPath);
+                var file = await StudioStylesService.DownloadAsync(scheme.DownloadPath);
 
                 if (SettingsActivator.LoadScheme(file))
                 {

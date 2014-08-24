@@ -23,7 +23,7 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
         private string CurrentSearchString { get; set; }
         private List<string> SearchValues { get; set; }
 
-        private StudioStylesService StudioStyles { get; set; }
+        private StudioStylesService StudioStylesService { get; set; }
         private SettingsActivator SettingsActivator { get; set; }
         private SchemeHistory SchemesHistory { get; set; }
 
@@ -63,19 +63,22 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
             get { return PagedSchemesView.CurrentItem != null; }
         }
 
-        public SchemeModel(SchemeCache schemeCache, SchemeHistory schemesHistory, OptionsStore optionsStore)
+        public SchemeModel(SchemeCache schemeCache, SchemeHistory schemesHistory, OptionsStore optionsStore, 
+            StudioStylesService studioStylesService, SettingsActivator settingsActivator)
         {
             SchemeCache = schemeCache;
             SchemesHistory = schemesHistory;
             OptionsStore = optionsStore;
+            StudioStylesService = studioStylesService;
+            SettingsActivator = settingsActivator;
 
-            PagedSchemesView = new PagedCollectionView(SchemeCache.Schemes) { PageSize = 40};
-            
+            var stylesPerPage = optionsStore.StylesPerPage;
+
+            PagedSchemesView = new PagedCollectionView(SchemeCache.Schemes) { PageSize = stylesPerPage };
+            PagedSchemesView.SortDescriptions.Add(new SortDescription("Rating", ListSortDirection.Descending));
+
             CurrentSearchString = "";
             SearchValues = new List<string>();
-
-            StudioStyles = new StudioStylesService();
-            SettingsActivator = new SettingsActivator();
         }
 
         public async void RefreshCache()
@@ -173,7 +176,7 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
 
             if (scheme != null)
             {
-                var file = await StudioStyles.DownloadAsync(scheme.DownloadPath);
+                var file = await StudioStylesService.DownloadAsync(scheme.DownloadPath);
 
                 if (SettingsActivator.LoadScheme(file))
                 {
