@@ -6,11 +6,11 @@ using Twainsoft.StudioStyler.VSPackage.Model;
 
 namespace Twainsoft.StudioStyler.VSPackage.GUI
 {
-    public partial class SchemesView
+    public partial class SchemeView
     {
-        private SchemesModel SchemesModel { get; set; }
+        private SchemeModel SchemesModel { get; set; }
 
-        public SchemesView(SchemesModel schemesModel)
+        public SchemeView(SchemeModel schemesModel)
         {
             InitializeComponent();
 

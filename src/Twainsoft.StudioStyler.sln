@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{E5078DD1-BAA3-4272-B7EF-397F51D3698B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{4FB97013-3F71-4050-BB34-36EC757E7CE7}"
@@ -20,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twainsoft.StudioStyler.Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twainsoft.StudioStyler.Services.StudioStyles", "Services\Twainsoft.StudioStyler.Services.StudioStyles\Twainsoft.StudioStyler.Services.StudioStyles.csproj", "{AB7E5C45-1A1E-474C-BCD3-72BE70EF65DC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twainsoft.StudioStyler.VSX", "VSX\Twainsoft.StudioStyler.VSX\Twainsoft.StudioStyler.VSX.csproj", "{219E7F7E-BFD5-4719-BC11-07926E55AF64}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,13 +42,18 @@ Global
 		{AB7E5C45-1A1E-474C-BCD3-72BE70EF65DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB7E5C45-1A1E-474C-BCD3-72BE70EF65DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB7E5C45-1A1E-474C-BCD3-72BE70EF65DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{219E7F7E-BFD5-4719-BC11-07926E55AF64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{219E7F7E-BFD5-4719-BC11-07926E55AF64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{219E7F7E-BFD5-4719-BC11-07926E55AF64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{219E7F7E-BFD5-4719-BC11-07926E55AF64}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{AB7E5C45-1A1E-474C-BCD3-72BE70EF65DC} = {E5078DD1-BAA3-4272-B7EF-397F51D3698B}
-		{DC6473E7-A5AF-4DF0-B5A7-2D63330B9088} = {4FB97013-3F71-4050-BB34-36EC757E7CE7}
 		{9765AA91-89CD-4B72-BAA6-B05B78F1A820} = {90A64F10-71DC-41A8-A7ED-009CE165580D}
+		{DC6473E7-A5AF-4DF0-B5A7-2D63330B9088} = {4FB97013-3F71-4050-BB34-36EC757E7CE7}
+		{AB7E5C45-1A1E-474C-BCD3-72BE70EF65DC} = {E5078DD1-BAA3-4272-B7EF-397F51D3698B}
+		{219E7F7E-BFD5-4719-BC11-07926E55AF64} = {90A64F10-71DC-41A8-A7ED-009CE165580D}
 	EndGlobalSection
 EndGlobal

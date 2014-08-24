@@ -3,12 +3,12 @@ using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.Shell;
 using Twainsoft.StudioStyler.VSPackage.VSX;
 
-namespace Twainsoft.StudioStyler.VSPackage.GUI
+namespace Twainsoft.StudioStyler.VSPackage.GUI.ToolWindow
 {
     [Guid("4d08b107-07d1-421d-8675-62653546cc32")]
-    public class SchemesOverviewWindow : ToolWindowPane
+    public class SchemeToolWindow : ToolWindowPane
     {
-        public SchemesOverviewWindow() :
+        public SchemeToolWindow() :
             base(null)
         {
             Caption = Resources.Resources.ToolWindowTitle;
@@ -18,7 +18,7 @@ namespace Twainsoft.StudioStyler.VSPackage.GUI
 
             ToolBar = new CommandID(GuidList.GuidSchemesToolbarCmdSet, CommandIds.SchemesToolbarId);
 
-            base.Content = new StudioStylesView();
+            base.Content = new SchemeToolWindowView();
         }
     }
 }

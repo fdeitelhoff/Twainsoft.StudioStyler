@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="413" d:DesignWidth="331" d:DataContext="{d:DesignInstance model:HistoryModel}">
     <UserControl.Resources>
-        <ResourceDictionary Source="SchemesToolWindowStyles.xaml"/>
+        <ResourceDictionary Source="SchemeToolWindowStyles.xaml"/>
     </UserControl.Resources>
     <DockPanel>
         <TextBlock Style="{StaticResource InfoTextBlock}" DockPanel.Dock="Top" Visibility="Collapsed">

@@ -10,12 +10,12 @@ using Twainsoft.StudioStyler.Services.StudioStyles.Caches;
 using Twainsoft.StudioStyler.Services.StudioStyles.Model;
 using Twainsoft.StudioStyler.Services.StudioStyles.Settings;
 using Twainsoft.StudioStyler.Services.StudioStyles.Styles;
-using Twainsoft.StudioStyler.VSPackage.GUI;
 using Twainsoft.StudioStyler.VSPackage.GUI.Options;
+using Twainsoft.StudioStyler.VSX;
 
 namespace Twainsoft.StudioStyler.VSPackage.Model
 {
-    public sealed class SchemesModel : IModel, INotifyPropertyChanged
+    public sealed class SchemeModel : IModel, INotifyPropertyChanged
     {
         public SchemeCache SchemeCache { get; private set; }
         public PagedCollectionView PagedSchemesView { get; private set; }
@@ -25,17 +25,10 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
 
         private StudioStylesService StudioStyles { get; set; }
         private SettingsActivator SettingsActivator { get; set; }
-        private SchemesHistory SchemesHistory { get; set; }
+        private SchemeHistory SchemesHistory { get; set; }
 
         // TODO: Setter can be made private? Change this in the IModel interface, too!
         public OptionsStore OptionsStore { get; set; }
-
-        //private static SchemesModel instance;
-
-        //public static SchemesModel Instance
-        //{
-        //    get { return instance ?? (instance = new SchemesModel()); }
-        //}
 
         public int CurrentPage
         {
@@ -70,7 +63,7 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
             get { return PagedSchemesView.CurrentItem != null; }
         }
 
-        public SchemesModel(SchemeCache schemeCache, SchemesHistory schemesHistory, OptionsStore optionsStore)
+        public SchemeModel(SchemeCache schemeCache, SchemeHistory schemesHistory, OptionsStore optionsStore)
         {
             SchemeCache = schemeCache;
             SchemesHistory = schemesHistory;
@@ -186,7 +179,7 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
                 {
                     SchemesHistory.Add(scheme);
 
-                    StatusBar.Update(string.Format("The Style '{0}' was activated successfully!", scheme.Title));
+                    StatusBarHelper.Update(string.Format("The Style '{0}' was activated successfully!", scheme.Title));
                 }
             }
         }

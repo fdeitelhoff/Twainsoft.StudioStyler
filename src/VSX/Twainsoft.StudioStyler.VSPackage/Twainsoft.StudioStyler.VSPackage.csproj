@@ -148,20 +148,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>PagedCollectionViewResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="GUI\SchemesView.xaml.cs">
-      <DependentUpon>SchemesView.xaml</DependentUpon>
+    <Compile Include="GUI\SchemeView.xaml.cs">
+      <DependentUpon>SchemeView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GUI\StudioStylesView.xaml.cs">
-      <DependentUpon>StudioStylesView.xaml</DependentUpon>
+    <Compile Include="GUI\ToolWindow\SchemeToolWindowView.xaml.cs">
+      <DependentUpon>SchemeToolWindowView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GUI\SchemesOverviewWindow.cs" />
-    <Compile Include="GUI\StatusBar.cs" />
+    <Compile Include="GUI\ToolWindow\SchemeToolWindow.cs" />
     <Compile Include="Model\HistoryModel.cs" />
     <Compile Include="Model\IModel.cs" />
-    <Compile Include="Model\SchemesModel.cs" />
+    <Compile Include="Model\SchemeModel.cs" />
     <Compile Include="VSX\Guids.cs" />
     <Compile Include="GUI\TypeHelper.cs" />
-    <Compile Include="GUI\VSMessageBox.cs" />
     <Compile Include="Resources\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -217,17 +215,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="GUI\SchemesView.xaml">
+    <Page Include="GUI\SchemeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="GUI\StudioStylesView.xaml">
+    <Page Include="GUI\ToolWindow\SchemeToolWindowView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="GUI\SchemesToolWindowStyles.xaml">
+    <Page Include="GUI\SchemeToolWindowStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -236,6 +234,10 @@
     <ProjectReference Include="..\..\Services\Twainsoft.StudioStyler.Services.StudioStyles\Twainsoft.StudioStyler.Services.StudioStyles.csproj">
       <Project>{ab7e5c45-1a1e-474c-bcd3-72be70ef65dc}</Project>
       <Name>Twainsoft.StudioStyler.Services.StudioStyles</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Twainsoft.StudioStyler.VSX\Twainsoft.StudioStyler.VSX.csproj">
+      <Project>{219e7f7e-bfd5-4719-bc11-07926e55af64}</Project>
+      <Name>Twainsoft.StudioStyler.VSX</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

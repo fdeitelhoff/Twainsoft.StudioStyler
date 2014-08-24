@@ -7,30 +7,32 @@ using Microsoft.VisualStudio.Shell.Interop;
 using Twainsoft.StudioStyler.Services.StudioStyles.Caches;
 using Twainsoft.StudioStyler.VSPackage.GUI;
 using Twainsoft.StudioStyler.VSPackage.GUI.Options;
+using Twainsoft.StudioStyler.VSPackage.GUI.ToolWindow;
 using Twainsoft.StudioStyler.VSPackage.Model;
+using Twainsoft.StudioStyler.VSX;
 
 namespace Twainsoft.StudioStyler.VSPackage.VSX
 {
     [PackageRegistration(UseManagedResourcesOnly = true)]
     [InstalledProductRegistration("#110", "#112", "0.4", IconResourceID = 400)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
-    [ProvideToolWindow(typeof(SchemesOverviewWindow))]
+    [ProvideToolWindow(typeof(SchemeToolWindow))]
     [Guid(GuidList.guidTwainsoft_StudioStyler_VSPackagePkgString)]
     [ProvideOptionPage(typeof(OptionsStore), "Twainsoft StudioStyler", "General", 0, 0, true)]
     public sealed class StudioStylerPackage : Package
     {
         private IModel Model { get; set; }
 
-        private SchemesView SchemesView { get; set; }
+        private SchemeView SchemeView { get; set; }
         private HistoryView HistoryView { get; set; }
 
         private SchemeCache SchemeCache { get; set; }
-        private SchemesHistory SchemesHistory { get; set; }
-        private SchemesModel SchemesModel { get; set; }
+        private SchemeHistory SchemeHistory { get; set; }
+        private SchemeModel SchemeModel { get; set; }
         private HistoryModel HistoryModel { get; set; }
 
         private ToolWindowPane Window { get; set; }
-        private StudioStylesView StudioStylesView { get; set; }
+        private SchemeToolWindowView SchemeToolWindowView { get; set; }
 
         protected override void Initialize()
         {
@@ -67,7 +69,6 @@ namespace Twainsoft.StudioStyler.VSPackage.VSX
                 // The activate scheme command.
                 var activateSchemeCommandId = new CommandID(GuidList.GuidSchemesToolbarCmdSet, CommandIds.ActivateScheme);
                 var activateSchemeCommand = new OleMenuCommand(OnActivateScheme, activateSchemeCommandId);
-                activateSchemeCommand.BeforeQueryStatus += OnBeforeQueryStatusActivateScheme;
                 mcs.AddCommand(activateSchemeCommand);
 
                 // The history command.
@@ -101,47 +102,46 @@ namespace Twainsoft.StudioStyler.VSPackage.VSX
             var optionsStore = GetDialogPage(typeof(OptionsStore)) as OptionsStore;
 
             // The cache holds all studio styles (called schemes) that are available.
-            // TODO: Schemes or Scheme? Either refactor this or the models.
             SchemeCache = new SchemeCache();
-            SchemesHistory = new SchemesHistory(SchemeCache);
+            SchemeHistory = new SchemeHistory(SchemeCache);
 
             // Instantiate the models. They are the main classes to interact with the ui and the data.
-            SchemesModel = new SchemesModel(SchemeCache, SchemesHistory, optionsStore);
-            HistoryModel = new HistoryModel(SchemesHistory, optionsStore);
+            SchemeModel = new SchemeModel(SchemeCache, SchemeHistory, optionsStore);
+            HistoryModel = new HistoryModel(SchemeHistory, optionsStore);
 
             // Instantiate the views. This are the WPF controls that visualize the styles and the history.
-            SchemesView = new SchemesView(SchemesModel);
+            SchemeView = new SchemeView(SchemeModel);
             HistoryView = new HistoryView(HistoryModel);
 
             // Some Visual Studio visuals can fire some events so that the model is need very early.
-            Model = SchemesModel;
+            Model = SchemeModel;
 
             // Save those objects. We need them more than once!
-            Window = FindToolWindow(typeof(SchemesOverviewWindow), 0, true);
+            Window = FindToolWindow(typeof(SchemeToolWindow), 0, true);
 
             if (Window == null || Window.Frame == null)
             {
                 throw new NotSupportedException(Resources.Resources.CanNotCreateWindow);
             }
 
-            var schemesOverview = Window as SchemesOverviewWindow;
+            var schemesOverview = Window as SchemeToolWindow;
 
             if (schemesOverview == null)
             {
                 throw new InvalidOperationException("Cannot find the SchemesOverviewWindow!");
             }
 
-            StudioStylesView = schemesOverview.Content as StudioStylesView;
+            SchemeToolWindowView = schemesOverview.Content as SchemeToolWindowView;
 
-            if (StudioStylesView == null)
+            if (SchemeToolWindowView == null)
             {
                 throw new InvalidOperationException("Cannot find the StudioStylesView!");
             }
 
-            StudioStylesView.Dock.Children.Add(SchemesView);
+            SchemeToolWindowView.Dock.Children.Add(SchemeView);
 
             // Check both model caches (Styles and History) so that saved data is present.
-            SchemesModel.CheckCache();
+            SchemeModel.CheckCache();
             HistoryModel.CheckCache();
         }
 
@@ -178,7 +178,13 @@ namespace Twainsoft.StudioStyler.VSPackage.VSX
 
         private void OnRefreshSchemesCache(object sender, EventArgs e)
         {
-            Model.RefreshCache();
+            // Refreshing can take some time, so let us ask first...
+            if (VsMessageBox.ShowQuestionMessageBox("Refresh All Studio Styles?",
+                "Do you really want to refresh all Studio Styles?",
+                OLEMSGBUTTON.OLEMSGBUTTON_YESNO, OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_SECOND) == VsMessageResult.Yes)
+            {
+                Model.RefreshCache();
+            }
         }
 
         private void OnActivateScheme(object sender, EventArgs e)
@@ -186,38 +192,22 @@ namespace Twainsoft.StudioStyler.VSPackage.VSX
             Model.ActivateScheme();
         }
 
-        private void OnBeforeQueryStatusActivateScheme(object sender, EventArgs e)
-        {
-            var myCommand = sender as OleMenuCommand;
-            if (null != myCommand)
-            {
-                myCommand.Enabled = Model.IsItemSelected;
-            }
-        }
-
         private void OnHistory(object sender, EventArgs e)
         {
             // TODO: The update of the visuals (changed history activation count) doesnt work! We need some other methods!
-            if (Model is SchemesModel)
+            if (Model is SchemeModel)
             {
                 Model = HistoryModel;
 
-                StudioStylesView.Dock.Children.Remove(SchemesView);
-                StudioStylesView.Dock.Children.Add(HistoryView);
-
-                HistoryView.UpdateLayout();
-
-                //HistoryView.InvalidateVisual();
+                SchemeToolWindowView.Dock.Children.Remove(SchemeView);
+                SchemeToolWindowView.Dock.Children.Add(HistoryView);
             }
             else
             {
-                Model = SchemesModel;
+                Model = SchemeModel;
 
-                StudioStylesView.Dock.Children.Remove(HistoryView);
-                StudioStylesView.Dock.Children.Add(SchemesView);
-
-                StudioStylesView.UpdateLayout();
-                //SchemesView.InvalidateVisual();
+                SchemeToolWindowView.Dock.Children.Remove(HistoryView);
+                SchemeToolWindowView.Dock.Children.Add(SchemeView);
             }
         }
 
@@ -226,7 +216,7 @@ namespace Twainsoft.StudioStyler.VSPackage.VSX
             var myCommand = sender as OleMenuCommand;
             if (null != myCommand)
             {
-                if (Model is SchemesModel)
+                if (Model is SchemeModel)
                 {
                     myCommand.Text = "History";
                 }

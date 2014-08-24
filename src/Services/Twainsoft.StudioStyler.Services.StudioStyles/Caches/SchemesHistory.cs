@@ -8,7 +8,7 @@ using Twainsoft.StudioStyler.Services.StudioStyles.Model;
 
 namespace Twainsoft.StudioStyler.Services.StudioStyles.Caches
 {
-    public class SchemesHistory
+    public class SchemeHistory
     {
         private SchemeCache SchemeCache { get; set; }
 
@@ -18,7 +18,7 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Caches
         private string HistoryDataPath { get; set; }
         private string HistoryCacheFile { get; set; }
 
-        public SchemesHistory(SchemeCache schemeCache)
+        public SchemeHistory(SchemeCache schemeCache)
         {
             SchemeCache = schemeCache;
 

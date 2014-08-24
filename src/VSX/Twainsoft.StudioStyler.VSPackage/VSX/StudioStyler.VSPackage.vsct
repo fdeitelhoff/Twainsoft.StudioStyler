@@ -50,7 +50,7 @@
       <Button guid="guidSchemesToolbarCmdSet" id="ActivateScheme" priority="0x0002" type="Button">
         <Parent guid="guidSchemesToolbarCmdSet" id="SchemesToolbarGroup"/>
         <Icon guid="guidImages" id="pngActivate"/>
-        <CommandFlag>DefaultDisabled</CommandFlag>
+        <!--<CommandFlag>DefaultDisabled</CommandFlag>-->
         <Strings>
           <ButtonText>Activate</ButtonText>
           <ToolTipText>Activates The Current Selected Style</ToolTipText>

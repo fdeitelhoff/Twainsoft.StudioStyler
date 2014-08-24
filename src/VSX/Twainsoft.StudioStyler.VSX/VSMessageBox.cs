@@ -1,8 +1,8 @@
 ﻿using System;
-using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 
-namespace Twainsoft.StudioStyler.VSPackage.GUI
+namespace Twainsoft.StudioStyler.VSX
 {
     public enum VsMessageResult
     {
@@ -17,13 +17,19 @@ namespace Twainsoft.StudioStyler.VSPackage.GUI
 
     public static class VsMessageBox
     {
-        public static VsMessageResult ShowMessageBox(string title, string message,
+        private static VsMessageResult ShowMessageBox(string title, string message,
             OLEMSGBUTTON buttons, OLEMSGDEFBUTTON defaultButton, OLEMSGICON icon)
         {
             var uiShell = Package.GetGlobalService(typeof(SVsUIShell)) as IVsUIShell;
-            var clsid = Guid.Empty;
+            
+            if (uiShell == null)
+            {
+                throw new InvalidOperationException("Cannot Find The Visual Studio UI Shell!");
+            }
 
             int result;
+            var clsid = Guid.Empty;
+
             uiShell.ShowMessageBox(
                 0,
                 ref clsid,

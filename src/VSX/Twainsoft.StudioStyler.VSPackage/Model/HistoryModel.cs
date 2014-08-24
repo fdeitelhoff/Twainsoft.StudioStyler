@@ -10,8 +10,8 @@ using Twainsoft.StudioStyler.Services.StudioStyles.Caches;
 using Twainsoft.StudioStyler.Services.StudioStyles.Model;
 using Twainsoft.StudioStyler.Services.StudioStyles.Settings;
 using Twainsoft.StudioStyler.Services.StudioStyles.Styles;
-using Twainsoft.StudioStyler.VSPackage.GUI;
 using Twainsoft.StudioStyler.VSPackage.GUI.Options;
+using Twainsoft.StudioStyler.VSX;
 
 namespace Twainsoft.StudioStyler.VSPackage.Model
 {
@@ -24,7 +24,7 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
 
         private StudioStylesService StudioStyles { get; set; }
         private SettingsActivator SettingsActivator { get; set; }
-        private SchemesHistory SchemesHistory { get; set; }
+        private SchemeHistory SchemesHistory { get; set; }
 
         // TODO: Setter must be private. Refactor this stuff including the IModel interface.
         public OptionsStore OptionsStore { get; set; }
@@ -62,7 +62,7 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
             get { return PagedHistoryView.CurrentItem != null; }
         }
 
-        public HistoryModel(SchemesHistory schemesHistory, OptionsStore optionsStore)
+        public HistoryModel(SchemeHistory schemesHistory, OptionsStore optionsStore)
         {
             SchemesHistory = schemesHistory;
             OptionsStore = optionsStore;
@@ -175,7 +175,7 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
                 {
                     SchemesHistory.Add(scheme);
 
-                    StatusBar.Update(string.Format("The Style '{0}' was activated successfully!", scheme.Title));
+                    StatusBarHelper.Update(string.Format("The Style '{0}' was activated successfully!", scheme.Title));
                 }
             }
         }
