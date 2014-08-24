@@ -22,7 +22,7 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
         private string CurrentSearchString { get; set; }
         private List<string> SearchValues { get; set; }
 
-        private StudioStyles StudioStyles { get; set; }
+        private StudioStylesService StudioStyles { get; set; }
         private SettingsActivator SettingsActivator { get; set; }
         private SchemesHistory SchemesHistory { get; set; }
 
@@ -72,7 +72,7 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
             CurrentSearchString = "";
             SearchValues = new List<string>();
 
-            StudioStyles = new StudioStyles();
+            StudioStyles = new StudioStylesService();
             SettingsActivator = new SettingsActivator();
         }
 
@@ -207,6 +207,9 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
 
             UpdateInfoBar();
         }
+
+        public void SwitchBackStyle()
+        { }
 
         private void UpdateInfoBar()
         {

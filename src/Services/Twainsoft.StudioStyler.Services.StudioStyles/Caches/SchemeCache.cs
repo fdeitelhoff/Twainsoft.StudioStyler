@@ -9,6 +9,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using Twainsoft.StudioStyler.Services.StudioStyles.Annotations;
 using Twainsoft.StudioStyler.Services.StudioStyles.Model;
+using Twainsoft.StudioStyler.Services.StudioStyles.Styles;
 
 namespace Twainsoft.StudioStyler.Services.StudioStyles.Caches
 {
@@ -22,7 +23,7 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Caches
         private readonly string schemesCacheFile;
 
         // TODO: The StudioStyles class musst be renamed due to naming conflicts. StudioStylesService maybe?
-        private Styles.StudioStyles StudioStyles { get; set; }
+        private StudioStylesService StudioStyles { get; set; }
 
         public ObservableCollection<Scheme> Schemes { get; private set; }
         
@@ -82,7 +83,7 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Caches
 
             Schemes = new ObservableCollection<Scheme>();
 
-            StudioStyles = new Styles.StudioStyles();
+            StudioStyles = new Styles.StudioStylesService();
 
             SchemesDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                 Path.Combine("Twainsoft", "StudioStyler"));

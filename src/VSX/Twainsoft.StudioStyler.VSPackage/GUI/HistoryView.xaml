@@ -10,6 +10,9 @@
         <ResourceDictionary Source="SchemesToolWindowStyles.xaml"/>
     </UserControl.Resources>
     <DockPanel>
+        <TextBlock Style="{StaticResource InfoTextBlock}" DockPanel.Dock="Top" Visibility="Collapsed">
+            <Hyperlink RequestNavigate="SwitchBackOnRequestNavigate">Switch Back</Hyperlink> To the Visual Studio Default Style.
+        </TextBlock>
         <TextBlock Style="{StaticResource InfoTextBlock}" DockPanel.Dock="Bottom">
             <TextBlock.Text>
                 <MultiBinding StringFormat="Page {0} / {1} - Showing Items {2} - {3} of {4} Overall Items">

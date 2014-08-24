@@ -9,7 +9,7 @@ namespace Twainsoft.StudioStyler.Tests.StudioStyles
         public async void GetAllSchemesTest()
         {
             // Arrange
-            var studioStylesService = new Services.StudioStyles.Styles.StudioStyles();
+            var studioStylesService = new Services.StudioStyles.Styles.StudioStylesService();
 
             // Act
             //var schemes = await studioStylesService.Range(1, 5);

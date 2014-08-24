@@ -44,5 +44,10 @@ namespace Twainsoft.StudioStyler.VSPackage.GUI
             HistoryModel.OptionsStore.IsSchemeHistoryPreviewVisible = true;
             HistoryModel.OptionsStore.SaveSettingsToStorage();
         }
+
+        private void SwitchBackOnRequestNavigate(object sender, RequestNavigateEventArgs e)
+        {
+            HistoryModel.SwitchBackStyle();
+        }
     }
 }

@@ -7,11 +7,11 @@ using Twainsoft.StudioStyler.Services.StudioStyles.Model;
 
 namespace Twainsoft.StudioStyler.Services.StudioStyles.Styles
 {
-    public class StudioStyles
+    public class StudioStylesService
     {
         private string BaseUrl { get; set; }
 
-        public StudioStyles()
+        public StudioStylesService()
         {
             BaseUrl = "http://studiostyl.es/";
         }

@@ -205,6 +205,8 @@ namespace Twainsoft.StudioStyler.VSPackage.VSX
                 StudioStylesView.Dock.Children.Remove(SchemesView);
                 StudioStylesView.Dock.Children.Add(HistoryView);
 
+                HistoryView.UpdateLayout();
+
                 //HistoryView.InvalidateVisual();
             }
             else
@@ -214,6 +216,7 @@ namespace Twainsoft.StudioStyler.VSPackage.VSX
                 StudioStylesView.Dock.Children.Remove(HistoryView);
                 StudioStylesView.Dock.Children.Add(SchemesView);
 
+                StudioStylesView.UpdateLayout();
                 //SchemesView.InvalidateVisual();
             }
         }

@@ -69,7 +69,7 @@
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\SettingsActivator.cs" />
-    <Compile Include="Styles\StudioStyles.cs" />
+    <Compile Include="Styles\StudioStylesService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
