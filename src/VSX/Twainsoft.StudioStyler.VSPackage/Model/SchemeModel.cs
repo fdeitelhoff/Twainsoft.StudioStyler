@@ -32,6 +32,8 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
         // TODO: Setter can be made private? Change this in the IModel interface, too!
         public OptionsStore OptionsStore { get; set; }
 
+        //public Scheme LastActivatedScheme { get; set; }
+
         public int CurrentPage
         {
             get { return PagedSchemesView.CurrentPage; }

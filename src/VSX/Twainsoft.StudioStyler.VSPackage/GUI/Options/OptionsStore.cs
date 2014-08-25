@@ -24,6 +24,11 @@ namespace Twainsoft.StudioStyler.VSPackage.GUI.Options
         [Description("How Many Styles Are Visible Per Page")]
         public int StylesPerPage { get; set; }
 
+        [Category("Twainsoft StudioStyler")]
+        [DisplayName("After How Many Days Is The Scheme Cache Invalid?")]
+        [Description("After How Many Days Is The Scheme Cache Invalid?")]
+        public int SchemeCacheValidFor { get; set; }
+
         public int MaxCacheAge { get; set; }
 
         [Browsable(false)]

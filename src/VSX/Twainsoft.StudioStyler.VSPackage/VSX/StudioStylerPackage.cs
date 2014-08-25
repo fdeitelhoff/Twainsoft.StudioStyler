@@ -106,6 +106,7 @@ namespace Twainsoft.StudioStyler.VSPackage.VSX
             // The general options for this package.
             var optionsStore = GetDialogPage(typeof(OptionsStore)) as OptionsStore;
 
+            // TODO: These both seem to have external dependencies too! Insert them via the constructor!
             // The cache holds all studio styles (called schemes) that are available.
             SchemeCache = new SchemeCache();
             SchemeHistory = new SchemeHistory(SchemeCache);

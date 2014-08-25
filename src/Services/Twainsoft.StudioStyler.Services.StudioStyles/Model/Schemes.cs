@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
 
@@ -9,6 +10,9 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Model
     {
         [JsonProperty(PropertyName = "imagesFinished")]
         public bool ImagesFinished { get; set; }
+
+        [JsonProperty(PropertyName = "lastRefresh")]
+        public DateTime LastRefresh { get; set; }
 
         [JsonProperty(PropertyName = "schemes")]
         [XmlArray("Schemes")]

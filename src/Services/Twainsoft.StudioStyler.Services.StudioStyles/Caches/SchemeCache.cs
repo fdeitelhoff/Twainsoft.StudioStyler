@@ -30,6 +30,8 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Caches
         private string SchemesDataPath { get; set; }
         private string SchemesPreviewPath { get; set; }
 
+        private DateTime LastRefresh { get; set; }
+
         public bool IsCacheValid
         {
             get { return isCacheValid; }
@@ -83,7 +85,7 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Caches
 
             Schemes = new ObservableCollection<Scheme>();
 
-            StudioStyles = new Styles.StudioStylesService();
+            StudioStyles = new StudioStylesService();
 
             SchemesDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                 Path.Combine("Twainsoft", "StudioStyler"));
@@ -114,6 +116,8 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Caches
             {
                 Schemes.Add(scheme);
             }
+
+            LastRefresh = DateTime.Now;
 
             SerializeCachedSchemes(false);
 
@@ -160,7 +164,6 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Caches
                     {
                         var png = await StudioStyles.Preview(scheme.Title);
 
-                        // Hier noch die DecodePixelWith setzen. Braucht wohl nicht so viel Speicher.
                         image.StreamSource = new MemoryStream(png);
                         image.EndInit();
 
@@ -232,17 +235,22 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Caches
             {
                 if (File.Exists(schemesCachePath))
                 {
-                    var lastWriteTime = File.GetLastWriteTime(schemesCachePath);
-
-                    IsCacheValid = DateTime.Now.Subtract(lastWriteTime).Days <= 5;
                     IsCacheRefreshing = true;
 
-                    var imagesFinished = DeserializeCachedSchemes();
+                    var schemes = DeserializeCachedSchemes();
+
+                    IsCacheValid = DateTime.Now.Subtract(schemes.LastRefresh).Days <= 10;
+
+                    Schemes.Clear();
+                    foreach (var scheme in schemes.AllSchemes)
+                    {
+                        Schemes.Add(scheme);
+                    }
 
                     IsCacheRefreshing = false;
                     IsImageCacheRefreshing = true;
-
-                    await CheckSchemes(imagesFinished);
+                    
+                    await CheckSchemes(schemes.ImagesFinished);
 
                     SerializeCachedSchemes(true);
 
@@ -272,7 +280,7 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Caches
 
         private void SerializeCachedSchemes(bool imagesFinished)
         {
-            var schemes = new Schemes {AllSchemes = Schemes, ImagesFinished = imagesFinished};
+            var schemes = new Schemes {AllSchemes = Schemes, ImagesFinished = imagesFinished, LastRefresh = LastRefresh };
 
             var file = Path.Combine(SchemesDataPath, schemesCacheFile);
 
@@ -283,7 +291,7 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Caches
             }
         }
 
-        private bool DeserializeCachedSchemes()
+        private Schemes DeserializeCachedSchemes()
         {
             using (var streamReader = new StreamReader(Path.Combine(SchemesDataPath, schemesCacheFile)))
             {
@@ -292,16 +300,12 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Caches
 
                 if (schemes == null)
                 {
-                    return false;
+                    throw new InvalidOperationException("Schemes could not be restored!");
                 }
 
-                Schemes.Clear();
-                foreach (var scheme in schemes.AllSchemes)
-                {
-                    Schemes.Add(scheme);
-                }
+                LastRefresh = schemes.LastRefresh;
 
-                return schemes.ImagesFinished;
+                return schemes;
             }
         }
 

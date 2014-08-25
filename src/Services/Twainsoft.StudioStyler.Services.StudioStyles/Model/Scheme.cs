@@ -77,5 +77,9 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Model
         [XmlElement("ImagePresent")]
         [JsonProperty(PropertyName = "imagePresent")]
         public bool ImagePresent { get; set; }
+
+        [XmlElement("Active")]
+        [JsonProperty(PropertyName = "active")]
+        public bool Active { get; set; }
     }
 }
