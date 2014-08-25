@@ -40,6 +40,7 @@
       <Button guid="guidSchemesToolbarCmdSet" id="RefreshSchemesCache" priority="0x0001" type="Button">
         <Parent guid="guidSchemesToolbarCmdSet" id="SchemesToolbarGroup"/>
         <Icon guid="guidImages" id="pngSearch"/>
+        <CommandFlag>DynamicVisibility</CommandFlag>
         <Strings>
           <ButtonText>Refresh</ButtonText>
         <ToolTipText>Get Fresh Data From 'studiostyl.es'</ToolTipText>

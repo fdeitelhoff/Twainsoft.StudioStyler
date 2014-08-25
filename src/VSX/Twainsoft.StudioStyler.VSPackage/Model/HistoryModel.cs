@@ -79,9 +79,15 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
             SearchValues = new List<string>();
         }
 
+        public void UpdateView()
+        {
+            PagedHistoryView.Refresh();
+        }
+
         public void RefreshCache()
         {
-            UpdateInfoBar();
+            // TODO: Not necessary here. Refactor the Interface or create a abstract base class with virtual methods.
+            //UpdateInfoBar();
         }
 
         public void CheckCache()

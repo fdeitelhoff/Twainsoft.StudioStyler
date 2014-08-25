@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows.Data;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 using Twainsoft.StudioStyler.Services.StudioStyles.Annotations;
 using Twainsoft.StudioStyler.Services.StudioStyles.Caches;
 using Twainsoft.StudioStyler.Services.StudioStyles.Model;
@@ -25,6 +26,7 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
 
         private StudioStylesService StudioStylesService { get; set; }
         private SettingsActivator SettingsActivator { get; set; }
+        public IVsUIShell VsShell { get; set; }
         private SchemeHistory SchemesHistory { get; set; }
 
         // TODO: Setter can be made private? Change this in the IModel interface, too!
@@ -63,7 +65,7 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
             get { return PagedSchemesView.CurrentItem != null; }
         }
 
-        public SchemeModel(SchemeCache schemeCache, SchemeHistory schemesHistory, OptionsStore optionsStore, 
+        public SchemeModel(SchemeCache schemeCache, SchemeHistory schemesHistory, OptionsStore optionsStore,
             StudioStylesService studioStylesService, SettingsActivator settingsActivator)
         {
             SchemeCache = schemeCache;

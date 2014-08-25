@@ -102,7 +102,7 @@ namespace Twainsoft.StudioStyler.VSPackage.VSX
                 var lastPageCommand = new OleMenuCommand(OnLastPage, lastPageCommandId);
                 mcs.AddCommand(lastPageCommand);
             }
-
+            
             // The general options for this package.
             var optionsStore = GetDialogPage(typeof(OptionsStore)) as OptionsStore;
 
@@ -207,6 +207,8 @@ namespace Twainsoft.StudioStyler.VSPackage.VSX
             if (Model is SchemeModel)
             {
                 Model = HistoryModel;
+
+                HistoryModel.UpdateView();
 
                 SchemeToolWindowView.Dock.Children.Remove(SchemeView);
                 SchemeToolWindowView.Dock.Children.Add(HistoryView);
