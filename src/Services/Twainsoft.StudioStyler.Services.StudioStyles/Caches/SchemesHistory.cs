@@ -87,7 +87,7 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Caches
                 {
                     var scheme = SchemeCache.ByTitle(history.Scheme.Title);
 
-                    // TODO: Is this update necessary? Maybe the scheme was changed and so the history gets updated?
+                    // Is this update necessary? Maybe the scheme was changed and so the history gets updated?
                     history.Scheme = scheme;
 
                     Schemes.Add(history.Scheme, history);

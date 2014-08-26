@@ -43,17 +43,13 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Model
         [JsonProperty(PropertyName = "downloads")]
         public int Downloads { get; set; }
 
-        [JsonIgnore]
-        [XmlIgnore]
-        private BitmapSource preview;
+        [JsonIgnore] [XmlIgnore] private BitmapSource preview;
 
         [JsonIgnore]
         [XmlIgnore]
-        public BitmapSource Preview {
-            get
-            {
-                return preview;
-            }
+        public BitmapSource Preview
+        {
+            get { return preview; }
             set
             {
                 preview = value;
@@ -77,9 +73,5 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Model
         [XmlElement("ImagePresent")]
         [JsonProperty(PropertyName = "imagePresent")]
         public bool ImagePresent { get; set; }
-
-        [XmlElement("Active")]
-        [JsonProperty(PropertyName = "active")]
-        public bool Active { get; set; }
     }
 }

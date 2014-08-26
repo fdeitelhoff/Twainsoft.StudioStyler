@@ -5,8 +5,6 @@ VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{E5078DD1-BAA3-4272-B7EF-397F51D3698B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{4FB97013-3F71-4050-BB34-36EC757E7CE7}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VSX", "VSX", "{90A64F10-71DC-41A8-A7ED-009CE165580D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twainsoft.StudioStyler.VSPackage", "VSX\Twainsoft.StudioStyler.VSPackage\Twainsoft.StudioStyler.VSPackage.csproj", "{9765AA91-89CD-4B72-BAA6-B05B78F1A820}"
@@ -17,8 +15,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{4C6D50
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twainsoft.StudioStyler.Tests.StudioStyles", "Tests\Twainsoft.StudioStyler.Tests.StudioStyles\Twainsoft.StudioStyler.Tests.StudioStyles.csproj", "{DC6473E7-A5AF-4DF0-B5A7-2D63330B9088}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twainsoft.StudioStyler.Services.StudioStyles", "Services\Twainsoft.StudioStyler.Services.StudioStyles\Twainsoft.StudioStyler.Services.StudioStyles.csproj", "{AB7E5C45-1A1E-474C-BCD3-72BE70EF65DC}"
 EndProject
@@ -34,10 +30,6 @@ Global
 		{9765AA91-89CD-4B72-BAA6-B05B78F1A820}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9765AA91-89CD-4B72-BAA6-B05B78F1A820}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9765AA91-89CD-4B72-BAA6-B05B78F1A820}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DC6473E7-A5AF-4DF0-B5A7-2D63330B9088}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DC6473E7-A5AF-4DF0-B5A7-2D63330B9088}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DC6473E7-A5AF-4DF0-B5A7-2D63330B9088}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DC6473E7-A5AF-4DF0-B5A7-2D63330B9088}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AB7E5C45-1A1E-474C-BCD3-72BE70EF65DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AB7E5C45-1A1E-474C-BCD3-72BE70EF65DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB7E5C45-1A1E-474C-BCD3-72BE70EF65DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -52,7 +44,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{9765AA91-89CD-4B72-BAA6-B05B78F1A820} = {90A64F10-71DC-41A8-A7ED-009CE165580D}
-		{DC6473E7-A5AF-4DF0-B5A7-2D63330B9088} = {4FB97013-3F71-4050-BB34-36EC757E7CE7}
 		{AB7E5C45-1A1E-474C-BCD3-72BE70EF65DC} = {E5078DD1-BAA3-4272-B7EF-397F51D3698B}
 		{219E7F7E-BFD5-4719-BC11-07926E55AF64} = {90A64F10-71DC-41A8-A7ED-009CE165580D}
 	EndGlobalSection

@@ -22,8 +22,7 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Caches
 
         private readonly string schemesCacheFile;
 
-        // TODO: The StudioStyles class musst be renamed due to naming conflicts. StudioStylesService maybe?
-        private StudioStylesService StudioStyles { get; set; }
+        private StudioStylesService StudioStylesService { get; set; }
 
         public ObservableCollection<Scheme> Schemes { get; private set; }
         
@@ -76,16 +75,16 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Caches
             }
         }
 
-        public SchemeCache()
+        public SchemeCache(StudioStylesService studioStylesServiceService)
         {
+            StudioStylesService = studioStylesServiceService;
+
             IsCacheValid = false;
             IsCacheRefreshing = false;
             IsImageCacheRefreshing = false;
             CurrentSchemeNumber = 0;
 
             Schemes = new ObservableCollection<Scheme>();
-
-            StudioStyles = new StudioStylesService();
 
             SchemesDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                 Path.Combine("Twainsoft", "StudioStyler"));
@@ -109,7 +108,7 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Caches
         {
             IsCacheRefreshing = true;
 
-            var schemes = await StudioStyles.AllAsync();
+            var schemes = await StudioStylesService.AllAsync();
 
             Schemes.Clear();
             foreach (var scheme in schemes)
@@ -162,7 +161,7 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Caches
                     }
                     else if (!imagesCompletelyLoaded && !scheme.ImageDownloadTried && !scheme.ImagePresent)
                     {
-                        var png = await StudioStyles.Preview(scheme.Title);
+                        var png = await StudioStylesService.Preview(scheme.Title);
 
                         image.StreamSource = new MemoryStream(png);
                         image.EndInit();
@@ -249,7 +248,7 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Caches
 
                     IsCacheRefreshing = false;
                     IsImageCacheRefreshing = true;
-                    
+
                     await CheckSchemes(schemes.ImagesFinished);
 
                     SerializeCachedSchemes(true);
@@ -309,9 +308,9 @@ namespace Twainsoft.StudioStyler.Services.StudioStyles.Caches
             }
         }
 
-        // TODO: Are Schem titles are unique? Hopefully they are. Test it on the studiostyl.es homepage!
         public Scheme ByTitle(string title)
         {
+            // Are Scheme titles unique? Hopefully they are. This needs a test!
             foreach (var scheme in Schemes)
             {
                 if (scheme.Title == title)

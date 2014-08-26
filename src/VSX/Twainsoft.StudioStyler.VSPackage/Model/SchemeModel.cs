@@ -29,10 +29,7 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
         public IVsUIShell VsShell { get; set; }
         private SchemeHistory SchemesHistory { get; set; }
 
-        // TODO: Setter can be made private? Change this in the IModel interface, too!
-        public OptionsStore OptionsStore { get; set; }
-
-        //public Scheme LastActivatedScheme { get; set; }
+        public OptionsStore OptionsStore { get; private set; }
 
         public int CurrentPage
         {

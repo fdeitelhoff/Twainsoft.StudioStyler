@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:model="clr-namespace:Twainsoft.StudioStyler.VSPackage.Model"
+             xmlns:gui="clr-namespace:Twainsoft.StudioStyler.VSPackage.GUI"
              mc:Ignorable="d" 
              d:DesignHeight="413" d:DesignWidth="331" d:DataContext="{d:DesignInstance model:HistoryModel}">
     <UserControl.Resources>

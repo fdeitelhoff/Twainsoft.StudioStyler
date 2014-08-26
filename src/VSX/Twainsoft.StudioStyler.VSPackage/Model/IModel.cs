@@ -5,7 +5,7 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
 {
     public interface IModel
     {
-        OptionsStore OptionsStore { get; set; }
+        OptionsStore OptionsStore { get; }
         bool IsItemSelected { get; }
         void CheckCache();
         void SearchTerm(OleMenuCmdEventArgs eventArgs);

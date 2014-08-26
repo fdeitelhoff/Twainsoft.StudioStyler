@@ -106,14 +106,13 @@ namespace Twainsoft.StudioStyler.VSPackage.VSX
             // The general options for this package.
             var optionsStore = GetDialogPage(typeof(OptionsStore)) as OptionsStore;
 
-            // TODO: These both seem to have external dependencies too! Insert them via the constructor!
-            // The cache holds all studio styles (called schemes) that are available.
-            SchemeCache = new SchemeCache();
-            SchemeHistory = new SchemeHistory(SchemeCache);
-
             // Some services that provides important functionalities.
             StudioStylesService = new StudioStylesService();
             SettingsActivator = new SettingsActivator();
+
+            // The cache holds all studio styles (called schemes) that are available.
+            SchemeCache = new SchemeCache(StudioStylesService);
+            SchemeHistory = new SchemeHistory(SchemeCache);
 
             // Instantiate the models. They are the main classes to interact with the ui and the data.
             SchemeModel = new SchemeModel(SchemeCache, SchemeHistory, optionsStore, StudioStylesService, SettingsActivator);
@@ -204,7 +203,6 @@ namespace Twainsoft.StudioStyler.VSPackage.VSX
 
         private void OnHistory(object sender, EventArgs e)
         {
-            // TODO: The update of the visuals (changed history activation count) doesnt work! We need some other methods!
             if (Model is SchemeModel)
             {
                 Model = HistoryModel;

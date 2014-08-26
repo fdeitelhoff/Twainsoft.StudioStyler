@@ -26,8 +26,7 @@ namespace Twainsoft.StudioStyler.VSPackage.Model
         private SettingsActivator SettingsActivator { get; set; }
         private SchemeHistory SchemesHistory { get; set; }
 
-        // TODO: Setter must be private. Refactor this stuff including the IModel interface.
-        public OptionsStore OptionsStore { get; set; }
+        public OptionsStore OptionsStore { get; private set; }
 
         public int CurrentPage
         {

@@ -93,6 +93,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static shell:VsBrushes.ToolWindowBorderKey}}"/>
         <Setter Property="RowHeight" Value="25"/>
         <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="RowDetailsVisibilityMode" Value="Collapsed"/>
     </Style>
     <Style TargetType="{x:Type DataGridCell}">
         <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.ToolWindowBackgroundKey}}" />

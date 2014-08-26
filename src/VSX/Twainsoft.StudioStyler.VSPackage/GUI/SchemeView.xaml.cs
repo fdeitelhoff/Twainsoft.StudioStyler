@@ -17,7 +17,7 @@ namespace Twainsoft.StudioStyler.VSPackage.GUI
             SchemesModel = schemesModel;
             DataContext = SchemesModel;
 
-            // TODO: This OptionStore things can be made better!
+            // TODO: This OptionsStore stuff can be made better!
             if (SchemesModel.OptionsStore != null)
             {
                 PreviewRow.Height = !SchemesModel.OptionsStore.IsSchemePreviewVisible ? new GridLength(0) : new GridLength(100);
