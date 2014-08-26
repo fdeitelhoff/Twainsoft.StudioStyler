@@ -21,8 +21,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Twainsoft.StudioStyler.VSPackage</RootNamespace>
     <AssemblyName>Twainsoft.StudioStyler.VSPackage</AssemblyName>
-    <SignAssembly>false</SignAssembly>
-    <AssemblyOriginatorKeyFile>Resources\Key.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -194,9 +195,6 @@
     <None Include="VSX\source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Key.snk" />
   </ItemGroup>
   <ItemGroup>
     <VSCTCompile Include="VSX\StudioStyler.VSPackage.vsct">
