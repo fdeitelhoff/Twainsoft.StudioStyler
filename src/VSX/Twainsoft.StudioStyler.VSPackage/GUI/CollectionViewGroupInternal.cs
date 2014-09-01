@@ -14,7 +14,7 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Data;
 
-namespace Twainsoft.StudioStyler.VSPackage.GUI
+namespace System.Windows.Data
 {
     /// <summary>
     /// A CollectionViewGroupInternal, as created by a PagedCollectionView 
